@@ -3,4 +3,4 @@ continuityErrs.C
 smearPatchToMesh.C
 regionInfo.C
 
-EXE = $(FOAM_USER_APPBIN)/sofcFoam-0.0
+EXE = $(FOAM_USER_APPBIN)/sofcFoam-0.1
