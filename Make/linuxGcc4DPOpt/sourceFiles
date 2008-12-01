@@ -1,4 +1,0 @@
-SOURCE = \
-sofcFoam.C\
-continuityErrs.C\
-smearPatchToMesh.C
