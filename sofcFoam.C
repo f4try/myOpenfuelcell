@@ -28,6 +28,7 @@ Application
 Description
     Transient solver for the idealised fuel cell model under project work for
     NRC Canada, Feb/2007-
+    Now steady solver
     
 \*---------------------------------------------------------------------------*/
 
@@ -98,9 +99,11 @@ int main(int argc, char *argv[])
 
         runTime.write();
 
-        Info<< "ExecutionTime = "
-            << runTime.elapsedCpuTime()
-            << " s\n\n" << endl;
+        //Info<< "ExecutionTime = "
+        //    << runTime.elapsedCpuTime()
+        //    << " s\n\n" << endl;
+
+	Info<< endl << endl;  
     }
 
     Info<< "End\n" << endl;

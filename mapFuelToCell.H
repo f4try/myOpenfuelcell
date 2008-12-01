@@ -1,17 +1,12 @@
     // Mapping fuel subdomain.  Memory management
     {
         // Create constant fields from fuel side
-        scalarField rhoCpF
-        (
-            fuelMesh.nCells(),
-            rhoFuel.value()*CpFuel.value()
-        );
-
-        scalarField kF(fuelMesh.nCells(), kFuel.value());
+        scalarField rhoCpFld = rhoFuel*CpFuel;
 
         // Perform reverse mapping
-        rhoCpCellIn.rmap(rhoCpF, fuelCellMap);
-        kCellIn.rmap(kF, fuelCellMap);
+        rhoCpCellIn.rmap(rhoCpFld, fuelCellMap);
+        kCellIn.rmap(kFuel, fuelCellMap);
+
 
         // Map fuel fluxes
         labelList fuelInternalFaceMap
@@ -19,11 +14,22 @@
             SubList<label>(fuelFaceMap, fuelMesh.nInternalFaces())
         );
 
-        scalarField rhoCpPhiF =
-            rhoFuel.value()*CpFuel.value()*phiFuel.internalField();
+        scalarField rhoCpPhiFld =
+            fvc::interpolate(rhoFuel*CpFuel)*phiFuel.internalField();
+
+//        Info << "rhoF CpF rhoF*CpF"
+//             << rhoF.value() << " " << CpF.value()
+//             << " " << rhoF.value()*CpF.value() << endl;
+
+//        Info<< "phiFuel.internalField" << phiFuel.internalField() << endl;
+
+//        Info<< "rhoCpPhiF old-new" 
+//            << rhoF.value()*CpF.value()*phiFuel.internalField()
+//               - rhoCpPhiF
+//            << endl;
 
         phiCellIn.rmap(phiFuel.internalField(), fuelInternalFaceMap);
-        rhoCpPhiCellIn.rmap(rhoCpPhiF, fuelInternalFaceMap);
+        rhoCpPhiCellIn.rmap(rhoCpPhiFld, fuelInternalFaceMap);
 
         // Do flux boundary conditions
 
@@ -58,7 +64,9 @@
                 );
 
                 rhoCpPhiCell.boundaryField()[fuelPatchesMap[patchI]] *=
-                    rhoFuel.value()*CpFuel.value();
+                    //rhoF.value()*CpF.value();
+                    rhoFuel.boundaryField()[patchI]
+                    *CpFuel.boundaryField()[patchI];
             }
         }
     }

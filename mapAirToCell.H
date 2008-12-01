@@ -1,17 +1,11 @@
     // Mapping air subdomain.  Memory management
     {
-        // Create constant fields from air side
-        scalarField rhoCpF
-        (
-            airMesh.nCells(),
-            rhoAir.value()*CpAir.value()
-        );
-
-        scalarField kF(airMesh.nCells(), kAir.value());
+        // Create fields from air side
+        scalarField rhoCpFld = rhoAir*CpAir;
 
         // Perform reverse mapping
-        rhoCpCellIn.rmap(rhoCpF, airCellMap);
-        kCellIn.rmap(kF, airCellMap);
+        rhoCpCellIn.rmap(rhoCpFld, airCellMap);
+        kCellIn.rmap(kAir, airCellMap);
 
         // Map air fluxes
         labelList airInternalFaceMap
@@ -19,11 +13,11 @@
             SubList<label>(airFaceMap, airMesh.nInternalFaces())
         );
 
-        scalarField rhoCpPhiF =
-            rhoAir.value()*CpAir.value()*phiAir.internalField();
+        scalarField rhoCpPhiFld =
+            fvc::interpolate(rhoAir*CpAir)*phiAir.internalField();
 
         phiCellIn.rmap(phiAir.internalField(), airInternalFaceMap);
-        rhoCpPhiCellIn.rmap(rhoCpPhiF, airInternalFaceMap);
+        rhoCpPhiCellIn.rmap(rhoCpPhiFld, airInternalFaceMap);
 
         // Do flux boundary conditions
 
@@ -58,7 +52,9 @@
                 );
 
                 rhoCpPhiCell.boundaryField()[airPatchesMap[patchI]] *=
-                    rhoAir.value()*CpAir.value();
+                    //rhoA.value()*CpA.value();
+                    rhoAir.boundaryField()[patchI]
+                    *CpAir.boundaryField()[patchI];
 
             }
         }

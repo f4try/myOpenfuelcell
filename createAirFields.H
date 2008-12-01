@@ -1,3 +1,5 @@
+//------ createAirFields ----------------------------------------------------//
+
     Info<< "Reading air field p\n" << endl;
     volScalarField pAir
     (
@@ -26,6 +28,7 @@
         airMesh
     );
 
+
     Info<< "Reading/calculating face flux field phi\n" << endl;
 
     surfaceScalarField phiAir
@@ -40,6 +43,7 @@
         ),
         linearInterpolate(Uair) & airMesh.Sf()
     );
+
 
     // Pressure reference point in air
     label pAirRefCell = 0;
@@ -88,3 +92,5 @@
     );
 
     airFields.add(yN2air);
+
+
