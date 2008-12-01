@@ -1,0 +1,5 @@
+LOCAL_OBJECTS = \
+sofcFoam.o\
+continuityErrs.o\
+smearPatchToMesh.o\
+regionInfo.o

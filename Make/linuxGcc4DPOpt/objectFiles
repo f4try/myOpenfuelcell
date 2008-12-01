@@ -1,0 +1,4 @@
+OBJECTS = \
+$(OBJECTS_DIR)/sofcFoam.o\
+$(OBJECTS_DIR)/continuityErrs.o\
+$(OBJECTS_DIR)/smearPatchToMesh.o

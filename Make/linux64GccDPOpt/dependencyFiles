@@ -1,0 +1,5 @@
+DEPENDENCIES = \
+sofcFoam.dep\
+continuityErrs.dep\
+smearPatchToMesh.dep\
+regionInfo.dep

@@ -1,0 +1,3 @@
+include sofcFoam.dep
+include continuityErrs.dep
+include smearPatchToMesh.dep
