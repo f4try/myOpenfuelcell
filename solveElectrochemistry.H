@@ -117,7 +117,12 @@
             anodeToCathode.faceInterpolate(-mO2*N2bc);            // (5)
 
         // Set the N2 gradient boundary conditon
-        N2bc.gradient() = N2source/(gammaAir/rhoAir);
+        N2bc.gradient() =
+	    N2source
+	    /(
+	        gammaAir.boundaryField()[cathodeID]
+                /rhoAir.boundaryField()[cathodeID]
+             );
 
 
         // yO2 bc
@@ -128,11 +133,13 @@
             );
 
         // O2 sink
-        scalarField O2sink =
-            anodeToCathode.faceInterpolate(mO2*(N2bc));           // (4)
+        //scalarField O2sink =
+            //anodeToCathode.faceInterpolate(mO2*(N2bc));           // (4)
+        scalarField O2sink = -N2source;
 
         // Set the gradient boundary conditon
-        O2bc.gradient() = O2sink/(gammaAir/rhoAir);
+        //O2bc.gradient() = O2sink/(gammaAir/rhoAir);
+        O2bc.gradient() = -N2bc.gradient();
     }
 
 
@@ -162,13 +169,19 @@
                 yH2Ofuel.boundaryField()[anodeID]
             );
 
+        scalarField grf =
+            gammaFuel.boundaryField()[anodeID]/rhoFuel.boundaryField()[anodeID];
+
         H2bc.gradient() =
-            (mH2*(1 - H2bc) - mH2O*H2bc)/(gammaFuel/rhoFuel);          // (7,12)
+            //(mH2*(1 - H2bc) - mH2O*H2bc)/(gammaFuel/rhoFuel);       // (7,12)
+            (mH2*(1 - H2bc) - mH2O*H2bc)/grf;
 
         N2bc.gradient() =
-            (-mH2*N2bc - mH2O*N2bc)/(gammaFuel/rhoFuel);               // (9,13)
+            //(-mH2*N2bc - mH2O*N2bc)/(gammaFuel/rhoFuel);            // (9,13)
+            (-mH2*N2bc - mH2O*N2bc)/grf;
 
         H2Obc.gradient() =
-            (-mH2*H2Obc + mH2O*(1 - H2Obc))/(gammaFuel/rhoFuel);         //(8,11
+            //(-mH2*H2Obc + mH2O*(1 - H2Obc))/(gammaFuel/rhoFuel);    //(8,11)
+            (-mH2*H2Obc + mH2O*(1 - H2Obc))/grf;
     }
 }
