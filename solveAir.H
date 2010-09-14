@@ -1,6 +1,8 @@
 {
     Info << nl << "Solving air flow" << endl;
 
+#   include "detachPatches.H"
+
     pAir.storePrevIter();
 
     // Read controls

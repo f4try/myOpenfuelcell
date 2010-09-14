@@ -1,6 +1,8 @@
 {
     Info << nl << "Solving fuel flow" << endl;
 
+#   include "detachPatches.H"
+
     pFuel.storePrevIter();
 
     // Read controls

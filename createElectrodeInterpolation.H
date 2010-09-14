@@ -19,6 +19,7 @@
             << abort(FatalError);
     }
 
+
     const polyPatch& anodePatch = fuelMesh.boundaryMesh()[anodeID];
 
     patchToPatchInterpolation anodeToCathode
@@ -33,6 +34,7 @@
         anodePatch
     );
 
+/****************************************************************************\
     // Create a mask form global faces to the cathode surface on the fuel mesh
     labelList anodeMask(anodePatch.size());
 
@@ -40,3 +42,4 @@
     {
         anodeMask[i] = airFaceMap[anodePatch.start() + i];
     }
+\****************************************************************************/

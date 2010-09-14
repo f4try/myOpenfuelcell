@@ -15,7 +15,7 @@
     // Read electrolyte properties
     dimensionedScalar rhoElectrolyte(electrolyteProperties.lookup("rho"));
     dimensionedScalar CpElectrolyte(electrolyteProperties.lookup("Cp"));
-    dimensionedScalar kElectrolyte(electrolyteProperties.lookup("k"));
+    //dimensionedScalar kE(electrolyteProperties.lookup("k"));
 
     // Calculate molecular weights [kg/mol] and valencies
     const scalar MH2 = (2*atomicWeights["H"])/1000.0;

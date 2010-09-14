@@ -26,13 +26,15 @@ Application
     sofcFoam
 
 Description
-    Transient solver for the idealised fuel cell model under project work for
-    NRC Canada, Feb/2007-
-    Now steady solver
+    Steady solver for the idealised fuel cell model
+    Initial code by H.Jasak under project work for NRC Canada, Feb/2007
+    Revised for steady solution with coupled regions
     
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
+#include "coupledFvMatrices.H"
+#include "regionCouplePolyPatch.H"
 #include "atomicWeights.H"
 #include "physicalConstants.H"
 #include "specie.H"
@@ -47,32 +49,30 @@ Description
 int main(int argc, char *argv[])
 {
 #   include "setRootCase.H"
-
 #   include "createTime.H"
-
-    // Complete cell components
-#   include "createMesh.H"
-#   include "readCellProperties.H"
-#   include "createCellFields.H"
-
-    // Fuel-related components
-#   include "createFuelMesh.H"
-#   include "readFuelProperties.H"
-#   include "createFuelFields.H"
 
     // Air-related components
 #   include "createAirMesh.H"
 #   include "readAirProperties.H"
 #   include "createAirFields.H"
 
+    // Fuel-related components
+#   include "createFuelMesh.H"
+#   include "readFuelProperties.H"
+#   include "createFuelFields.H"
+
     // Electrolyte components
 #   include "createElectrolyteMesh.H"
 #   include "readElectrolyteProperties.H"
 #   include "createElectrolyteFields.H"
+#   include "readCellProperties.H"
 
     // Interconnect components
 #   include "createInterconnectMesh.H"
 #   include "readInterconnectProperties.H"
+#   include "createInterconnectFields.H"
+
+#   include "coupleConductivities.H"
 
 #   include "createElectrodeInterpolation.H"
 #   include "createAnodeToAnodeInterpolation.H"
@@ -85,25 +85,24 @@ int main(int argc, char *argv[])
     {
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-#       include "solveFuel.H"
-#       include "solveAir.H"
+    #   include "detachPatches.H"
+    #   include "solveFuel.H"
+    #   include "solveAir.H"
 
-#       include "mapToCell.H"
+    #   include "attachPatches.H"
+    #   include "solveEnergy.H"
+    #   include "detachPatches.H"
 
-#       include "solveEnergy.H"
+    #   include "solveElectrochemistry.H"
 
-#       include "solveElectrochemistry.H"
-
-#       include "solveFuelScalars.H"
-#       include "solveAirScalars.H"
+    #   include "solveFuelScalars.H"
+    #   include "solveAirScalars.H"
 
         runTime.write();
 
-        //Info<< "ExecutionTime = "
-        //    << runTime.elapsedCpuTime()
-        //    << " s\n\n" << endl;
-
-	Info<< endl << endl;  
+        Info<< "ExecutionTime = "
+            << runTime.elapsedCpuTime()
+            << " s\n\n" << endl;
     }
 
     Info<< "End\n" << endl;

@@ -1,4 +1,35 @@
-//------ createAirFields ----------------------------------------------------//
+    Info<< "Creating air fields\n" << endl;
+
+    // thermal conductivity
+    Info<< "    thermal conductivity k\n" << endl;
+    volScalarField kAir
+    (
+        IOobject
+        (
+            "k",
+            runTime.timeName(),
+            airMesh,
+            IOobject::MUST_READ,
+            IOobject::AUTO_WRITE
+        ),
+        airMesh
+    );
+
+    // temperature
+    Info<< "    T\n" << endl;
+    volScalarField Tair
+    (
+        IOobject
+        (
+            "T",
+            runTime.timeName(),
+            airMesh,
+            IOobject::MUST_READ,
+            IOobject::AUTO_WRITE
+        ),
+        airMesh
+    );
+
 
     Info<< "Reading air field p\n" << endl;
     volScalarField pAir
@@ -28,7 +59,6 @@
         airMesh
     );
 
-
     Info<< "Reading/calculating face flux field phi\n" << endl;
 
     surfaceScalarField phiAir
@@ -43,7 +73,6 @@
         ),
         linearInterpolate(Uair) & airMesh.Sf()
     );
-
 
     // Pressure reference point in air
     label pAirRefCell = 0;
@@ -92,5 +121,3 @@
     );
 
     airFields.add(yN2air);
-
-

@@ -15,6 +15,8 @@
     smearPatchToMesh smearInterpolation(electrolyteMesh, anodeName);
     ohmicHeating = smearInterpolation.smear(iEA);
 
+    Qsrc.internalField() = ohmicHeating;
+
     Info << "min,max(ohmicHeating): "
          << Foam::min(ohmicHeating) <<" , " 
          << Foam::max(ohmicHeating) << endl;

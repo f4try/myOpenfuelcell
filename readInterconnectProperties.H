@@ -14,4 +14,4 @@
 
     dimensionedScalar rhoInterconnect(interconnectProperties.lookup("rho"));
     dimensionedScalar CpInterconnect(interconnectProperties.lookup("Cp"));
-    dimensionedScalar kInterconnect(interconnectProperties.lookup("k"));
+    //dimensionedScalar kI(interconnectProperties.lookup("k"));

@@ -1,48 +1,14 @@
+    Info<< "Create mesh for time = "
+        << runTime.timeName() << nl << endl;
+
     fvMesh airMesh
     (
         IOobject
         (
-            "air",
+            fvMesh::defaultRegion,
             runTime.timeName(),
-            mesh,
+            runTime,
             IOobject::MUST_READ
         )
     );
 
-    // Read maps to global mesh
-
-    labelIOList airFaceMap
-    (
-        IOobject
-        (
-            "faceMap",
-            airMesh.time().findInstance(airMesh.meshDir(), "faces"),
-            polyMesh::meshSubDir,
-            airMesh,
-            IOobject::MUST_READ
-        )
-    );
-
-    labelIOList airCellMap
-    (
-        IOobject
-        (
-            "cellMap",
-            airMesh.time().findInstance(airMesh.meshDir(), "faces"),
-            polyMesh::meshSubDir,
-            airMesh,
-            IOobject::MUST_READ
-        )
-    );
-
-    labelIOList airPatchesMap
-    (
-        IOobject
-        (
-            "patchMap",
-            airMesh.time().findInstance(airMesh.meshDir(), "faces"),
-            polyMesh::meshSubDir,
-            airMesh,
-            IOobject::MUST_READ
-        )
-    );

@@ -6,7 +6,7 @@
         (
             "cellProperties",
             runTime.constant(),
-            mesh,
+            electrolyteMesh,
             IOobject::MUST_READ,
             IOobject::NO_WRITE
         )

@@ -1,4 +1,35 @@
-//------ createFuelFields ---------------------------------------------------//
+    Info<< "Creating fuel fields\n" << endl;
+
+    // thermal conductivity
+    Info<< "   thermal conductivity\n" << endl;
+    volScalarField kFuel
+    (
+        IOobject
+        (
+            "k",
+            runTime.timeName(),
+            fuelMesh,
+            IOobject::MUST_READ,
+            IOobject::AUTO_WRITE
+        ),
+        fuelMesh
+    );
+
+    // temperature
+    Info<< "Reading fuel field T\n" << endl;
+    volScalarField Tfuel
+    (
+        IOobject
+        (
+            "T",
+            runTime.timeName(),
+            fuelMesh,
+            IOobject::MUST_READ,
+            IOobject::AUTO_WRITE
+        ),
+        fuelMesh
+    );
+
 
     Info<< "Reading fuel field p\n" << endl;
     volScalarField pFuel
@@ -108,5 +139,3 @@
     );
 
     fuelFields.add(yH2Ofuel);
-
-
