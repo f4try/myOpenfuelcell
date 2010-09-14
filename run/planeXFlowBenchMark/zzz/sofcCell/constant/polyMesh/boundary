@@ -1,0 +1,98 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version 2.0;
+    format ascii;
+
+    root "/home/hjasak/OpenFOAM/hjasak-1.3/run/NRCCanada/sofcSolver";
+    case "sofcCell";
+    instance "constant";
+    local "polyMesh";
+
+    class polyBoundaryMesh;
+    object boundary;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+10
+(
+fuelInlet
+{
+    type patch;
+    nFaces 200;
+    startFace 40200;
+}
+
+fuelOutlet
+{
+    type patch;
+    nFaces 200;
+    startFace 40400;
+}
+
+fuelSides
+{
+    type patch;
+    nFaces 400;
+    startFace 40600;
+}
+
+airInlet
+{
+    type patch;
+    nFaces 200;
+    startFace 41000;
+}
+
+airOutlet
+{
+    type patch;
+    nFaces 200;
+    startFace 41200;
+}
+
+airSides
+{
+    type patch;
+    nFaces 400;
+    startFace 41400;
+}
+
+interconnectSides
+{
+    type patch;
+    nFaces 800;
+    startFace 41800;
+}
+
+interconnectBottom
+{
+    type patch;
+    nFaces 400;
+    startFace 42600;
+}
+
+interconnectTop
+{
+    type patch;
+    nFaces 400;
+    startFace 43000;
+}
+
+electrolyteSides
+{
+    type patch;
+    nFaces 400;
+    startFace 43400;
+}
+)
+
+// ************************************************************************* //

@@ -1,0 +1,69 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          fvSolution;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p               ICCG 1e-09 0;
+    U               BICCG 1e-09 0;
+
+    T               BICCG 1e-09 0;
+
+    yN2             BICCG 1e-08 0;
+    yH2             BICCG 1e-08 0;
+    yH2O            BICCG 1e-08 0;
+
+    T+T+T+T BiCGStab
+    {
+        preconditioner
+        {
+            //type                Cholesky;
+            type                diagonal;
+        }
+
+         minIter      0;
+         maxIter      1000;
+         tolerance    1e-9;
+         relTol       0.0;
+    };
+}
+
+PISO
+{
+    nCorrectors     2;
+    nNonOrthogonalCorrectors 0;
+    pRefCell        0;
+    pRefValue       0;
+}
+
+relaxationFactors
+{
+    p               0.3;
+    U               0.7;
+    T               0.5
+    yH2fuel         0.5;
+    yH2Ofuel        0.5;
+    yN2fuel         0.5;
+}
+
+// ************************************************************************* //

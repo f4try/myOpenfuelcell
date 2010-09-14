@@ -1,0 +1,89 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          sampleDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+
+setFormat       raw;
+surfaceFormat   vtk;
+//interpolationScheme cellPointFace;
+interpolationScheme cell;
+
+fields
+(
+    T
+);
+
+sets
+(
+
+    lineX1 
+    {
+        type            uniform;
+        axis            xyz;
+        //start           (0.00225 0.03895 0);
+        //end             (0.00225 0.03895 0.001016);
+        start           (0.00225 0.03895 0.0001016);
+        end             (0.00225 0.03895 0.0009144);
+	nPoints         5;
+    }
+
+    lineX2
+    {
+        type            uniform;
+        axis            xyz;
+        //start           (0.00225 0.03895 0.0041148);
+        //end             (0.00225 0.03895 0.0051308);
+        start           (0.00225 0.03895 0.0042164);
+        end             (0.00225 0.03895 0.0050292);
+	nPoints         5;
+    }
+);
+
+surfaces
+(
+    /********
+    interpolatedPlane
+    {
+        type            plane;
+        name            fuelFace;
+        basePoint       (0 0 0.0042164);
+        normalVector    (0 0 1);
+        triangulate     false;
+        interpolate     true;
+    }
+    ********/
+
+    interpolatedPlane
+    {
+        type            plane;
+        name            airFace;
+        basePoint       (0 0 0.0009144);
+        normalVector    (0 0 1);
+        triangulate     false;
+        interpolate     true;
+    }
+);
+
+
+// ************************************************************************* //

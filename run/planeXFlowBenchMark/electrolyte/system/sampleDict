@@ -1,0 +1,76 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          sampleDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+
+setFormat       raw;
+surfaceFormat   vtk;
+//interpolationScheme cellPointFace;
+interpolationScheme cell;
+
+fields
+(
+    T
+);
+
+sets
+(
+    lineX1 
+    {
+        // electrolyte
+        type            uniform;
+        axis            xyz;
+        //start           (0.00225 0.03895 0.001905);
+        //end             (0.00225 0.03895 0.003048);
+        start           (0.00225 0.03895 0.0020193);
+        end             (0.00225 0.03895 0.0029337);
+        nPoints         5;
+    }
+);
+
+surfaces
+(
+    interpolatedPlane
+    {
+        type            plane;
+        name            anodeE;
+        basePoint       (0 0 0.0029337);
+        normalVector    (0 0 1);
+        triangulate     false;
+        interpolate     true;
+    }
+
+    interpolatedPlane
+    {
+        type            plane;
+        name            cathodeE;
+        basePoint       (0 0 0.0020193);
+        normalVector    (0 0 1);
+        triangulate     false;
+        interpolate     true;
+    }
+);
+
+
+// ************************************************************************* //
