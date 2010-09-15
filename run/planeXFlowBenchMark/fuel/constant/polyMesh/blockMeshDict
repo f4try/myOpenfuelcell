@@ -17,48 +17,68 @@ FoamFile
     local           "";
 
     class           dictionary;
-    object          fvSchemes;
+    object          blockMeshDict;
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-ddtSchemes
-{
-    default         steadyState;
-}
+convertToMeters 0.001;
 
-gradSchemes
-{
-    default         Gauss linear;
-}
+vertices
+(
+// Electrolyte Fuel
+    (0 0 3.048)
+    (90 0 3.048)
+    (90 82 3.048)
+    (0 82 3.048)
+// Fuel Interconnect
+    (0 0 4.1148)
+    (90 0 4.1148)
+    (90 82 4.1148)
+    (0 82 4.1148)
+);
 
-divSchemes
-{
-    default              none;
-    div(rhoCpPhi,T)      Gauss Gamma 0.2;
-}
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (20 20 10) simpleGrading (1 1 1)
+);
 
-laplacianSchemes
-{
-    default              none;
-    laplacian(k,T)       Gauss harmonic corrected;
-    laplacian(kCell,T)       Gauss harmonic corrected;
-}
+edges
+(
+);
 
-interpolationSchemes
-{
-    default         linear;
-}
+patches
+(
+    patch fuelInlet
+    (
+        (0 4 7 3)
+    )
 
-snGradSchemes
-{
-    default         corrected;
-}
+    patch fuelOutlet
+    (
+        (1 2 6 5)
+    )
 
-fluxRequired
-{
-    default         no;
-}
+    patch fuelSides
+    (
+        (0 1 5 4)
+        (3 7 6 2)
+    )
 
+    patch anode
+    (
+        (0 3 2 1)
+    )
+
+    patch upperInterconnect
+    (
+        (4 5 6 7)
+    )
+);
+
+mergePatchPairs
+(
+);
 
 // ************************************************************************* //
+

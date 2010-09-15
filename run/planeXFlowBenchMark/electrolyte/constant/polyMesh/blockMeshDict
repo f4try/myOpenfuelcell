@@ -17,40 +17,60 @@ FoamFile
     local           "";
 
     class           dictionary;
-    object          controlDict;
+    object          blockMeshDict;
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     icoFoam;
+convertToMeters 0.001;
 
-startFrom       startTime;
+vertices
+(
+// Air Electrolyte (cathode)
+    (0 0 1.905)
+    (90 0 1.905)
+    (90 82 1.905)
+    (0 82 1.905)
+// Electrolyte Fuel (anode)
+    (0 0 3.048)
+    (90 0 3.048)
+    (90 82 3.048)
+    (0 82 3.048)
+);
 
-startTime       0;
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (20 20 5) simpleGrading (1 1 1)
+);
 
-stopAt          endTime;
+edges
+(
+);
 
-endTime         100;
+patches
+(
+    patch electrolyteSides
+    (
+        (0 4 7 3)
+        (0 1 5 4)
+        (1 2 6 5)
+        (3 7 6 2)
+    )
 
-deltaT          1;
+    patch cathode
+    (
+        (0 3 2 1)
+    )
 
-writeControl    timeStep;
+    patch anode
+    (
+        (4 5 6 7)
+    )
+);
 
-writeInterval   10;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  6;
-
-writeCompression uncompressed;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable yes;
-
+mergePatchPairs
+(
+);
 
 // ************************************************************************* //
+
