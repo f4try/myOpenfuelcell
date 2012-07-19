@@ -1,0 +1,142 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           |
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+License
+    This file is part of OpenFOAM.
+
+    OpenFOAM is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; either version 2 of the License, or (at your
+    option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM; if not, write to the Free Software Foundation,
+    Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+
+Application
+    sofcFoam
+
+Description
+    Steady solver for the idealised fuel cell model under project work for
+    NRC Canada, Feb/2007-
+
+Developed by
+    Hrvoje Jasak (h.jasak@wikki.co.uk)
+    Dong Hyup Jeon (DongHyup.Jeon@nrc-cnrc.gc.ca)
+    Helmut Roth (helmut.roth@nrc-cnrc.gc.ca)
+    Hae-won Choi (haewon1972@gmail.com)
+
+\*---------------------------------------------------------------------------*/
+
+#include "fvCFD.H"
+#include "atomicWeights.H"
+#include "physicalConstants.H"
+#include "specie.H"
+
+#include "patchToPatchInterpolation.H"
+#include "continuityErrs.H"
+#include "initContinuityErrs.H"
+#include "fixedGradientFvPatchFields.H"
+#include "smearPatchToMesh.H"
+
+#include "diffusivityModels.H"
+#include "porousZones.H"
+#include "polyToddYoung.H"
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+int main(int argc, char *argv[])
+{
+#   include "setRootCase.H"
+#   include "createTime.H"
+
+    // Complete cell components
+#   include "createMesh.H"
+#   include "readCellProperties.H"
+#   include "createCellFields.H"
+#   include "createSpeciesCp.H"
+
+    // Interconnect0 components
+#   include "createInterconnectBottomMesh.H"
+
+     // Air-related components
+#   include "createAirMesh.H"
+#   include "readAirProperties.H"
+#   include "createAirFields.H"
+
+    // Electrolyte components
+#   include "createElectrolyteMesh.H"
+#   include "readElectrolyteProperties.H"
+#   include "createElectrolyteFields.H"
+
+    // Fuel-related components
+#   include "createFuelMesh.H"
+#   include "readFuelProperties.H"
+#   include "createFuelFields.H"
+
+    // Interconnect1 components
+#   include "createInterconnectTopMesh.H"
+#   include "readInterconnectProperties.H"
+
+    // Cathode & Anode interpolation
+#   include "createElectrodeInterpolation.H"
+#   include "createAnodeToAnodeInterpolation.H"
+
+    // Gas diffusivity models
+#   include "createDiffusivityModels.H"
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+    Info<< "\nStarting time loop\n" << endl;
+
+    bool firstTime = true;
+
+    for (runTime++; !runTime.end(); runTime++)
+    {
+        Info<< "Time = " << runTime.timeName() << nl << endl;
+
+    #   include "mapFromCell.H"    // map global T to fluid regions
+
+    #   include "getDensities.H"
+
+    #   include "solveFuel.H"
+    #   include "solveAir.H"
+
+    #   include "getDiffusivities.H"
+
+    #   include "solveFuelScalars.H"
+    #   include "solveAirScalars.H"
+
+    #   include "mapToCell.H"
+    #   include "solveEnergy.H"
+    #   include "energyBalance.H"
+
+    #   include "solveElectrochemistry.H"
+
+        runTime.write();
+
+        if(firstTime)
+        {
+            firstTime = false;
+        }
+
+        Info<< "ExecutionTime = "
+            << runTime.elapsedCpuTime()
+            << " s\n\n" << endl;
+    }
+
+    Info<< "End\n" << endl;
+    return(0);
+}
+
+
+// ************************************************************************* //

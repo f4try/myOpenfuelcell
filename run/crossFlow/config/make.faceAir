@@ -1,0 +1,25 @@
+faceSet airInlet new boxToFace ( 1.0e-3 -1e-6 3.5e-3) ( 3.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace ( 5.0e-3 -1e-6 3.5e-3) ( 7.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace ( 9.0e-3 -1e-6 3.5e-3) (11.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace (13.0e-3 -1e-6 3.5e-3) (15.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace (17.0e-3 -1e-6 3.5e-3) (19.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace (21.0e-3 -1e-6 3.5e-3) (23.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace (25.0e-3 -1e-6 3.5e-3) (27.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace (29.0e-3 -1e-6 3.5e-3) (31.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace (33.0e-3 -1e-6 3.5e-3) (35.0e-3 1e-6 5.0e-3)
+faceSet airInlet add boxToFace (37.0e-3 -1e-6 3.5e-3) (39.0e-3 1e-6 5.0e-3)
+
+faceSet airOutlet new boxToFace ( 1.0e-3 39.999e-3 3.5e-3) ( 3.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace ( 5.0e-3 39.999e-3 3.5e-3) ( 7.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace ( 9.0e-3 39.999e-3 3.5e-3) (11.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace (13.0e-3 39.999e-3 3.5e-3) (15.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace (17.0e-3 39.999e-3 3.5e-3) (19.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace (21.0e-3 39.999e-3 3.5e-3) (23.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace (25.0e-3 39.999e-3 3.5e-3) (27.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace (29.0e-3 39.999e-3 3.5e-3) (31.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace (33.0e-3 39.999e-3 3.5e-3) (35.0e-3 40.001e-3 5.0e-3)
+faceSet airOutlet add boxToFace (37.0e-3 39.999e-3 3.5e-3) (39.0e-3 40.001e-3 5.0e-3)
+
+faceSet interconnectBottomSides delete faceToFace airInlet all
+faceSet interconnectBottomSides delete faceToFace airOutlet all
+

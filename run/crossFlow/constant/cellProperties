@@ -1,0 +1,46 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    object          cellProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fuelInletPatch   fuelInlet;
+fuelOutletPatch  fuelOutlet;
+anodePatch       fuel_to_electrolyte;
+
+airInletPatch    airInlet;
+airOutletPatch   airOutlet;
+cathodePatch     air_to_electrolyte;
+
+electrolyteAnodePatch      electrolyte_to_fuel;
+electrolyteCathodePatch    electrolyte_to_air;
+
+// V=1.0  @ i=1000
+// V=0.95 @ i=2000
+// V=0.9  @ i=3000
+// V=0.85 @ i=4000
+// V=0.8  @ i=5000
+// V=0.75 @ i=6000
+// V=0.7  @ i=7000
+
+voltage         V [1 2 -3 0 0 -1 0]   0.85;         // volts
+
+// prescribed mean current density
+ibar0           ibar0 [0 -2 0 0 0 1 0] 4000.0;      // amperes/m^2
+
+// voltage correction relaxation coefficient
+Rhat            Rhat [1 4 -3 0 0 -2 0] 1.0e-5;      // ohm m^2
+
+Tinit		Tinit [0 0 0 1 0 0 0] 1000.0;	    // K
+
+// ************************************************************************* //

@@ -1,0 +1,10 @@
+ifeq  ($(findstring 1.5,$(WM_PROJECT_VERSION)),1.5)
+    OFV =  -DOF_VER_15
+endif
+
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    $(OFV)
+
+LIB_LIBS = \
+    -lfiniteVolume

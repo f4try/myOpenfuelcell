@@ -1,0 +1,12 @@
+faceSet fuelInlet new boxToFace (-1e-6 1e-3 6.3e-3) (1e-6 3.0e-3 7.8e-3)
+faceSet fuelInlet add boxToFace (-1e-6 5e-3 6.3e-3) (1e-6 7.0e-3 7.8e-3)
+faceSet fuelInlet add boxToFace (-1e-6 9e-3 6.3e-3) (1e-6 11.0e-3 7.8e-3)
+
+
+faceSet fuelOutlet new boxToFace (39.999e-3 1e-3 6.3e-3) (40.001e-3 3.0e-3 7.8e-3)
+faceSet fuelOutlet add boxToFace (39.999e-3 5e-3 6.3e-3) (40.001e-3 7.0e-3 7.8e-3)
+faceSet fuelOutlet add boxToFace (39.999e-3 9e-3 6.3e-3) (40.001e-3 11.0e-3 7.8e-3)
+
+faceSet interconnectTopSides delete faceToFace fuelInlet  all
+faceSet interconnectTopSides delete faceToFace fuelOutlet all
+

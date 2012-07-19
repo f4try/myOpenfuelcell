@@ -1,6 +1,0 @@
-conjSofcFoam.C
-continuityErrs.C
-smearPatchToMesh.C
-regionInfo.C
-
-EXE = $(FOAM_USER_APPBIN)/conjSofcFoam

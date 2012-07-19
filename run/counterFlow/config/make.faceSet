@@ -1,0 +1,35 @@
+faceSet interconnectBottomSides new patchToFace interconnectBottomSides all
+faceSet interconnectBottom   new patchToFace interconnectBottom all
+
+faceSet interconnectTopSides new patchToFace interconnectTopSides all
+faceSet interconnectTop      new patchToFace interconnectTop  all
+
+faceSet electrolyteSides     new patchToFace electrolyteSides all
+
+faceSet cflSides  new patchToFace cflSides  all
+faceSet cathodeSides new patchToFace cathodeSides all
+faceSet airSides  new patchToFace airSides  all
+faceSet airInlet  new patchToFace airInlet  all
+faceSet airOutlet new patchToFace airOutlet all
+
+faceSet aflSides   new patchToFace aflSides   all
+faceSet anodeSides new patchToFace anodeSides all
+faceSet fuelSides  new patchToFace fuelSides  all
+faceSet fuelInlet  new patchToFace fuelInlet  all
+faceSet fuelOutlet new patchToFace fuelOutlet all
+
+faceSet interconnectBottomSides add patchToFace airInlet  all
+faceSet interconnectBottomSides add patchToFace airOutlet all
+faceSet interconnectBottomSides add patchToFace airSides  all
+
+faceSet interconnectTopSides add patchToFace fuelInlet  all
+faceSet interconnectTopSides add patchToFace fuelOutlet all
+faceSet interconnectTopSides add patchToFace fuelSides  all
+
+faceSet airSides clear
+faceSet airInlet clear
+faceSet airOutlet clear
+
+faceSet fuelSides clear
+faceSet fuelInlet clear
+faceSet fuelOutlet clear

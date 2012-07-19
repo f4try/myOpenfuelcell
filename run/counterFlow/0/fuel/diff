@@ -1,0 +1,53 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM Extend Project: Open source CFD        |
+|  \\    /   O peration     | Version:  1.6-ext                               |
+|   \\  /    A nd           | Web:      www.extend-project.de                 |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "20";
+    object      diff;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    aflSides
+    {
+        type          zeroGradient;
+    }
+    anodeSides
+    {
+        type          zeroGradient;
+    }
+    fuelInlet
+    {
+        type          fixedValue;
+        value         uniform 1e-15;    //disallow outward diffusion at inlet
+                                        // value 0 causes harmonic averaging FPE
+    }
+    fuelOutlet
+    {
+        type          zeroGradient;
+    }
+    fuel_to_interconnect1
+    {
+        type          zeroGradient;
+    }
+    fuel_to_electrolyte
+    {
+        type          zeroGradient;
+    }
+}
+
+
+// ************************************************************************* //

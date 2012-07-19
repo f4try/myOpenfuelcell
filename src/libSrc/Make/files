@@ -1,0 +1,20 @@
+continuityErrs/continuityErrs.C
+
+smearPatchToMesh/regionInfo.C
+smearPatchToMesh/smearPatchToMesh.C
+
+diffusivityModels/diffusivityModel/diffusivityModel.C
+diffusivityModels/diffusivityModel/newDiffusivityModel.C
+
+diffusivityModels/fixedDiffusivity/fixedDiffusivity.C
+diffusivityModels/knudsen/knudsen.C
+diffusivityModels/fsgDiffusionVolumes/fsgDiffusionVolumes.C
+diffusivityModels/fsgMolecularWeights/fsgMolecularWeights.C
+diffusivityModels/binaryFSG/binaryFSG.C
+diffusivityModels/porousFSG/porousFSG.C
+
+polyToddYoung/polyToddYoung.C
+
+regionProperties/regionProperties.C
+
+LIB = $(FOAM_USER_LIBBIN)/libsofcFoam
