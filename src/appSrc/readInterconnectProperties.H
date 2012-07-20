@@ -6,39 +6,39 @@
         (
             "interconnectProperties",
             runTime.constant(),
-            interconnectBottomMesh,
+            interconnect0Mesh,
             IOobject::MUST_READ,
             IOobject::NO_WRITE
         )
     );
 
-    dimensionedScalar rhointerconnectBottom
+    dimensionedScalar rhoInterconnect0
         (interconnectProperties.lookup("rho"));
 
-    dimensionedScalar CpinterconnectBottom
+    dimensionedScalar CpInterconnect0
         (interconnectProperties.lookup("Cp"));
 
-    dimensionedScalar kinterconnectBottom
+    dimensionedScalar kInterconnect0
         (interconnectProperties.lookup("k"));
 
 
-    dimensionedScalar rhointerconnectTop
+    dimensionedScalar rhoInterconnect1
         (interconnectProperties.lookup("rho"));
 
-    dimensionedScalar CpinterconnectTop
+    dimensionedScalar CpInterconnect1
         (interconnectProperties.lookup("Cp"));
 
-    dimensionedScalar kinterconnectTop
+    dimensionedScalar kInterconnect1
         (interconnectProperties.lookup("k"));
 
 
-    Info<< "  bottom" << nl
-        << "    rhointerconnectBottom = " << rhointerconnectBottom << nl
-        << "    CpinterconnectBottom  = " << CpinterconnectBottom << nl
-        << "    kinterconnectBottom   = " << kinterconnectBottom << nl
-        << "  top" << nl
-        << "    rhointerconnectTop = " << rhointerconnectTop << nl
-        << "    CpinterconnectTop  = " << CpinterconnectTop << nl
-        << "    kinterconnectTop   = " << kinterconnectTop << nl
+    Info<< "  interconnect0" << nl
+        << "    rhoInterconnect0 = " << rhoInterconnect0 << nl
+        << "    CpInterconnect0  = " << CpInterconnect0 << nl
+        << "    kInterconnect0   = " << kInterconnect0 << nl
+        << "  interconnect1" << nl
+        << "    rhoInterconnect1 = " << rhoInterconnect1 << nl
+        << "    CpInterconnect1  = " << CpInterconnect1 << nl
+        << "    kInterconnect1   = " << kInterconnect1 << nl
         << endl;
 

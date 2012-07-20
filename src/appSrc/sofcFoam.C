@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 #   include "createSpeciesCp.H"
 
     // Interconnect0 components
-#   include "createInterconnectBottomMesh.H"
+#   include "createInterconnect0Mesh.H"
 
      // Air-related components
 #   include "createAirMesh.H"
@@ -84,12 +84,16 @@ int main(int argc, char *argv[])
 #   include "createFuelFields.H"
 
     // Interconnect1 components
-#   include "createInterconnectTopMesh.H"
+#   include "createInterconnect1Mesh.H"
 #   include "readInterconnectProperties.H"
 
+#   include "setGlobalPatchIds.H"
+
+    // calculate electrolye thickness, hE
+#   include "electrolyteThickness.H"
+
     // Cathode & Anode interpolation
-#   include "createElectrodeInterpolation.H"
-#   include "createAnodeToAnodeInterpolation.H"
+#   include "createPatchToPatchInterpolation.H"
 
     // Gas diffusivity models
 #   include "createDiffusivityModels.H"

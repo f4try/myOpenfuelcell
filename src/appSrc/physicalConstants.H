@@ -63,6 +63,8 @@ namespace physicalConstant
         8.314472
     );
 
+    const dimensionedScalar RR = Rgas*1e3;    //[J/(kmol K)]
+
 
     // Faraday's constant (charge of electron) [C mol^{-1}];  C = A s
     // NIST:  96485.3399
@@ -72,6 +74,8 @@ namespace physicalConstant
         dimensionSet(0, 0, 1, 0, -1, 1, 0),
         96485.3399
     );
+
+    const dimensionedScalar FF = F*1e3;    //[C/kmol]
 
 
     // Standard atmosphere pressure [Pa]

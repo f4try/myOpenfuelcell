@@ -21,6 +21,6 @@ faceSet fuelOutlet add boxToFace (39.999e-3 29e-3 6.3e-3) (40.001e-3 31.0e-3 7.8
 faceSet fuelOutlet add boxToFace (39.999e-3 33e-3 6.3e-3) (40.001e-3 35.0e-3 7.8e-3)
 faceSet fuelOutlet add boxToFace (39.999e-3 37e-3 6.3e-3) (40.001e-3 39.0e-3 7.8e-3)
 
-faceSet interconnectTopSides delete faceToFace fuelInlet  all
-faceSet interconnectTopSides delete faceToFace fuelOutlet all
+faceSet interconnect1Sides delete faceToFace fuelInlet  all
+faceSet interconnect1Sides delete faceToFace fuelOutlet all
 

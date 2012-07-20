@@ -21,8 +21,8 @@
 #   include "mapFuelToCell.H"
 
 #   include "mapElectrolyteToCell.H"
-#   include "mapInterconnectBottomToCell.H"
-#   include "mapInterconnectTopToCell.H"
+#   include "mapInterconnect0ToCell.H"
+#   include "mapInterconnect1ToCell.H"
 
     // Correct boundary conditions
     rhoCpCell.correctBoundaryConditions();

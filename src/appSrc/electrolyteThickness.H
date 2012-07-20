@@ -32,4 +32,4 @@ dimensionedScalar hE("hE", dimLength, 0);    //construct dimensioned thickness
     hE.value() = electrolyteVolume/(0.5*(anodeSide + cathodeSide));
 }
 
-//Info<< "    electrolyte thickness (calculated) hE = " << hE << nl << endl;
+Info<< "    electrolyte thickness (calculated) hE = " << hE << nl << endl;

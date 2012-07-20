@@ -21,11 +21,11 @@ internalField   uniform 1000;
 
 boundaryField
 {
-    interconnectBottom
+    interconnect0
     {
         type            zeroGradient;    
     }
-    interconnectBottomSides
+    interconnect0Sides
     {
         type            zeroGradient;
     }
@@ -75,11 +75,11 @@ boundaryField
     {
         type            zeroGradient;
     }    
-    interconnectTop
+    interconnect1
     {
         type            zeroGradient;    
     }
-    interconnectTopSides
+    interconnect1Sides
     {
         type            zeroGradient;
     }

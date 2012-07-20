@@ -19,32 +19,8 @@
     dimensionedScalar kElectrolyte(electrolyteProperties.lookup("k"));
 
 
-    //label IDs for electrolyte anode and cathode patches
-    label electrolyteAnodeID =
-        electrolyteMesh.boundaryMesh().findPatchID(electrolyteAnodeName);
-
-    if (electrolyteAnodeID == -1)
-    {
-        FatalErrorIn(args.executable())
-            << "Cannot find patch " << electrolyteAnodeName
-            << " on the electrolyte mesh."
-            << abort(FatalError);
-    }
-
-    label electrolyteCathodeID =
-        electrolyteMesh.boundaryMesh().findPatchID(electrolyteCathodeName);
-
-    if (electrolyteCathodeID == -1)
-    {
-        FatalErrorIn(args.executable())
-            << "Cannot find patch " << electrolyteAnodeName
-            << " on the electrolyte mesh."
-            << abort(FatalError);
-    }
-
-
-    // electrolye height (thickness) is now calaculated
-    #include "electrolyteThickness.H"
+    // calculate electrolye height thickness
+    //include "electrolyteThickness.H"
 
 
     // initial ohmic heating
@@ -55,6 +31,6 @@
         << "    rhoElectrolyte  = " << rhoElectrolyte  << nl
         << "    CpElectrolyte   = " << CpElectrolyte   << nl
         << "    kElectrolyte    = " << kElectrolyte    << nl
-        << "    hE (calculated) = " << hE              << nl
+        //<< "    hE (calculated) = " << hE              << nl
         << "    HsrcElectrolyte = " << HsrcElectrolyte << nl
         << endl;

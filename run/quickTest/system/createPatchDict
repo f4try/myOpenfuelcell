@@ -50,7 +50,7 @@ patches
 (
 
     {
-	name airInlet;
+        name airInlet;
 
         // Dictionary to construct new patch from
         patchInfo
@@ -58,14 +58,14 @@ patches
             type patch;
         }
 
-	// How to construct: either from 'patches' or 'set'
+        // How to construct: either from 'patches' or 'set'
         constructFrom set;
 
-	// If constructFrom = set : name of faceSet
+        // If constructFrom = set : name of faceSet
         set airInlet;
     }
     {
-	name airOutlet;
+        name airOutlet;
         patchInfo
         {
             type patch;
@@ -74,7 +74,7 @@ patches
         set airOutlet;
     }
     {
-	name airSides;
+        name airSides;
         patchInfo
         {
             type patch;
@@ -83,7 +83,7 @@ patches
         set airSides;
     }
     {
-	name cathodeSides;
+        name cathodeSides;
 
         // Type of new patch
         patchInfo
@@ -94,7 +94,7 @@ patches
         set cathodeSides;
     }
     {
-	name cflSides;
+        name cflSides;
         patchInfo
         {
             type patch;
@@ -103,7 +103,7 @@ patches
         set cflSides;
     }
     {
-	name fuelInlet;
+        name fuelInlet;
         patchInfo
         {
             type patch;
@@ -112,7 +112,7 @@ patches
         set fuelInlet;
     }
     {
-	name fuelOutlet;
+        name fuelOutlet;
         patchInfo
         {
             type patch;
@@ -121,7 +121,7 @@ patches
         set fuelOutlet;
     }
     {
-	name fuelSides;
+        name fuelSides;
         patchInfo
         {
             type patch;
@@ -130,7 +130,7 @@ patches
         set fuelSides;
     }
     {
-	name anodeSides;
+        name anodeSides;
         patchInfo
         {
             type patch;
@@ -139,7 +139,7 @@ patches
         set anodeSides;
     }
     {
-	name aflSides;
+        name aflSides;
         patchInfo
         {
             type patch;
@@ -148,7 +148,7 @@ patches
         set aflSides;
     }
     {
-	name electrolyteSides;
+        name electrolyteSides;
         patchInfo
         {
             type patch;
@@ -157,40 +157,40 @@ patches
         set electrolyteSides;
     }
     {
-	name interconnectBottomSides;
+        name interconnect0Sides;
         patchInfo
         {
             type patch;
         }
         constructFrom set;
-        set interconnectBottomSides;
+        set interconnect0Sides;
     }
     {
-	name interconnectBottom;
+        name interconnect0;
         patchInfo
         {
             type patch;
         }
         constructFrom set;
-        set interconnectBottom;
+        set interconnect0;
     }
     {
-	name interconnectTopSides;
+        name interconnect1Sides;
         patchInfo
         {
             type patch;
         }
         constructFrom set;
-        set interconnectTopSides;
+        set interconnect1Sides;
     }
     {
-	name interconnectTop;
+        name interconnect1;
         patchInfo
         {
             type patch;
         }
         constructFrom set;
-        set interconnectTop;
+        set interconnect1;
     }
 );
 

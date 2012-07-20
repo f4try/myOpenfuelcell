@@ -1,6 +1,9 @@
 {
     Info << nl << "Solving electrochemistry" << endl;
 
+    const scalar F = physicalConstant::F.value();         // C/mol
+    const scalar Rgas = physicalConstant::Rgas.value();   // J/(mol K)
+
 
     // Interpolate the temperature
     scalarField anodeT(anodePatch.size());

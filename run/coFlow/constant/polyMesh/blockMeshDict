@@ -22,12 +22,12 @@ convertToMeters 0.001;
 vertices        
 (
 // From Bottom To Top
-// InterconnectBottom
+// Interconnect0
     (0 0 0)
     (40.0 0 0)
     (40.0 40.0 0)
     (0 40.0 0)
-// InterconnectBottom_to_Air
+// Interconnect0_to_Air
     (0 0 3.5)
     (40.0 0 3.5)
     (40.0 40.0 3.5)
@@ -62,12 +62,12 @@ vertices
     (40.0 0 6.3)
     (40.0 40.0 6.3)
     (0 40.0 6.3)    
-// anode_to_InterconnectTop
+// anode_to_Interconnect1
     (0 0 7.8)
     (40.0 0 7.8)
     (40.0 40.0 7.8)
     (0 40.0 7.8)
-// InterconnectTop
+// Interconnect1
     (0 0 11.3)
     (40.0 0 11.3)
     (40.0 40.0 11.3)
@@ -103,12 +103,12 @@ edges
 patches         
 (
 // From Bottom to Top
-// InterconnectBottom
-    patch interconnectBottom
+// Interconnect0
+    patch interconnect0
     (
         (0 3 2 1)
     )
-    patch interconnectBottomSides
+    patch interconnect0Sides
     (
         (0 1 5 4)
         (3 7 6 2)
@@ -190,15 +190,15 @@ patches
         (28 29 33 32)   //outlet (cross flow)
     )
     
-// InterconnectTop
-    patch interconnectTopSides
+// Interconnect1
+    patch interconnect1Sides
     (
         (32 33 37 36)
         (35 39 38 34)
         (32 36 39 35)
         (33 34 38 37)
     )    
-	patch interconnectTop
+	patch interconnect1
     (
         (36 37 38 39)
     )

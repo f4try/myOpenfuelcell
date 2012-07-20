@@ -20,6 +20,6 @@ faceSet airOutlet add boxToFace (29.0e-3 39.999e-3 3.5e-3) (31.0e-3 40.001e-3 5.
 faceSet airOutlet add boxToFace (33.0e-3 39.999e-3 3.5e-3) (35.0e-3 40.001e-3 5.0e-3)
 faceSet airOutlet add boxToFace (37.0e-3 39.999e-3 3.5e-3) (39.0e-3 40.001e-3 5.0e-3)
 
-faceSet interconnectBottomSides delete faceToFace airInlet all
-faceSet interconnectBottomSides delete faceToFace airOutlet all
+faceSet interconnect0Sides delete faceToFace airInlet all
+faceSet interconnect0Sides delete faceToFace airOutlet all
 
