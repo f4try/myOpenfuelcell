@@ -16,11 +16,16 @@
 
         // mass based heat capacity cp
         // cp [J/kg-K] = Cp/M where Cp = [J/mol-K], M = [kg/mol]
-        scalarField cpN2 = CpN2.polyVal(Tair)/MN2;
-        scalarField cpO2 = CpO2.polyVal(Tair)/MO2;
 
         scalarField& cp = cpAir.internalField();
-        cp = cpN2*yN2air + cpO2*yO2air;
+        cp = 0;
+
+        forAll(airSpecies, i)
+        {
+            scalar rMWi = 1.0/(airSpecies[i].MW()*1e-3);    // 1/[kg/mol]
+            scalarField cpi = molarCpAir[i].polyVal(Tair.internalField())*rMWi;
+            cp += Yair[i].internalField()*cpi;
+        }
         cpAir.correctBoundaryConditions();
 
         scalarField rhoCpF = cp*rhoAir.internalField();

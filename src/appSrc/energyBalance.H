@@ -11,7 +11,7 @@
 
     forAll(patches, patchI)
     {
-        // Int(rho Cp U & dA)
+        // Int(rho U Cp T & dA)
         qVect = gSum
 	(
 	    rhoCpPhiCell.boundaryField()[patchI]

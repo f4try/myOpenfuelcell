@@ -1,25 +1,88 @@
-
-// H2 mass rate at inlet
-
 {
-label inletID = fuelMesh.boundaryMesh().findPatchID("fuelInlet");
-scalarField  mH2rateInlet =
-(
-    rhoFuel.boundaryField()[inletID]
-    *yH2fuel.boundaryField()[inletID]
-    *(
-         Ufuel.boundaryField()[inletID]
-         &
-         fuelMesh.Sf().boundaryField()[inletID]
-     )
-);
+    // total mass rate at fuel inlet
+    scalarField  rateInlet =
+    (
+        rhoFuel.boundaryField()[fuelInletID]
+        *(
+             Ufuel.boundaryField()[fuelInletID]
+             &
+             fuelMesh.Sf().boundaryField()[fuelInletID]
+         )
+    );
+    
+    // total mass rate at fuel outlet
+    scalarField  rateOutlet =
+    (
+        rhoFuel.boundaryField()[fuelOutletID]
+        *(
+             Ufuel.boundaryField()[fuelOutletID]
+             &
+             fuelMesh.Sf().boundaryField()[fuelOutletID]
+         )
+    );
+    
+    // total mass rate at anode/electrolyte interface
+    scalarField  rateAnode =
+    (
+        rhoFuel.boundaryField()[anodeID]
+        *(
+             Ufuel.boundaryField()[anodeID]
+             &
+             fuelMesh.Sf().boundaryField()[anodeID]
+         )
+    );
 
-// H2 mass rate at active area
-scalarField  mH2rateElec = mH2*fuelMesh.magSf().boundaryField()[anodeID];
+    Info<< "fuel mass rates: " << nl
+        << "   inlet: " << Foam::mag(Foam::gSum(rateInlet))
+        << "   outlet: " << Foam::mag(Foam::gSum(rateOutlet))
+        << "   anode: " << Foam::mag(Foam::gSum(rateAnode))
+        << nl;
+    
+    // --------------------------------------------------------------------
+    
+    forAll(fuelSpecies, I)
+    {
+        if(fuelSpecies[I].rSign() < 0)
+        {
+            scalar rateInletI = Foam::mag
+            (
+                gSum
+                (
+                    rateInlet*Yfuel[I].boundaryField()[fuelInletID]
+                )
+            );
 
-Info<< "H2 inRate = " << Foam::mag(Foam::sum(mH2rateInlet))
-    << "   chemRate = " << Foam::mag(Foam::sum(mH2rateElec))
-    << "   utilization = "
-    << Foam::mag(Foam::sum(mH2rateElec)/Foam::sum(mH2rateInlet))
-    << endl;
+            scalar rateOutletI = Foam::mag
+            (
+                gSum
+                (
+                    rateOutlet*Yfuel[I].boundaryField()[fuelOutletID]
+                )
+            );
+
+            scalar rateElecI = Foam::mag
+            (
+                gSum
+                (
+                    mflux[I]*fuelMesh.magSf().boundaryField()[anodeID]
+                )
+            );
+
+            Info<< fuelSpecies[I].name() << " mass rates: " << nl;
+            Info<< "   inlet = " << rateInletI
+                << "   outlet = " << rateOutletI
+                << "   chem = " << rateElecI
+                << nl;
+
+            Info<< "      utilization by chemRate = "
+                << rateElecI/rateInletI
+                << nl;
+            Info<< "      utilization by outRate  = "
+                << (rateInletI - rateOutletI)/rateInletI
+                << nl;
+
+            Info<< endl;
+        }
+    }
 }
+

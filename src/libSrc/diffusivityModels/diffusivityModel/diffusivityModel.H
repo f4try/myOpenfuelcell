@@ -159,10 +159,22 @@ public:
 
     // Member Functions
 
-        //- Diffusivity model mesh
+        //- Reference to mesh
         const fvMesh& mesh() const
         {
             return mesh_;
+        }
+
+	//- Reference to field
+        const scalarField& diff() const
+        {
+            return diff_;
+        }
+
+	//- Reference to labelList
+        const labelList& cells() const
+        {
+            return cells_;
         }
 
         //- Reference to dictionary
@@ -171,11 +183,19 @@ public:
             return dict_;
         }
 
-	//- provide feedback for user
-	virtual void writeData() = 0;
+        //- provide feedback for user
+        virtual void writeData() = 0;
 
         //- evaluate the diffusivity
         virtual void evaluate() = 0;
+
+        //- set the species
+        virtual void setSpecies(word spA, word spB) = 0;
+
+        //- boolean functions for model info
+        virtual bool isFixed() = 0;
+        virtual bool isBinary() = 0;
+        virtual bool isKnudsen() = 0;
 };
 
 

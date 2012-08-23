@@ -38,8 +38,9 @@ porousFSG::porousFSG
     spB_(dict_.lookup("speciesB")),
     eps_(1),
     tau_(1),
-    dPore_(dict_.lookup("dPore")),
-    doBinary_(dict_.lookup("doBinary"))
+    dPore_(dict_.lookup("dPore"))
+    //,
+    //doBinary_(dict_.lookup("doBinary"))
 {
     // molecular weights and diffusion volumes
     // spA
@@ -62,8 +63,8 @@ porousFSG::porousFSG
     // spB
     if(fsgMolecularWeights.found(spB_))
     {
-    mB_ = fsgMolecularWeights(spB_);
-    vB_ = fsgDiffusionVolumes(spB_);
+        mB_ = fsgMolecularWeights(spB_);
+        vB_ = fsgDiffusionVolumes(spB_);
     }
     else
     {
@@ -85,7 +86,7 @@ porousFSG::porousFSG
             (
                 "Foam::porousFSG::porousFSG"
                 "(const fvMesh&, const scalarField&, const labelList&, "
-		"const dictionary&)",
+                "const dictionary&)",
                 dict_
             )
                 << "out-of-range porosity value " << eps_
@@ -102,7 +103,7 @@ porousFSG::porousFSG
             (
                 "Foam::porousFSG::porousFSG"
                 "(const fvMesh&, const scalarField&, const labelList&, "
-		"const dictionary&)",
+                "const dictionary&)",
                 dict_
             )
                 << "out-of-range tortuosity value " << tau_
@@ -113,6 +114,20 @@ porousFSG::porousFSG
 
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
+
+
+void porousFSG::setSpecies(word spA, word spB)
+{
+    spA_ = spA;
+    spB_ = spB;
+
+    mA_ = fsgMolecularWeights(spA_);
+    vA_ = fsgDiffusionVolumes(spA_);
+
+    mB_ = fsgMolecularWeights(spB_);
+    vB_ = fsgDiffusionVolumes(spB_);
+}
+
 
 
 void porousFSG::writeData()
@@ -132,14 +147,14 @@ void porousFSG::evaluate()
 {
     // binaryFSG
     // ---------
-    if (doBinary_)
-    {
+    //if (doBinary_)
+    //{
         diffusivityModels::binaryFSG bfsg =
                binaryFSG(this->mesh_, this->diff_, this->cells_,
                          this->Tname_, this->pName_,
                          this->spA_, this->spB_);
         bfsg.evaluate();
-    }
+    //}
 
 
     // knudsen
@@ -149,7 +164,7 @@ void porousFSG::evaluate()
 
     diffusivityModels::knudsen knud =
         knudsen(this->mesh_, diffK, this->cells_,
-        this->Tname_, this->dPore_, MW);
+                this->Tname_, this->dPore_, MW);
     knud.evaluate();
 
 

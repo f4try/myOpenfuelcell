@@ -98,6 +98,19 @@ binaryFSG::binaryFSG
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
 
+void binaryFSG::setSpecies(word spA, word spB)
+{
+    spA_ = spA;
+    spB_ = spB;
+
+    mA_ = fsgMolecularWeights(spA_);
+    vA_ = fsgDiffusionVolumes(spA_);
+ 
+    mB_ = fsgMolecularWeights(spB_);
+    vB_ = fsgDiffusionVolumes(spB_);
+}
+
+
 void binaryFSG::writeData()
 {
     Info<< "diffusivityModels::binaryFSG:" << nl;

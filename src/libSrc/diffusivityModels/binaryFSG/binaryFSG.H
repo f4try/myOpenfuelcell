@@ -101,7 +101,6 @@ protected:
         scalar vB_;
 
 
-
 public:
 
     //- Runtime type information
@@ -145,6 +144,24 @@ public:
 
         //- evaluate the diffusivity
         void evaluate();
+
+        //- set the species
+        void setSpecies(word spA, word spB);
+
+        //- model info
+        bool isFixed()
+        {
+            return 0;
+        }
+        bool isBinary()
+        {
+            return 1;
+        }
+        bool isKnudsen()
+        {
+            return 0;
+        }
+
 };
 
 

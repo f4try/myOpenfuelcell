@@ -48,7 +48,7 @@ solvers
         maxIter          1000;
     }
 
-    yN2
+    Yi
     {
         solver           PBiCG;
         preconditioner   DILU;

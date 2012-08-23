@@ -1,0 +1,49 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM Extend Project: Open Source CFD        |
+|  \\    /   O peration     | Version:  1.6-ext                               |
+|   \\  /    A nd           | Web:      www.extend-project.de                 |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       dictionary;
+    location    "constant";
+    object      sofcSpeciesProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+speciesList
+(
+    O2
+    N2
+);
+
+
+O2      O2  31.9988  4  -1  0  205.152;
+N2      N2  28.0134  0   0  0  191.609;
+//      |    |       |   |  |  |
+//      |    |       |   |  |  standardEntropy [J/(mol K)
+//      |    |       |   |  enthalpy of formation [J/mol]
+//      |    |       |   produced=1|inert=0|consumed=-1
+//      |    |       molecularChargeForFaradaysLaw 
+//      |   molecularWeight [kg/kmol]
+//      name
+
+
+inertSofcSpecie  N2;   //inert for purposes of mass fraction calculation
+                       // not necessarily chemically inert
+
+
+// molar Cp polynomial coefficients
+// from Todd&Young, J. Power Sources 110 (2002) pp 186-200
+//
+toddYoung
+{
+    O2  34.850  -57.975  203.68  -300.37  231.72  -91.821  14.776;
+    N2  29.027  4.8987  -38.040  105.17  -113.56  55.554  -10.350;
+}
+
+// ************************************************************************* //

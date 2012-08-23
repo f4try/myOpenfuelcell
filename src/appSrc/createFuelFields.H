@@ -137,6 +137,7 @@
 
 
     // Read fuel scalars (mass fractions)
+/******************** delete v v v ******************************************
     multivariateSurfaceInterpolationScheme<scalar>::fieldTable fuelFields;
 
     Info<< "Reading fuel field yH2\n" << endl;
@@ -202,6 +203,7 @@
         dimensionedScalar("xH2O", dimensionSet(0, 0, 0, 0, 0, 0, 0), 1),
         zeroGradientFvPatchScalarField::typeName
     );
+******************** delete ^ ^ ^ ******************************************/
 
 
     Info<< "Reading fuel porous zones" << endl;

@@ -16,11 +16,23 @@
 
         // mass based heat capacity cp
         // cp [J/kg-K] = Cp/M where Cp = [J/mol-K], M = [kg/mol]
-        scalarField cpH2 = CpH2.polyVal(Tfuel)/MH2;
-        scalarField cpH2O = CpH2O.polyVal(Tfuel)/MH2O;
 
         scalarField& cp = cpFuel.internalField();
-        cp = cpH2*yH2fuel + cpH2O*yH2Ofuel;
+        cp = 0;
+
+        forAll(fuelSpecies, i)
+        {
+            // molarCp[i].polyVal() returns [J/(mol K)]
+            // species[i].MW() returns {kg/kmol]
+            // we require cp [J/(kg K] = [J/(mol K)]/[kg/mol]
+
+            scalar rMWi = 1.0/(fuelSpecies[i].MW()*1e-3);    // 1/[kg/mol]
+            scalarField cpi =
+            (
+                 molarCpFuel[i].polyVal(Tfuel.internalField())*rMWi
+            );
+            cp += Yfuel[i].internalField()*cpi;
+        }
         cpFuel.correctBoundaryConditions();
 
         scalarField rhoCpF = cp*rhoFuel.internalField();

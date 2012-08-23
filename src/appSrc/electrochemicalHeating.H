@@ -9,10 +9,7 @@
     iEA = Foam::max(0e0, iEA);
 
 
-    scalar Tr = 298.15;  //reference Temperature [K] for enthalpy calculations
-    scalarField Tref (anodeT.size(), Tr);
-    //
-    // Note: Tref field avoids ambiguous "-" overload in enthalpy calculations
+    //scalar Tr = 298.15;  //reference Temperature [K] for enthalpy calculations
 
 
     // Note (hkr 2012.04.17):
@@ -21,43 +18,116 @@
     // solid oxide fuel cell modelling, J. Power Sources 110 (2002) pp186-200.
     // Cp(T) = sum(a[k]*(T/1000)^k), k = 0,..,6
     // Enthalpies are definite integrals from reference to ambient temperature.
-    // integral(Cp(T)dT) = sum(a[k]/(k+1)*(T^k+1)/(1000^k)), k=0,..6
-/***********************************************************************
-    polyToddYoung CpH2O
-        (37.373, -41.205, 146.01, -217.08, 181.54, -79.409, 14.015);
-
-    polyToddYoung CpH2
-        (21.157, 56.036, -150.55, 199.29, -136.15, 46.903, -6.4725);
-
-    polyToddYoung CpO2
-    (    34.850, -57.975, 203.68, -300.37, 231.72, -91.821, 14.776);
-***********************************************************************/
 
 
-    // enthalpy H2O
-    scalarField hH2O = CpH2O.polyInt(anodeT) - CpH2O.polyInt(Tref);
-
-    //enthalpy H2
-    scalarField hH2 = CpH2.polyInt(anodeT) - CpH2.polyInt(Tref);
-
-    //enthapy O2
-    scalarField hO2 = CpO2.polyInt(anodeT) - CpO2.polyInt(Tref);
-
-
-    //Heat source
-    // hE is thickness of electrolyte
-
-    // Note (hkr 2010.10.20):
-    // Enthalpy of formation of H20 at 298.15K (-241.8349e3 J/mol) comes from
-    // Table 15, Hernandez-Pacheco and Mann, The rational approximation method
-    // in the prediction of thermodynamic properties for SOFCs,
-    // J. Power Sources 128 (2004) pp25-33
-
-    scalar H2Oform = -241.8349e3;    // [J/mol] Hernandez-Pacheco and Mann 2004
-
+    /***********************************************************************
     scalarField Tsource =
         -(H2Oform + hH2O - hH2 -0.5*hO2)*iEA/(2*F)/hE.value()
         - iEA*V.value()/hE.value();
+    ***********************************************************************/
+
+
+    scalar hFormSum = 0;    //accumulator for enthalpy of formation
+                            //normalized by n electrons assoc'd with ionization
+
+
+    // air side accumulators
+    scalarField hReactSrcAir(anodeT.size(),0);
+    scalarField hProdSrcAir(anodeT.size(),0);
+
+    PtrList<scalarField> hSpAir(airSpecies.size());
+    forAll(airSpecies, i)
+    {
+        if(airSpecies[i].ne() != 0)
+        {
+            polyToddYoung CpI = molarCpAir[i];        // [J/mol]
+            scalarField hSpI = CpI.polyInt(Tr, anodeT);
+            hSpAir.set(i, hSpI);
+
+            //
+            //hFormSum += airSpecies[i].hForm()/airSpecies[i].ne();
+            // no reactions on air side!
+            //
+
+            if(airSpecies[i].rSign() > 0)
+            {
+                // product
+                hProdSrcAir += hSpI/airSpecies[i].ne();
+            }
+            else if(airSpecies[i].rSign() < 0)
+            {
+                // reactant
+                hReactSrcAir += hSpI/airSpecies[i].ne();
+            }
+            else
+            {
+                Info<< "ERROR: rSign = 0 but ne != 0" << nl;
+            }
+        }
+    }
+    //Info<< "sum(hReactSrcAir)= " << gSum(hReactSrcAir) << nl;
+    //Info<< "sum(hProdSrcAir)= " << gSum(hProdSrcAir) << nl;
+    //Info<< "sum(prod - react)=" << gSum(hProdSrcAir - hReactSrcAir) << nl;
+
+/* -------------------------------------------------------------------------- */
+
+    //fuel side accumulators
+    scalarField hReactSrcFuel(anodeT.size(),0);
+    scalarField hProdSrcFuel(anodeT.size(),0);
+
+
+    PtrList<scalarField> hSpFuel(fuelSpecies.size());  //species enthalpies
+    forAll(fuelSpecies, i)
+    {
+        if(fuelSpecies[i].ne() != 0)
+        {
+            polyToddYoung CpI = molarCpFuel[i];          // [J/mol]
+            scalarField hSpI = CpI.polyInt(Tr, anodeT);
+            hSpFuel.set(i, hSpI);
+
+            hFormSum += fuelSpecies[i].hForm()/fuelSpecies[i].ne();
+
+            if(fuelSpecies[i].rSign() > 0)
+            {
+                // product
+                hProdSrcFuel += hSpI/fuelSpecies[i].ne();
+            }
+            else if(fuelSpecies[i].rSign() < 0)
+            {
+                // reactant
+                hReactSrcFuel += hSpI/fuelSpecies[i].ne();
+            }
+            else
+            {
+                Info<< "ERROR: rSign = 0 but ne != 0" << nl;
+            }
+        }
+    }
+    //Info<< "sum(hReactSrcFuel)= " << gSum(hReactSrcFuel) << nl;
+    //Info<< "sum(hProdSrcFuel)= " << gSum(hProdSrcFuel) << nl;
+    //Info<< "sum(prod - react)=" << gSum(hProdSrcFuel - hReactSrcFuel) << nl;
+
+
+    scalarField volMolRate = iEA/F/hE.value();    // [mol/(m^3 s)]
+
+    scalarField hSource =
+    (hProdSrcFuel - hReactSrcFuel + hProdSrcAir - hReactSrcAir)*volMolRate;
+
+    //Info<< "hSource  min max sum: "
+    //    << gMin(hSource) << " "
+    //    << gMax(hSource) << " " << gSum(hSource) << nl;
+    //Info<< nl;
+
+//
+//    scalarField Tsource =
+//        -(H2Oform + hH2O - hH2 -0.5*hO2)*iEA/(2*F)/hE.value()
+//        - iEA*V.value()/hE.value();
+//
+
+    scalarField Tsource =
+    (
+        -hFormSum*volMolRate - hSource - iEA*V.value()/hE.value()
+    );
 
 
     // smear the surface heating field into electrolyte volume
@@ -69,7 +139,7 @@
     electrochemicalHeating.internalField() = smearInterpolation.smear(Tsource);
 
     Info << "min,mean,max(electrochemicalHeating): "
-         << gMin(electrochemicalHeating.internalField()) << " , "
-         << gAverage(electrochemicalHeating.internalField()) << " , "
+         << gMin(electrochemicalHeating.internalField()) << "  "
+         << gAverage(electrochemicalHeating.internalField()) << "  "
          << gMax(electrochemicalHeating.internalField()) << endl;
 

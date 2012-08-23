@@ -124,11 +124,30 @@ public:
             return dPore_;
         }
 
-	//- provide feedback for user
-	void writeData();
+        //- provide feedback for user
+        void writeData();
 
         //- evaluate the diffusivity
         void evaluate();
+
+        //- model info
+        bool isFixed()
+        {
+            return 0;
+        }
+        bool isBinary()
+        {
+            return 0;
+        }
+        bool isKnudsen()
+        {
+            return 1;
+        }
+
+        void setSpecies(word spA, word spB)
+        {
+            // not implemented
+        }
 
 };
 

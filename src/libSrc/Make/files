@@ -17,4 +17,6 @@ polyToddYoung/polyToddYoung.C
 
 regionProperties/regionProperties.C
 
+sofcSpecie/sofcSpecie.C
+
 LIB = $(FOAM_USER_LIBBIN)/libsofcFoam

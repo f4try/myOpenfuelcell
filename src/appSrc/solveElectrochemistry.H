@@ -2,10 +2,14 @@
     Info << nl << "Solving electrochemistry" << endl;
 
     const scalar F = physicalConstant::F.value();         // C/mol
+    const scalar FF = physicalConstant::FF.value();       // C/kmol
     const scalar Rgas = physicalConstant::Rgas.value();   // J/(mol K)
 
+    const scalar Tr = 298.15;  //reference Temperature [K] for thermodynamics
 
-    // Interpolate the temperature
+
+    // Interpolate global temperature to electrolyte/fuel interface
+    // ------------------------------------------------------------
     scalarField anodeT(anodePatch.size());
     {
         surfaceScalarField Ts = fvc::interpolate(Tcell);
@@ -20,60 +24,92 @@
          << Foam::min(anodeT) <<" , "
          << Foam::max(anodeT) << endl;
 
-    // Interpolate cathode molar fraction of oxygen from the air side
-    scalarField xO2 =
-        cathodeToAnode.faceInterpolate
-        (
-            yO2air.boundaryField()[cathodeID]/MO2/
+
+    // Interpolate cathode mole fractions of oxidant species to anode
+    // --------------------------------------------------------------
+    scalarField sumAYjOnMj    //sum(Yj/MWj)
+    (
+        Yair[0].boundaryField()[cathodeID].size(),
+        0
+    );
+
+    forAll(Yair, j)
+    {
+        sumAYjOnMj += Yair[j].boundaryField()[cathodeID]/airSpecies[j].MW();
+    }
+
+    PtrList<scalarField> xAir(airSpecies.size());
+    forAll(airSpecies, s)
+    {
+        if (airSpecies[s].rSign() == -1)    //reactant
+        {
+            xAir.set
             (
-                yO2air.boundaryField()[cathodeID]/MO2
-              + yN2air.boundaryField()[cathodeID]/MN2
-            )
-        );
+                s,
+                new scalarField(anodeT.size(), 0)
+            );
 
-    // Calculate molar fractions of hydrogen and water on the fuel side
-    scalarField xH2 =
-        yH2fuel.boundaryField()[anodeID]/MH2/
-        (
-            yH2fuel.boundaryField()[anodeID]/MH2
-          + yH2Ofuel.boundaryField()[anodeID]/MH2O
-        );
+            xAir[s] =
+                cathodeToAnode.faceInterpolate
+                (
+                    Yair[s].boundaryField()[cathodeID]/airSpecies[s].MW()
+                    /sumAYjOnMj
+                );
 
-    scalarField xH2O =
-        yH2Ofuel.boundaryField()[anodeID]/MH2O/
-        (
-            yH2fuel.boundaryField()[anodeID]/MH2
-          + yH2Ofuel.boundaryField()[anodeID]/MH2O
-        );
+            // ensure positivity
+            xAir[s] = Foam::max(xAir[s], Foam::doubleScalarSMALL);
 
-    Info << "min,max(xO2): "
-         << Foam::min(xO2) <<" , "
-         << Foam::max(xO2) << endl;
+            Info << "min,mean,max(X" << airSpecies[s].name() << "): "
+                 << Foam::gMin(xAir[s]) <<" , "
+                 << Foam::gAverage(xAir[s]) <<" , "
+                 << Foam::gMax(xAir[s]) << endl;
+        }
+    }
 
-    Info << "min,max(xH2): "
-         << Foam::min(xH2) <<" , "
-         << Foam::max(xH2) << endl;
 
-    Info << "min,max(xH2O): "
-         << Foam::min(xH2O) <<" , "
-         << Foam::max(xH2O) << endl;
+    // Calculate anode mole fractions of fuel reactant and product species
+    // -------------------------------------------------------------------
+    scalarField sumFYjOnMj    //sum(Yj/MWj)
+    (
+        Yfuel[0].boundaryField()[anodeID].size(),
+        0
+    );
 
-    // ensure positivity
-    xO2 = Foam::max(xO2, Foam::doubleScalarSMALL);
-    xH2 = Foam::max(xH2, Foam::doubleScalarSMALL);
-    xH2O = Foam::max(xH2O, Foam::doubleScalarSMALL);
+    forAll(Yfuel, j)
+    {
+        sumFYjOnMj += Yfuel[j].boundaryField()[anodeID]/fuelSpecies[j].MW();
+    }
+
+    PtrList<scalarField> xFuel(fuelSpecies.size());
+    forAll(fuelSpecies,s)
+    {
+        if(fuelSpecies[s].rSign() != 0)    //reactant or product
+        {
+            xFuel.set
+            (
+                s,
+                new scalarField(anodeT.size(), 0)
+            );
+
+            xFuel[s] =
+            (
+                Yfuel[s].boundaryField()[cathodeID]/fuelSpecies[s].MW()
+                /sumFYjOnMj
+            );
+
+            // ensure positivity
+            xFuel[s] = Foam::max(xFuel[s], Foam::doubleScalarSMALL);
+
+            Info << "min,mean,max(X" << fuelSpecies[s].name() << "): "
+                 << Foam::gMin(xFuel[s]) <<" , "
+                 << Foam::gAverage(xFuel[s]) <<" , "
+                 << Foam::gMax(xFuel[s]) << endl;
+        }
+    }
 
 
     // Calculate Nernst potential
-    // Note (hkr 2010.10.20):
-    //     -deltaG(T) is approximated by (-deltaH + T*deltaS), where
-    //     -deltaH=247340 and deltaS=-54.85 are consistent with T=925K using
-    //     Hernandez-Pacheco & Mann, The rational approximation method in the
-    //     prediction of thermodynamic properties for SOFCs, J. Power Sources
-    //     128 (2004) 25-33.
-
-    scalarField E = (247340 - 54.85*anodeT)/(2*F)
-        + Rgas*anodeT/(2*F)*Foam::log(xH2*pow(xO2, 0.5)/xH2O);
+    #include "NernstEqn.H"
 
 
     // area specific resistance, R
@@ -82,7 +118,7 @@
 
 
     // Calculate current density
-    scalarField i = (E - V.value())/R;
+    scalarField i = (Nernst - V.value())/R;
 
     // ensure non-negativity
     i = Foam::max(i, 0.0);
@@ -96,10 +132,6 @@
     // mean current density
     dimensionedScalar ibar ("ibar", dimensionSet(0, -2, 0, 0, 0, 1, 0), 0.0);
     ibar.value() = Foam::average(i);
-
-    Info << "min,max(E): "
-         << Foam::min(E) <<" , "
-         << Foam::max(E) << endl;
 
     Info << "min,mean,max(i): "
          << Foam::min(i) <<" , " << ibar.value() << " , "
@@ -115,106 +147,188 @@
     // Calculate electrochemical heating
     #include "electrochemicalHeating.H"
 
+
     // Calculate species sources and sinks and set
     // boundary conditions for scalars
 
     // Air side
     {
-        scalarField mO2 = -MO2*i/(vO2*F);                         // (3)
+        Info<< nl << "air species electrochemical fluxes and YEqn BCs" << nl;
 
-        #include "O2utilization.H"
+        label nSpec = airSpecies.size();       //number of species
+        List<scalarField> mflux(nSpec);        //mass flux by species
+        List<Switch> isFlux(nSpec, "false");   //true if species contributes
+        scalarField mfluxSum(i.size(),0);      //sum over species
 
-        scalarField gammaCathode =
-        (
-            diffAir.boundaryField()[cathodeID]
-            *rhoAir.boundaryField()[cathodeID]
-        );
+        // mass fluxes for electrochemically active species
+        forAll(airSpecies, s)
+        {
+            if(airSpecies[s].ne() != 0)
+            {
+                mflux[s] =
+                (
+                    airSpecies[s].rSign()*airSpecies[s].MW()
+                    *i/(FF*airSpecies[s].ne())
+                );
+                mfluxSum += mflux[s];
+                isFlux[s] = "true";
+                //Info<< s << " mflux[s] " << Foam::gSum(mflux[s]) << nl;
+            }
+            Info<< "s species[] isFlux[] mflux[] = "
+                << s << " " << airSpecies[s].name() << " " << isFlux[s] << " "
+                << Foam::gSum(mflux[s]) << nl;
+        }
+        Info<< endl;
 
-        // yN2 bc
-        fixedGradientFvPatchScalarField& N2bc =
-            refCast<fixedGradientFvPatchScalarField>
-            (
-                yN2air.boundaryField()[cathodeID]
-            );
 
-        // N2 source
-        scalarField N2source =
-            anodeToCathode.faceInterpolate(-mO2*N2bc);            // (5)
+        // mass fraction BCs for all species except the "inert" specie
+        // (inert specie mass fraction is 1-complement of all others)
+        forAll(Yair, s)
+        {
+            //Info << airSpecies[s].name() << nl;
 
-        // Set the N2 gradient boundary conditon
-        N2bc.gradient() = N2source/gammaCathode;
+            if(airSpecies[s].name() != airInertSpecie)
+            {
+                scalarField gammaCathodeS =
+                (
+                    diffSpAir[s].boundaryField()[cathodeID]
+                    *rhoAir.boundaryField()[cathodeID]
+                );
 
-        // yO2 bc
-        fixedGradientFvPatchScalarField& O2bc =
-            refCast<fixedGradientFvPatchScalarField>
-            (
-                yO2air.boundaryField()[cathodeID]
-            );
+                // interface patchField
+                volScalarField& Ys = Yair[s];
+                fixedGradientFvPatchScalarField& YsBC =
+                    refCast<fixedGradientFvPatchScalarField>
+                    (
+                        //Ys.boundaryField()[anodeID]
+                        Ys.boundaryField()[cathodeID]
+                    );
 
-        // O2 sink
-        scalarField O2sink =
-            anodeToCathode.faceInterpolate(mO2*(1.- O2bc));           // (4)
+                // gradient boundary condition
+                // note:  air mass fluxes defined on anode patch
+                //        -> we interpolate to cathode patch
 
-        // Set the gradient boundary conditon
-        O2bc.gradient() = O2sink/gammaCathode;
+                // initialize gradient
+                YsBC.gradient() =
+                    anodeToCathode.faceInterpolate(mflux[s])*(1.0 - YsBC);
 
-	// Set the interface velocity condition
+                // add changes due to other species
+                forAll(Yair, t)
+                {
+                    //Info<< "s, t, isFlux[t] = " << s << t << isFlux[t] << nl;
+
+                    if((t != s) && isFlux[t])
+                    {
+                        //Info<< t << " mflux[t] "
+                        //    << Foam::gSum(mflux[t]) << nl;
+                        YsBC.gradient() -=
+                        anodeToCathode.faceInterpolate(mflux[t])*YsBC;
+                    }
+                }
+                YsBC.gradient() /= gammaCathodeS;
+            }
+        }
+        Info<< endl;
+
+
+        // Set the interface velocity condition
         Uair.boundaryField()[cathodeID] ==
         (
-            -anodeToCathode.faceInterpolate(mO2)
+            -anodeToCathode.faceInterpolate(mfluxSum)
             /rhoAir.boundaryField()[cathodeID]
             *(airMesh.Sf().boundaryField()[cathodeID])
             /(airMesh.magSf().boundaryField()[cathodeID])
         );
+
+        #include "O2utilization.H"
     }
+
 
     // Fuel side
     {
-        scalarField mH2 = -MH2*i/(vH2*F);
-        scalarField mH2O = MH2O*i/(vH2O*F);
+        Info<< "fuel species electrochemical fluxes and YEqn BCs" << nl;
 
-        #include "H2utilization.H"
+        label nSpec = fuelSpecies.size();
+        List<scalarField> mflux(nSpec);
+        List<Switch> isFlux(nSpec, "false");
+        scalarField mfluxSum(i.size(),0);
 
-        scalarField gammaAnode =
-        (
-            diffFuel.boundaryField()[anodeID]
-            *rhoFuel.boundaryField()[anodeID]
-        );
+        // mass fluxes for electrochemically active species
+        forAll(fuelSpecies, s)
+        {
+            if(fuelSpecies[s].ne() != 0)
+            {
+                mflux[s] =
+                (
+                    fuelSpecies[s].rSign()*fuelSpecies[s].MW()
+                    *i/(FF*fuelSpecies[s].ne())
+                );
+                mfluxSum += mflux[s];
+                isFlux[s] = "true";
+                //Info<< s << " mflux[s] " << Foam::gSum(mflux[s]) << nl;
+            }
+            Info<< "s species[] isFlux[] mflux[] = "
+                << s << " " << fuelSpecies[s].name() << " " << isFlux[s] << " "
+                << Foam::gSum(mflux[s]) << nl;
+        }
+        Info<< endl;
 
-        // yH2 bc
-        fixedGradientFvPatchScalarField& H2bc =
-            refCast<fixedGradientFvPatchScalarField>
-            (
-                yH2fuel.boundaryField()[anodeID]
-            );
 
-        // yH2O bc
-        fixedGradientFvPatchScalarField& H2Obc =
-            refCast<fixedGradientFvPatchScalarField>
-            (
-                yH2Ofuel.boundaryField()[anodeID]
-            );
+        // mass fraction BCs for all species except the "inert" specie
+        // (inert specie mass fraction is 1-complement of all others)
+        forAll(Yfuel, s)
+        {
+            //Info<< fuelSpecies[s].name() << nl;
 
-        // Set the gradient boundary conditons
-        H2bc.gradient() =
-            (mH2*(1 - H2bc) - mH2O*H2bc)/gammaAnode;     // (7,12)
+            if(fuelSpecies[s].name() != fuelInertSpecie)
+            {
+                scalarField gammaAnodeS =
+                (
+                    diffSpFuel[s].boundaryField()[anodeID]
+                    *rhoFuel.boundaryField()[anodeID]
+                );
 
-        H2Obc.gradient() =
-            (-mH2*H2Obc + mH2O*(1 - H2Obc))/gammaAnode;  //(8,11)
+                // interface patchField
+                volScalarField& Ys = Yfuel[s];
+                fixedGradientFvPatchScalarField& YsBC =
+                    refCast<fixedGradientFvPatchScalarField>
+                    (
+                        Ys.boundaryField()[anodeID]
+                    );
 
-	// Set the interface velocity condition
+                // gradient boundary condition
+                // initialize gradient
+                YsBC.gradient() = mflux[s]*(1.0 - YsBC);
+
+                // add changes due to other species
+                forAll(Yfuel, t)
+                {
+                    //Info<< "s, t, isFlux[t] = " << s << t << isFlux[t] << nl;
+                    if((t != s) && isFlux[t])
+                    {
+                        //Info<< t << " mflux[t] "
+                        //    << Foam::gSum(mflux[t]) << nl;
+                        YsBC.gradient() -= YsBC*mflux[t];
+                    }
+                }
+                YsBC.gradient() /= gammaAnodeS;
+            }
+        }
+        Info<< endl;
+
+
+        // Set the interface velAcity condition
         Ufuel.boundaryField()[anodeID] ==
         (
-            -(mH2O + mH2)
+            -(mfluxSum)
             /rhoFuel.boundaryField()[anodeID]
             *(fuelMesh.Sf().boundaryField()[anodeID])
             /(fuelMesh.magSf().boundaryField()[anodeID])
         );
+
+        #include "H2utilization.H"
     }
 }
 
-// O2 (air side) and H2 (fuel side) utilization based on flow rate
-{
-    #include "utilization.H"
-    #include "ReynoldsNumber.H"
-}
+// air, fuel utilization from outlet flow rates previously calculated here
+// now included in O2utilization, H2utilization above

@@ -24,7 +24,6 @@ Description
         porosity    0.5;
         tortuosity  3.0;
         dPore       dPore [0 1 0 0 0 0 0] 8e-06;   // pore size
-        doBinary    false;                         // skip binary: already done
     }
     @endverbatim
 
@@ -76,23 +75,23 @@ protected:
         //- name of pressure field (assume p = pressure/density)
         word pName_;
 
-	//- species "A" name
-	word spA_;
+        //- species "A" name
+        word spA_;
 
         //- species "A" molecular weight
-	scalar mA_;
+        scalar mA_;
 
         //- species "A" FSG diffusion volume
-	scalar vA_;
+        scalar vA_;
 
-	//- species "B" name
-	word spB_;
+        //- species "B" name
+        word spB_;
 
         //- species "B" molecular weight
-	scalar mB_;
+        scalar mB_;
 
         //- species "B" FSG diffusion volume
-	scalar vB_;
+        scalar vB_;
 
         //- porosity
         scalar eps_;
@@ -105,8 +104,8 @@ protected:
 
         //- switch to calculate binary or not
         //  binary might be already calculated
-        Switch doBinary_;
-
+        //Switch doBinary_;   //must be true for multiple species ...
+                              //... removed 2012july23 to prevent problems
 
 
 public:
@@ -141,7 +140,22 @@ public:
         //- evaluate the diffusivity
         void evaluate();
 
+        //- set the species
+        void setSpecies(word spA, word spB);
 
+        //- model info
+        bool isFixed()
+        {
+            return 0;
+        }
+        bool isBinary()
+        {
+            return 1;
+        }
+        bool isKnudsen()
+        {
+            return 1;
+        }
 
 };
 

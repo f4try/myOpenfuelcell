@@ -37,10 +37,15 @@ Developed by
 
 \*---------------------------------------------------------------------------*/
 
+#include <iostream>
+#include <iomanip>
+
 #include "fvCFD.H"
 #include "atomicWeights.H"
 #include "physicalConstants.H"
 #include "specie.H"
+#include "speciesTable.H"
+#include "sofcSpecie.H"
 
 #include "patchToPatchInterpolation.H"
 #include "continuityErrs.H"
@@ -63,7 +68,6 @@ int main(int argc, char *argv[])
 #   include "createMesh.H"
 #   include "readCellProperties.H"
 #   include "createCellFields.H"
-#   include "createSpeciesCp.H"
 
     // Interconnect0 components
 #   include "createInterconnect0Mesh.H"
@@ -72,6 +76,7 @@ int main(int argc, char *argv[])
 #   include "createAirMesh.H"
 #   include "readAirProperties.H"
 #   include "createAirFields.H"
+#   include "createAirSpecies.H"
 
     // Electrolyte components
 #   include "createElectrolyteMesh.H"
@@ -82,10 +87,13 @@ int main(int argc, char *argv[])
 #   include "createFuelMesh.H"
 #   include "readFuelProperties.H"
 #   include "createFuelFields.H"
+#   include "createFuelSpecies.H"
 
     // Interconnect1 components
 #   include "createInterconnect1Mesh.H"
 #   include "readInterconnectProperties.H"
+
+#   include "readRxnProperties.H"
 
 #   include "setGlobalPatchIds.H"
 
@@ -110,21 +118,24 @@ int main(int argc, char *argv[])
 
     #   include "mapFromCell.H"    // map global T to fluid regions
 
-    #   include "getDensities.H"
+    #   include "rhoAir.H"
+    #   include "rhoFuel.H"
 
     #   include "solveFuel.H"
     #   include "solveAir.H"
+    #   include "ReynoldsNumber.H"
 
-    #   include "getDiffusivities.H"
+    #   include "diffusivityAir.H"
+    #   include "diffusivityFuel.H"
 
-    #   include "solveFuelScalars.H"
-    #   include "solveAirScalars.H"
+    #   include "YfuelEqn.H"
+    #   include "YairEqn.H"
+
+    #   include "solveElectrochemistry.H"
 
     #   include "mapToCell.H"
     #   include "solveEnergy.H"
     #   include "energyBalance.H"
-
-    #   include "solveElectrochemistry.H"
 
         runTime.write();
 

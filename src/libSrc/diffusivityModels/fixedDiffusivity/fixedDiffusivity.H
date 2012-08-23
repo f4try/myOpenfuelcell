@@ -93,6 +93,25 @@ public:
         //- evaluate the diffusivity
         void evaluate();
 
+        //- model info
+        bool isFixed()
+        {
+            return 1;
+        }
+        bool isBinary()
+        {
+            return 0;
+        }
+        bool isKnudsen()
+        {
+            return 0;
+        }
+
+        void setSpecies(word spA, word spB)
+        {
+            // not implemented
+        }
+
 };
 
 

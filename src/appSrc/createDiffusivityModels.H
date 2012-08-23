@@ -1,19 +1,52 @@
+// Air side
+// --------
     Info << nl << "Creating air diffusivity models" << endl;
 
-    scalarField airDiff(airMesh.nCells());   //for diffusivity calculations
+    // scalarField passed to diff model to return calculated diffusivity
+    // --------------------------------
+    scalarField airDiff(airMesh.nCells());
+//    scalarField airDiffHC(airMesh.nCells());    //for hardcoded
+
+//    // pointerlist for species diffusivity fields
+//    // ------------------------------------------
+//    label nAirSp = airSpecies.size();
+//    PtrList<scalarField> diffSpAir(nAirSp);
+//    forAll(diffSpAir, a)
+//    {
+//        diffSpAir.set
+//        (
+//            a,
+//            new scalarField(airDiff.size())
+//        );
+//    }
+
+    // pointerlist for all air diffusivity models
+    // ------------------------------------------
+    PtrList<autoPtr<diffusivityModels::diffusivityModel> >
+        airDiffModels(1 + cathodeZones.size());
 
 
-    // Diffusivity: air zone
-    // ---------------------
+    // Diffusivity: whole air zone
+    // ---------------------------
     label airZnId = airMesh.cellZones().findZoneID("air");
     Info<< "zone " << airZnId << " air" << nl;
     const labelList& airCells = airMesh.cellZones()[airZnId];
     const dictionary& airDiffDict = airProperties.subDict("diffusivity");
 
-    autoPtr<diffusivityModels::diffusivityModel> airRegionDiffusivity
+//    autoPtr<diffusivityModels::diffusivityModel> airRegionDiffusivity
+//    (
+//        diffusivityModels::diffusivityModel::New
+//            (airMesh, airDiffHC, airCells, airDiffDict)
+//    );
+        
+    airDiffModels.set
     (
-        diffusivityModels::diffusivityModel::New
-            (airMesh, airDiff, airCells, airDiffDict)
+        0,
+        new autoPtr<diffusivityModels::diffusivityModel>
+        (
+            diffusivityModels::diffusivityModel::New
+                (airMesh, airDiff, airCells, airDiffDict)
+        )
     );
 
 
@@ -48,9 +81,19 @@
             new dictionary(cathodeZones[iz].dict().subDict("diffusivity"))
         );
 
-        airZnDiffusivity.set
+//        airZnDiffusivity.set
+//        (
+//            iz,
+//            new autoPtr<diffusivityModels::diffusivityModel>
+//            (
+//                diffusivityModels::diffusivityModel::New
+//                    (airMesh, airDiffHC, airZnCells[iz], airZnDiffDict[iz])
+//            )
+//        );
+
+        airDiffModels.set
         (
-            iz,
+            iz + 1,
             new autoPtr<diffusivityModels::diffusivityModel>
             (
                 diffusivityModels::diffusivityModel::New
@@ -61,22 +104,55 @@
 
 
 
+// Fuel side
+// ---------
     Info << nl << "Creating fuel diffusivity models" << endl;
 
-    scalarField fuelDiff(fuelMesh.nCells());    //for diffusivity calculations
+    // scalarField passed to diff model to return calculated diffusivity
+    // --------------------------------
+    scalarField fuelDiff(fuelMesh.nCells());
+//    scalarField fuelDiffHC(fuelMesh.nCells());
+
+//    // pointerlist for species diffusivity fields
+//    // ------------------------------------------
+//    label nFuelSp = fuelSpecies.size();
+//    PtrList<scalarField> diffSpFuel(nFuelSp);
+//    forAll(diffSpFuel, a)
+//    {
+//        diffSpFuel.set
+//        (
+//            a,
+//            new scalarField(fuelDiff.size())
+//        );
+//    }
+
+    // pointerlist for all fuel diffusivity models
+    // ------------------------------------------
+    PtrList<autoPtr<diffusivityModels::diffusivityModel> >
+        fuelDiffModels(1 + cathodeZones.size());
 
 
-    // Diffusivity: fuel zone
-    // ----------------------
+    // Diffusivity: whole fuel zone
+    // ----------------------------
     label fuelZnId = fuelMesh.cellZones().findZoneID("fuel");
     Info<< "zone " << fuelZnId << " fuel" << nl;
     const labelList& fuelCells = fuelMesh.cellZones()[fuelZnId];
     const dictionary& fuelDiffDict = fuelProperties.subDict("diffusivity");
 
-    autoPtr<diffusivityModels::diffusivityModel> fuelRegionDiffusivity
+//    autoPtr<diffusivityModels::diffusivityModel> fuelRegionDiffusivity
+//    (
+//        diffusivityModels::diffusivityModel::New
+//            (fuelMesh, fuelDiffHC, fuelCells, fuelDiffDict)
+//    );
+
+    fuelDiffModels.set
     (
-        diffusivityModels::diffusivityModel::New
-            (fuelMesh, fuelDiff, fuelCells, fuelDiffDict)
+        0,
+        new autoPtr<diffusivityModels::diffusivityModel>
+        (
+            diffusivityModels::diffusivityModel::New
+                (fuelMesh, fuelDiff, fuelCells, fuelDiffDict)
+        )
     );
 
 
@@ -111,9 +187,19 @@
             new dictionary(anodeZones[iz].dict().subDict("diffusivity"))
         );
 
-        fuelZnDiffusivity.set
+//        fuelZnDiffusivity.set
+//        (
+//            iz,
+//            new autoPtr<diffusivityModels::diffusivityModel>
+//            (
+//                diffusivityModels::diffusivityModel::New
+//                   (fuelMesh, fuelDiffHC, fuelZnCells[iz], fuelZnDiffDict[iz])
+//            )
+//        );
+
+        fuelDiffModels.set
         (
-            iz,
+            iz + 1,
             new autoPtr<diffusivityModels::diffusivityModel>
             (
                 diffusivityModels::diffusivityModel::New

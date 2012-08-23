@@ -136,6 +136,7 @@
 
 
     // Read air scalars
+/******************* delete v v v ******************************************
     multivariateSurfaceInterpolationScheme<scalar>::fieldTable airFields;
 
     Info<< "Reading air field yO2\n" << endl;
@@ -201,6 +202,7 @@
         dimensionedScalar("xN2", dimensionSet(0, 0, 0, 0, 0, 0, 0), 1),
         zeroGradientFvPatchScalarField::typeName
     );
+******************* delete ^ ^ ^ ******************************************/
 
 
     Info<< "Reading air porous zones" << endl;

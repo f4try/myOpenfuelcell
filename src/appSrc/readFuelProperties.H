@@ -17,10 +17,14 @@
     dimensionedScalar CpF(fuelProperties.lookup("Cp"));
     dimensionedScalar kFuel(fuelProperties.lookup("k"));
 
+    // hydraulic diameter for Reynolds number calculation
+    dimensionedScalar dHydFuel(fuelProperties.lookup("dHyd"));
+
     // echo input to output:
-    Info << "    muF    = " << muF    << nl
-         << "    rhoF   = " << rhoF   << nl
-         << "    CpF    = " << CpF    << nl
-         << "    kFuel  = " << kFuel  << nl
+    Info << "    muF       = " << muF       << nl
+         << "    rhoF      = " << rhoF      << nl
+         << "    CpF       = " << CpF       << nl
+         << "    kFuel     = " << kFuel     << nl
+         << "    dHydFuel  = " << dHydFuel  << nl
          << endl;
 
