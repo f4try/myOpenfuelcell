@@ -15,8 +15,6 @@
 //
 
 
-//diffAir.internalField() = 0;
-
 forAll(airSpecies, a)
 {
     airDiff = 0;         //diffusivity field passed to/from model

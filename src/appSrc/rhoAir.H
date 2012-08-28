@@ -11,17 +11,7 @@
 
     // air
     {
-      /**********************************************************
-        scalarField sumYjOnMj(Yair[0].internalField().size(), 0);  //sum(yj/Mj)
-        forAll(Yair, j)
-        {
-            sumYjOnMj += Yair[j].internalField()/airSpecies[j].MW();
-        }
-
-        scalarField& rho = rhoAir.internalField();
-        rho = pAir/(RR*Tair)/sumYjOnMj;
-        rhoAir.correctBoundaryConditions();
-      **********************************************************/
+        // sumAirYIonMI was calculated in getXair.H
 
         scalarField& rho = rhoAir.internalField();
         rho = pAir/(RR*Tair)/sumAirYIonMI;

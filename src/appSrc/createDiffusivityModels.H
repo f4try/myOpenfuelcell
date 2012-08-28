@@ -5,20 +5,6 @@
     // scalarField passed to diff model to return calculated diffusivity
     // --------------------------------
     scalarField airDiff(airMesh.nCells());
-//    scalarField airDiffHC(airMesh.nCells());    //for hardcoded
-
-//    // pointerlist for species diffusivity fields
-//    // ------------------------------------------
-//    label nAirSp = airSpecies.size();
-//    PtrList<scalarField> diffSpAir(nAirSp);
-//    forAll(diffSpAir, a)
-//    {
-//        diffSpAir.set
-//        (
-//            a,
-//            new scalarField(airDiff.size())
-//        );
-//    }
 
     // pointerlist for all air diffusivity models
     // ------------------------------------------
@@ -33,12 +19,6 @@
     const labelList& airCells = airMesh.cellZones()[airZnId];
     const dictionary& airDiffDict = airProperties.subDict("diffusivity");
 
-//    autoPtr<diffusivityModels::diffusivityModel> airRegionDiffusivity
-//    (
-//        diffusivityModels::diffusivityModel::New
-//            (airMesh, airDiffHC, airCells, airDiffDict)
-//    );
-        
     airDiffModels.set
     (
         0,
@@ -81,16 +61,6 @@
             new dictionary(cathodeZones[iz].dict().subDict("diffusivity"))
         );
 
-//        airZnDiffusivity.set
-//        (
-//            iz,
-//            new autoPtr<diffusivityModels::diffusivityModel>
-//            (
-//                diffusivityModels::diffusivityModel::New
-//                    (airMesh, airDiffHC, airZnCells[iz], airZnDiffDict[iz])
-//            )
-//        );
-
         airDiffModels.set
         (
             iz + 1,
@@ -111,20 +81,6 @@
     // scalarField passed to diff model to return calculated diffusivity
     // --------------------------------
     scalarField fuelDiff(fuelMesh.nCells());
-//    scalarField fuelDiffHC(fuelMesh.nCells());
-
-//    // pointerlist for species diffusivity fields
-//    // ------------------------------------------
-//    label nFuelSp = fuelSpecies.size();
-//    PtrList<scalarField> diffSpFuel(nFuelSp);
-//    forAll(diffSpFuel, a)
-//    {
-//        diffSpFuel.set
-//        (
-//            a,
-//            new scalarField(fuelDiff.size())
-//        );
-//    }
 
     // pointerlist for all fuel diffusivity models
     // ------------------------------------------
@@ -138,12 +94,6 @@
     Info<< "zone " << fuelZnId << " fuel" << nl;
     const labelList& fuelCells = fuelMesh.cellZones()[fuelZnId];
     const dictionary& fuelDiffDict = fuelProperties.subDict("diffusivity");
-
-//    autoPtr<diffusivityModels::diffusivityModel> fuelRegionDiffusivity
-//    (
-//        diffusivityModels::diffusivityModel::New
-//            (fuelMesh, fuelDiffHC, fuelCells, fuelDiffDict)
-//    );
 
     fuelDiffModels.set
     (
@@ -186,16 +136,6 @@
             iz,
             new dictionary(anodeZones[iz].dict().subDict("diffusivity"))
         );
-
-//        fuelZnDiffusivity.set
-//        (
-//            iz,
-//            new autoPtr<diffusivityModels::diffusivityModel>
-//            (
-//                diffusivityModels::diffusivityModel::New
-//                   (fuelMesh, fuelDiffHC, fuelZnCells[iz], fuelZnDiffDict[iz])
-//            )
-//        );
 
         fuelDiffModels.set
         (

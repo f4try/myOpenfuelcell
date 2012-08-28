@@ -15,8 +15,6 @@
 //
 
 
-//diffFuel.internalField() = 0;
-
 forAll(fuelSpecies, a)
 {
     fuelDiff = 0;         //diffusivity field passed to/from model

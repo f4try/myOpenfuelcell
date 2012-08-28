@@ -11,17 +11,7 @@
 
     // fuel
     {
-      /**********************************************************
-        scalarField sumYjOnMj(Yfuel[0].internalField().size(), 0);  //sum(yj/Mj)
-        forAll(Yfuel, j)
-        {
-            sumYjOnMj += Yfuel[j].internalField()/fuelSpecies[j].MW();
-        }
-
-        scalarField& rho = rhoFuel.internalField();
-        rho = pFuel/(RR*Tfuel)/sumYjOnMj;
-        rhoFuel.correctBoundaryConditions();
-      **********************************************************/
+        // sumFuelYIonMI was calculated in getXfuel.H
 
         scalarField& rho = rhoFuel.internalField();
         rho = pFuel/(RR*Tfuel)/sumFuelYIonMI;

@@ -25,9 +25,6 @@
             volScalarField& Yi = Yair[i];
             volScalarField& diffAirS = diffSpAir[i];
 
-            //diffAir.internalField() = diffSpAir[i].internalField();
-            //diffAir.correctBoundaryConditions();
-
             solve
             (
                 fvm::ddt(rhoAir, Yi)

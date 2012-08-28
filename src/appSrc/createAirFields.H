@@ -135,76 +135,6 @@
     cpAir.correctBoundaryConditions();
 
 
-    // Read air scalars
-/******************* delete v v v ******************************************
-    multivariateSurfaceInterpolationScheme<scalar>::fieldTable airFields;
-
-    Info<< "Reading air field yO2\n" << endl;
-    volScalarField yO2air
-    (
-        IOobject
-        (
-            "yO2",
-            runTime.timeName(),
-            airMesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        airMesh
-    );
-    airFields.add(yO2air);
-
-    Info<< "Reading air field yN2\n" << endl;
-    volScalarField yN2air
-    (
-        IOobject
-        (
-            "yN2",
-            runTime.timeName(),
-            airMesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        airMesh
-    );
-    airFields.add(yN2air);
-
-
-    // mole fraction fields are calculated from mass fraction fields
-    Info<< "Reading air field moleO2\n" << endl;
-    volScalarField moleO2air
-    (
-        IOobject
-        (
-            "xO2",
-            runTime.timeName(),
-            airMesh,
-            IOobject::READ_IF_PRESENT,
-            IOobject::AUTO_WRITE
-        ),
-        airMesh,
-        dimensionedScalar("xO2", dimensionSet(0, 0, 0, 0, 0, 0, 0), 1),
-        zeroGradientFvPatchScalarField::typeName
-    );
-
-    Info<< "Reading air field moleN2\n" << endl;
-    volScalarField moleN2air
-    (
-        IOobject
-        (
-            "xN2",
-            runTime.timeName(),
-            airMesh,
-            IOobject::READ_IF_PRESENT,
-            IOobject::AUTO_WRITE
-        ),
-        airMesh,
-        dimensionedScalar("xN2", dimensionSet(0, 0, 0, 0, 0, 0, 0), 1),
-        zeroGradientFvPatchScalarField::typeName
-    );
-******************* delete ^ ^ ^ ******************************************/
-
-
     Info<< "Reading air porous zones" << endl;
     porousZones cathodeZones(airMesh);
 
@@ -219,21 +149,3 @@
     }
     Info<< endl;
 
-
-    Info<< "Reading air diffusion field diffAir\n" << endl;
-
-    volScalarField diffAir
-    (
-        IOobject
-        (
-            "diff",
-            runTime.timeName(),
-            airMesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        airMesh
-//        airMesh,
-//        dimensionedScalar("D", dimensionSet(0, 2, -1, 0, 0, 0, 0), 1),
-//        zeroGradientFvPatchScalarField::typeName
-    );

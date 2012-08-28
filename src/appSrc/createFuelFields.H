@@ -136,76 +136,6 @@
     cpFuel.correctBoundaryConditions();
 
 
-    // Read fuel scalars (mass fractions)
-/******************** delete v v v ******************************************
-    multivariateSurfaceInterpolationScheme<scalar>::fieldTable fuelFields;
-
-    Info<< "Reading fuel field yH2\n" << endl;
-    volScalarField yH2fuel
-    (
-        IOobject
-        (
-            "yH2",
-            runTime.timeName(),
-            fuelMesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        fuelMesh
-    );
-    fuelFields.add(yH2fuel);
-
-    Info<< "Reading fuel field yH2O\n" << endl;
-    volScalarField yH2Ofuel
-    (
-        IOobject
-        (
-            "yH2O",
-            runTime.timeName(),
-            fuelMesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        fuelMesh
-    );
-    fuelFields.add(yH2Ofuel);
-
-
-    // mole fraction fields are calculated from mass fraction fields
-    Info<< "Reading fuel field moleH2\n" << endl;
-    volScalarField moleH2fuel
-    (
-        IOobject
-        (
-            "xH2",
-            runTime.timeName(),
-            fuelMesh,
-            IOobject::READ_IF_PRESENT,
-            IOobject::AUTO_WRITE
-        ),
-        fuelMesh,
-        dimensionedScalar("xH2", dimensionSet(0, 0, 0, 0, 0, 0, 0), 1),
-        zeroGradientFvPatchScalarField::typeName
-    );
-
-    Info<< "Reading fuel field moleH2O\n" << endl;
-    volScalarField moleH2Ofuel
-    (
-        IOobject
-        (
-            "xH2O",
-            runTime.timeName(),
-            fuelMesh,
-            IOobject::READ_IF_PRESENT,
-            IOobject::AUTO_WRITE
-        ),
-        fuelMesh,
-        dimensionedScalar("xH2O", dimensionSet(0, 0, 0, 0, 0, 0, 0), 1),
-        zeroGradientFvPatchScalarField::typeName
-    );
-******************** delete ^ ^ ^ ******************************************/
-
-
     Info<< "Reading fuel porous zones" << endl;
     porousZones anodeZones(fuelMesh);
 
@@ -221,25 +151,11 @@
     Info<< endl;
 
 
-    Info<< "Reading fuel diffusion field diffFuel\n" << endl;
-    volScalarField diffFuel
-    (
-        IOobject
-        (
-            "diff",
-            runTime.timeName(),
-            fuelMesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        fuelMesh
-//        fuelMesh,
-//        dimensionedScalar("D", dimensionSet(0, 2, -1, 0, 0, 0, 0), 1),
-//        zeroGradientFvPatchScalarField::typeName
-    );
-
-
     Info<< "creating current density field\n" << endl;
+
+    // NOTE hkr 2012 Aug 28
+    //      I think this field would be better defined on the electrolyte mesh.
+
     volScalarField idensity
     (
         IOobject

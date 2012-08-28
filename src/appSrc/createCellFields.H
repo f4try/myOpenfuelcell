@@ -38,10 +38,6 @@
             IOobject::AUTO_WRITE
         ),
         mesh
-//        mesh,
-//        dimensionedScalar("kc", dimThermalConductivity, 0)
-//        dimensionedScalar("kc", dimensionSet(1, 1, -3, -1, 0, 0, 0), 0),
-//        zeroGradientFvPatchScalarField::typeName
     );
 
     surfaceScalarField phiCell

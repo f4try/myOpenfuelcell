@@ -25,9 +25,6 @@
             volScalarField& Yi = Yfuel[i];
             volScalarField& diffFuelS = diffSpFuel[i];
 
-            //diffFuel.internalField() = diffSpFuel[i].internalField();
-            //diffFuel.correctBoundaryConditions();
-
             solve
             (
                 fvm::ddt(rhoFuel, Yi)

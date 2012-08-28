@@ -40,7 +40,7 @@
     {
         if(airSpecies[i].ne() != 0)
         {
-            polyToddYoung CpI = molarCpAir[i];        // [J/mol]
+            polyToddYoung& CpI = molarCpAir[i];        // [J/mol]
             scalarField hSpI = CpI.polyInt(Tr, anodeT);
             hSpAir.set(i, hSpI);
 
@@ -81,7 +81,7 @@
     {
         if(fuelSpecies[i].ne() != 0)
         {
-            polyToddYoung CpI = molarCpFuel[i];          // [J/mol]
+            polyToddYoung& CpI = molarCpFuel[i];          // [J/mol]
             scalarField hSpI = CpI.polyInt(Tr, anodeT);
             hSpFuel.set(i, hSpI);
 
