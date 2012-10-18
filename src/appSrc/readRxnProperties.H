@@ -54,6 +54,10 @@
     {
         Info << "stoichCoeff e = " << rxnSpCoef["e"] << nl;
     }
+    else
+    {
+        Info << "*** ERROR *** required rxnSpCoeff 'e' not found" << nl;
+    }
 
     Info << endl;
 

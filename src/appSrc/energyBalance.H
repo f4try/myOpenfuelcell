@@ -1,5 +1,6 @@
 {
     // integrate heat flux over all patches
+    // ------------------------------------
     
     scalar qVect = 0;      //patch integral of convective flux
     scalar qVectSum = 0;   //accumulator over all patches
@@ -42,10 +43,16 @@
 
 
     // electrolyte heating
+    // -------------------
     scalar qSrcSum = gSum
     (
         TsourceCell.internalField()*mesh.V()
     );
     Info<< " sum(TsourceCell dV) = " << qSrcSum << nl << endl;
+
+
+    // Heat transfer from gases to solids (solid component temperature gain)
+    // ----------------------------------
+
 }
 

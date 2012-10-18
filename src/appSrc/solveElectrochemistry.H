@@ -149,7 +149,8 @@
 
 
     // Calculate species sources and sinks and set
-    // boundary conditions for scalars
+    // boundary conditions for mass fractions and velocity
+    // at fluid/electrode interfaces
 
     // Air side
     {
@@ -317,7 +318,7 @@
         Info<< endl;
 
 
-        // Set the interface velAcity condition
+        // Set the interface velocity condition
         Ufuel.boundaryField()[anodeID] ==
         (
             -(mfluxSum)
@@ -330,5 +331,3 @@
     }
 }
 
-// air, fuel utilization from outlet flow rates previously calculated here
-// now included in O2utilization, H2utilization above
