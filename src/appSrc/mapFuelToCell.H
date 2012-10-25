@@ -2,18 +2,6 @@
     {
         // Create fields from fuel side
 
-        //scalarField rhoCpF_old
-        //(
-        //    fuelMesh.nCells(),
-        //    CpFuel.value()
-        //);
-        //rhoCpF_old *= rhoFuel.internalField();
-        //
-        //Info << nl;
-        //Info<< "min mean max rhoCpF_old = " << gMin(rhoCpF_old) << " "
-        //    << gMin(rhoCpF_old) << " " << gMin(rhoCpF_old) << nl;
-
-
         // mass based heat capacity cp
         // cp [J/kg-K] = Cp/M where Cp = [J/mol-K], M = [kg/mol]
 

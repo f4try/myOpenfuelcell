@@ -55,32 +55,3 @@
         << "    electrolyteCathodeName = " << electrolyteCathodeName << nl
         << endl;
 
-
-    // molecular weights [kg/mol] and valencies
-    // ----------------------------------------
-//    const scalar MH2 = (2*atomicWeights["H"])/1000.0;
-//    const scalar MH2O= (2*atomicWeights["H"] + atomicWeights["O"])/1000.0;
-//    const scalar MO2 = (2*atomicWeights["O"])/1000.0;
-//    const scalar MN2 = (2*atomicWeights["N"])/1000.0;
-//
-//    const scalar vH2 = 2;
-//    const scalar vH2O= 2;
-//    const scalar vO2 = 4;
-//
-//    //echo to stdout
-//    Info<< "    MH2  = " << MH2   << nl
-//        << "    MH2O = " << MH2O  << nl
-//        << "    MO2  = " << MO2   << nl
-//        << "    MN2  = " << MN2   << nl
-//        << "    vH2  = " << vH2   << nl
-//        << "    vH2O = " << vH2O  << nl
-//        << "    vO2  = " << vO2   << nl
-//        << endl;
-
-
-//    // Faraday's constant (charge of electron)
-//    const scalar F = physicalConstant::F.value();
-
-//    // Universal gas constant
-//    const scalar Rgas = physicalConstant::Rgas.value();
-

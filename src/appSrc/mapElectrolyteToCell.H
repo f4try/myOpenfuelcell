@@ -57,41 +57,5 @@
         // Do flux boundary conditions
 //         forAll (electrolytePatchesMap, patchI)
 //         {
-//             // Map only real matching patches.  HJ, 22/May/2011
-//             if
-//             (
-//                 electrolytePatchesMap[patchI] > -1
-//              && electrolytePatchesMap[patchI] < mesh.boundary().size()
-//             )
-//             {
-//                 // Patch maps
-//                 labelField curFpm
-//                 (
-//                     labelField::subField
-//                     (
-//                         electrolyteFaceMap,
-//                         electrolyteMesh.boundary()[patchI].size(),
-//                         electrolyteMesh.boundary()[patchI].patch().start()
-//                     )
-//                 );
-
-//                 curFpm -= mesh.boundary()
-//                     [electrolytePatchesMap[patchI]].patch().start();
-
-//                 phiCell.boundaryField()[electrolytePatchesMap[patchI]].
-//                     scalarField::rmap
-//                     (
-//                         scalarField(curFpm.size(), 0),
-//                         curFpm
-//                     );
-
-//                 rhoCpPhiCell.boundaryField()[electrolytePatchesMap[patchI]].
-//                     scalarField::rmap
-//                     (
-//                         scalarField(curFpm.size(), 0),
-//                         curFpm
-//                     );
-
-//             }
 //         }
     }

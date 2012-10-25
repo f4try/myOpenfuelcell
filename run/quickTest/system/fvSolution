@@ -19,17 +19,18 @@ solvers
 {
     T
     {
-//        solver           PBiCG;
-//        preconditioner   DILU;
+        solver           PBiCG;
+        preconditioner   DILU;
+        maxIter          5000;
 
-        solver           smoothSolver;
-        smoother         GaussSeidel;
-        nSweeps          20;
+        //solver           smoothSolver;
+        //smoother         GaussSeidel;
+        //nSweeps          20;
+        //maxIter          50000;
 
         tolerance        1e-10;
         relTol           0;
         minIter          1;
-        maxIter          50000;
     }
 }
 

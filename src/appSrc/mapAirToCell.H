@@ -2,18 +2,6 @@
     {
         // Create fields from air side
 
-        //scalarField rhoCpF_old
-        //(
-        //    airMesh.nCells(),
-        //    CpAir.value()
-        //);
-        //rhoCpF_old *= rhoAir.internalField();
-        //
-        //Info << nl;
-        //Info<< "min mean max rhoCpF_old = " << gMin(rhoCpF_old) << " "
-        //    << gMin(rhoCpF_old) << " " << gMin(rhoCpF_old) << nl;
-
-
         // mass based heat capacity cp
         // cp [J/kg-K] = Cp/M where Cp = [J/mol-K], M = [kg/mol]
 
