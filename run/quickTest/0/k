@@ -40,6 +40,10 @@ boundaryField
     {
         type         zeroGradient;
     }
+    airSides
+    {
+        type         zeroGradient;
+    }
     cathodeSides
     {
         type         zeroGradient;
@@ -68,6 +72,10 @@ boundaryField
                                        // value 0 causes harmonic averaging FPE
     }
     fuelOutlet
+    {
+        type         zeroGradient;
+    }
+    fuelSides
     {
         type         zeroGradient;
     }
