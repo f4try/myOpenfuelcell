@@ -1,0 +1,5 @@
+#!/bin/csh
+
+which mpirun
+mpirun -mca mpi_warn_on_fork 0 -np $NPROCS  sofcFoam  -parallel
+

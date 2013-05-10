@@ -1,0 +1,95 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (1 0 0);
+
+boundaryField
+{
+    interconnect0
+    {
+        type            zeroGradient;    
+    }
+    interconnect0Sides
+    {
+        type            zeroGradient;
+    }
+    airInlet
+    {
+        type            fixedValue;
+        value           uniform (1 0 0);
+    }
+    airOutlet
+    {
+        type            zeroGradient;
+    }
+    airSides
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    cathodeSides
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }    
+    cflSides
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }        
+    electrolyteSides
+    {
+        type            zeroGradient;
+    }
+    aflSides
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    } 
+    anodeSides
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }         
+    fuelInlet
+    {
+        type            fixedValue;
+        value           uniform (1 0 0);
+    }
+    fuelOutlet
+    {
+        type            zeroGradient;
+    }
+    fuelSides
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }    
+    interconnect1
+    {
+        type            zeroGradient;    
+    }
+    interconnect1Sides
+    {
+        type            zeroGradient;
+    }
+}
+
+
+// ************************************************************************* //
