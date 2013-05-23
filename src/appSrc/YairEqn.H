@@ -33,7 +33,8 @@
                 airMesh.solver("Yi")
             );
 
-            Yi.max(0.0);
+            //Yi.max(0.0);
+            Yi.max(Foam::doubleScalarSMALL);
             Yt += Yi;
         }
         else
@@ -44,7 +45,8 @@
 
     Info<< "inertIndex = " << inertIndex << nl;
     Yair[inertIndex] = scalar(1) - Yt;
-    Yair[inertIndex].max(0.0);
+    //Yair[inertIndex].max(0.0);
+    Yair[inertIndex].max(Foam::doubleScalarSMALL);
 
     forAll(Yair, i)
     {

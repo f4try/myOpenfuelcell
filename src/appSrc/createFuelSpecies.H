@@ -17,14 +17,31 @@
     // species names
     // -------------
     speciesTable fuelSpeciesNames(fuelSpeciesDict.lookup("speciesList"));
-    forAll(fuelSpeciesNames, i)
-    {
-        Info<< "fuelSpeciesNames[" << i << "] " << fuelSpeciesNames[i] << nl;
-    }
+
+    //forAll(fuelSpeciesNames, i)
+    //{
+    //    Info<< "fuelSpeciesNames[" << i << "] " << fuelSpeciesNames[i] << nl;
+    //}
 
 
     // species data
     // ------------
+    PtrList<sofcSpecie> fuelSpecies(fuelSpeciesNames.size());
+
+    forAll(fuelSpeciesNames, i)
+    {
+        sofcSpecie tmp(fuelSpeciesDict.lookup(fuelSpeciesNames[i]));
+        fuelSpecies.set
+        (
+            i,
+            new sofcSpecie(tmp)
+        );
+    }
+
+
+if (Pstream::myProcNo() == 0)
+{
+    // header
           //fuelSpecies[i] H2O        18.01534        2        1        -241834
     cout<< "               "
         << std::setiosflags(std::ios::left)
@@ -42,17 +59,8 @@
         << "sForm"
         << nl;
 
-    PtrList<sofcSpecie> fuelSpecies(fuelSpeciesNames.size());
-
-    forAll(fuelSpeciesNames, i)
+    forAll(airSpeciesNames, i)
     {
-        sofcSpecie tmp(fuelSpeciesDict.lookup(fuelSpeciesNames[i]));
-        fuelSpecies.set
-        (
-            i,
-            new sofcSpecie(tmp)
-        );
-
         cout<< "fuelSpecies[" << i    << "] "
             << std::setiosflags(std::ios::left)
             << std::setw(8)
@@ -70,6 +78,7 @@
             << nl;
     }
     Info << nl;
+}
 
 
     // background specie (not necessarily chemically inert)

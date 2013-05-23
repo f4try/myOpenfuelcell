@@ -11,6 +11,6 @@
             IOobject::AUTO_WRITE
         ),
         electrolyteMesh,
-        HsrcElectrolyte,
+        0,
         zeroGradientFvPatchScalarField::typeName
     );

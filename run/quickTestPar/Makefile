@@ -38,6 +38,8 @@ regionMesh:
 	(setsToZones -noFlipMap -region air);
 	(setSet -batch ./config/make.setFuel -region fuel -noVTK);
 	(setsToZones -noFlipMap -region fuel);
+	(rm -f constant/[aefi]*/[kpTU] constant/[aefi]*/rho);
+	(rm -f constant/[aefi]*/Y* constant/[aefi]*/diff*);
 control:
 	(cp -rf ./system/controlDict.run ./system/controlDict);
 #############

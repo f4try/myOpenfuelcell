@@ -33,7 +33,8 @@
                 fuelMesh.solver("Yi")
             );
 
-            Yi.max(0.0);
+            //Yi.max(0.0);
+            Yi.max(Foam::doubleScalarSMALL);
             Yt += Yi;
         }
         else
@@ -44,7 +45,8 @@
 
     Info<< "inertIndex = " << inertIndex << nl;
     Yfuel[inertIndex] = scalar(1) - Yt;
-    Yfuel[inertIndex].max(0.0);
+    //Yfuel[inertIndex].max(0.0);
+    Yfuel[inertIndex].max(Foam::doubleScalarSMALL);
 
     forAll(Yfuel, i)
     {

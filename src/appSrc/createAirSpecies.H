@@ -17,14 +17,31 @@
     // species names
     // -------------
     speciesTable airSpeciesNames(airSpeciesDict.lookup("speciesList"));
-    forAll(airSpeciesNames, i)
-    {
-        Info<< "airSpeciesNames[" << i << "] " << airSpeciesNames[i] << nl;
-    }
+
+    //forAll(airSpeciesNames, i)
+    //{
+    //    Info<< "airSpeciesNames[" << i << "] " << airSpeciesNames[i] << nl;
+    //}
 
 
     // species data
     // ------------
+    PtrList<sofcSpecie> airSpecies(airSpeciesNames.size());
+
+    forAll(airSpeciesNames, i)
+    {
+        sofcSpecie tmp(airSpeciesDict.lookup(airSpeciesNames[i]));
+        airSpecies.set
+        (
+            i,
+            new sofcSpecie(tmp)
+        );
+    }
+
+
+if (Pstream::myProcNo() == 0)
+{
+    // header
           //airSpecies[0] O2        31.9988        4        -1        0
     cout<< "              "
         << std::setiosflags(std::ios::left)
@@ -42,17 +59,8 @@
         << "sForm"
         << nl;
 
-    PtrList<sofcSpecie> airSpecies(airSpeciesNames.size());
-
     forAll(airSpeciesNames, i)
     {
-        sofcSpecie tmp(airSpeciesDict.lookup(airSpeciesNames[i]));
-        airSpecies.set
-        (
-            i,
-            new sofcSpecie(tmp)
-        );
-
         cout<< "airSpecies[" << i    << "] "
             << std::setiosflags(std::ios::left)
             << std::setw(8)
@@ -70,6 +78,7 @@
             << nl;
     }
     Info << nl;
+}
 
 
     // background specie for mass fraction calculations
