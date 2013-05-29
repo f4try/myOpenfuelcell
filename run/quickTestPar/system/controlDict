@@ -44,5 +44,11 @@ timePrecision   6;
 
 runTimeModifiable yes;
 
+DebugSwitches
+{
+Pstream             1;
+IFstream            1;
+OFstream            1;
+}
 // ************************************************************************* //
 

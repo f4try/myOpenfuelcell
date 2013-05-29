@@ -1,4 +1,6 @@
 // Reynolds number @ airInlet
+
+if(ReA)
 { 
     scalar ReAir= dHydAir.value()*Foam::mag
     (
@@ -15,6 +17,8 @@
 
 
 // Reynolds number @ fuelInlet
+
+if(ReF)
 {
     scalar ReFuel= dHydFuel.value()*Foam::mag
     (

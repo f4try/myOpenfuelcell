@@ -135,7 +135,6 @@ int main(int argc, char *argv[])
 
     #   include "mapToCell.H"
     #   include "solveEnergy.H"
-    //   include "energyBalance.H"    // under construction
 
         runTime.write();
 

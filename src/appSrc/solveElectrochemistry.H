@@ -8,6 +8,19 @@
     const scalar Tr = 298.15;  //reference Temperature [K] for thermodynamics
 
 
+// hkr 2013 May 24
+// ---------------
+    // initialize current density field
+    static scalarField i(anodePatch.size());
+    if(firstTime)
+    {
+        //i = ibar0.value();
+        // idensity field is initialized with ibar0.
+        // anode patch is later updated by i
+        i = idensity.boundaryField()[anodeID];
+    }
+
+
     // Interpolate global temperature to electrolyte/fuel interface
     // ------------------------------------------------------------
     scalarField anodeT(anodePatch.size());
@@ -118,16 +131,15 @@
 
 
     // Calculate current density
-    scalarField i = (Nernst - V.value())/R;
+    //scalarField i = (Nernst - V.value())/R;
+    i = (Nernst - V.value())/R;
 
-    // ensure non-negativity
-    i = Foam::max(i, 0.0);
+    // ensure i > 0
+    i = Foam::max(i, Foam::doubleScalarSMALL);
 
-    scalarField& idensityIn = idensity.internalField();
-    smearPatchToMesh smearIdensity(fuelMesh, anodeName);
-    idensityIn = smearIdensity.smear(i);
-    idensity.correctBoundaryConditions();
-    idensity.boundaryField()[anodeID] == i;
+    // idensity field provides visualization
+    // and is used only for initialization
+    #include "idensity.H"
 
     // mean current density
     dimensionedScalar ibar ("ibar", dimensionSet(0, -2, 0, 0, 0, 1, 0), 0.0);
@@ -137,12 +149,22 @@
          << Foam::min(i) <<" , " << ibar.value() << " , "
          << Foam::max(i) << endl;
 
-    // voltage correction
-    V += Rhat*(ibar - ibar0);
 
-    Info << "ibar0 = " << ibar0.value()
-         << "    ibar = " << ibar.value()
-         << "    V = " << V.value() << endl;
+    // voltage correction
+    if (galvanostatic)
+    {
+        V += Rhat*(ibar - ibar0);
+
+        Info << "ibar0 = " << ibar0.value()
+             << "    ibar = " << ibar.value()
+             << "    V = " << V.value() << endl;
+    }
+    else
+    {
+        Info << "    ibar = " << ibar.value()
+             << "    V = " << V.value() << endl;
+    }
+
 
     // Calculate electrochemical heating
     #include "electrochemicalHeating.H"

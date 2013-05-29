@@ -167,6 +167,11 @@
             IOobject::AUTO_WRITE
         ),
         fuelMesh,
-        dimensionedScalar("i", dimensionSet(0, -2, 0, 0, 0, 1, 0), 0),
+        dimensionedScalar
+        (
+            "i",
+            dimensionSet(0, -2, 0, 0, 0, 1, 0),
+            ibar0.value()
+        ),
         zeroGradientFvPatchScalarField::typeName
     );

@@ -23,4 +23,6 @@ foamClearPolyMesh -region electrolyte
 foamClearPolyMesh -region interconnect0
 foamClearPolyMesh -region interconnect1
 
+rmdir constant/[aefi]*/polyMesh
+
 # ----------------------------------------------------------------- end-of-file

@@ -13,17 +13,34 @@
     );
 
 
+    Switch galvanostatic(cellProperties.lookup("galvanostatic"));
+
     dimensionedScalar V(cellProperties.lookup("voltage"));
     dimensionedScalar ibar0(cellProperties.lookup("ibar0"));
-    dimensionedScalar Rhat(cellProperties.lookup("Rhat"));
     dimensionedScalar Tinit(cellProperties.lookup("Tinit"));
+    dimensionedScalar Rhat("Rhat", dimensionSet(1, 4, -3, 0, 0, -2, 0), 0);
 
     // echo inputs from dictionary to stdout
-    Info<< "    V     = " << V     << nl
-        << "    ibar0 = " << ibar0 << nl
-        << "    Rhat  = " << Rhat  << nl
-        << "    Tinit = " << Tinit << nl
-        << endl;
+    // -------------------------------------
+    if (galvanostatic)
+    {
+        Info<< "galvanostatic run" << nl;
+        Info<< "    V     = " << V << nl;
+        Info<< "    ibar0 = " << ibar0 << nl;
+
+        Rhat = cellProperties.lookup("Rhat");
+        Info<< "    Rhat  = " << Rhat << nl;
+    }
+    else
+    {
+        Info<< "potentiostatic run" << nl;
+        Info<< "    ibar0 = " << ibar0 << nl;
+        Info<< "    V     = " << V << nl;
+    }
+
+    Info<< "    Tinit = " << Tinit << nl;
+    Info<< endl;
+
 
 
     // special patch names
