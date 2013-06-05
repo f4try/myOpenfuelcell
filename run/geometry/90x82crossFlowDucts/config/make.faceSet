@@ -1,0 +1,16 @@
+faceSet interconnect0      new patchToFace interconnect0 all
+faceSet interconnect0Sides new patchToFace interconnect0Sides all
+
+faceSet airSides  new patchToFace airSides  all
+faceSet airInlet  new patchToFace airInlet  all
+faceSet airOutlet new patchToFace airOutlet all
+
+faceSet electrolyteSides new patchToFace electrolyteSides all
+
+faceSet fuelSides  new patchToFace fuelSides  all
+faceSet fuelInlet  new patchToFace fuelInlet  all
+faceSet fuelOutlet new patchToFace fuelOutlet all
+
+faceSet interconnect1Sides new patchToFace interconnect1Sides all
+faceSet interconnect1      new patchToFace interconnect1  all
+

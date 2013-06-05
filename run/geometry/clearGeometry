@@ -1,0 +1,37 @@
+#!/bin/csh
+
+# clear geometry files from a case directory
+
+#
+# USAGE:  clearGeometry <casePathName>
+#
+# e.g., clearGeometry ../case
+#
+
+# check number of arguments and their existence
+
+if ($#argv != 1) then
+    echo " USAGE:  clearGeometry <casePathName>"
+    exit
+endif
+
+set CASEDIR = $1
+if( ! -d $CASEDIR ) then
+    echo "directory not found: " ${CASEDIR}
+    exit
+endif
+
+
+# clear
+echo "clearing geometry from: " ${CASEDIR}
+
+rm -f ${CASEDIR}/Makefile
+rm -rf ${CASEDIR}/config/
+rm -f ${CASEDIR}/system/controlDict.mesh
+rm -f ${CASEDIR}/system/createPatchDict
+rm -f ${CASEDIR}/constant/polyMesh/blockMeshDict
+rm -f ${CASEDIR}/constant/air/porousZones
+rm -f ${CASEDIR}/constant/fuel/porousZones
+
+echo "done"
+exit(0)

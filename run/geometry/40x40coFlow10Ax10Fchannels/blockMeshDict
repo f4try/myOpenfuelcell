@@ -1,0 +1,212 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    object          blockMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+convertToMeters 0.001;
+
+vertices        
+(
+// From Bottom To Top
+// Interconnect0
+    (0 0 0)
+    (40.0 0 0)
+    (40.0 40.0 0)
+    (0 40.0 0)
+// Interconnect0_to_Air
+    (0 0 3.5)
+    (40.0 0 3.5)
+    (40.0 40.0 3.5)
+    (0 40.0 3.5)
+// Air_to_cathode 
+    (0 0 5.0)
+    (40.0 0 5.0)
+    (40.0 40.0 5.0)
+    (0 40.0 5.0)
+// cathode_to_cfl 
+    (0 0 5.267)
+    (40.0 0 5.267)
+    (40.0 40.0 5.267)
+    (0 40.0 5.267)    
+// cfl_to_Electrolyte (Cathode)
+    (0 0 5.285)
+    (40.0 0 5.285)
+    (40.0 40.0 5.285)
+    (0 40.0 5.285)     
+// Electrolyte_to_afl (AFL)
+    (0 0 5.293)
+    (40.0 0 5.293)
+    (40.0 40.0 5.293)
+    (0 40.0 5.293)
+// afl_to_anode (Anode)
+    (0 0 5.3)
+    (40.0 0 5.3)
+    (40.0 40.0 5.3)
+    (0 40.0 5.3)
+// anode_to_Fuel
+    (0 0 6.3)
+    (40.0 0 6.3)
+    (40.0 40.0 6.3)
+    (0 40.0 6.3)    
+// anode_to_Interconnect1
+    (0 0 7.8)
+    (40.0 0 7.8)
+    (40.0 40.0 7.8)
+    (0 40.0 7.8)
+// Interconnect1
+    (0 0 11.3)
+    (40.0 0 11.3)
+    (40.0 40.0 11.3)
+    (0 40.0 11.3)
+);
+
+blocks          
+(
+// Interconnect 0
+    hex (0 1 2 3 4 5 6 7) (40 40 8) simpleGrading (1 1 1)
+// air    
+    hex (4 5 6 7 8 9 10 11) (40 40 16) simpleGrading (1 1 1)   
+// cathode    
+    hex (8 9 10 11 12 13 14 15) (40 40 8) simpleGrading (1 1 1)
+// cfl   
+    hex (12 13 14 15 16 17 18 19) (40 40 8) simpleGrading (1 1 1)
+// electrolyte     
+    hex (16 17 18 19 20 21 22 23) (40 40 8) simpleGrading (1 1 1)   
+// afl 
+    hex (20 21 22 23 24 25 26 27) (40 40 8) simpleGrading (1 1 1)       
+// anode     
+    hex (24 25 26 27 28 29 30 31) (40 40 16) simpleGrading (1 1 1)          
+// fuel    
+    hex (28 29 30 31 32 33 34 35) (40 40 16) simpleGrading (1 1 1)             
+// Interconnect 1    
+    hex (32 33 34 35 36 37 38 39) (40 40 8) simpleGrading (1 1 1)        
+);
+
+edges           
+(
+);
+
+patches         
+(
+// From Bottom to Top
+// Interconnect0
+    patch interconnect0
+    (
+        (0 3 2 1)
+    )
+    patch interconnect0Sides
+    (
+        (0 1 5 4)
+        (3 7 6 2)
+        (0 4 7 3)
+        (1 2 6 5)
+    )
+// Air
+    patch airInlet
+    (
+        (4 8 11 7)
+    )
+    patch airOutlet
+    (
+        (5 6 10 9)
+    )
+    patch airSides
+    (
+        (4 5 9 8)	//(4 8 11 7)
+        (7 11 10 6)	//(5 6 10 9)
+    )
+        
+// cathode
+    patch cathodeSides
+    (
+        (8 9 13 12)
+        (11 15 14 10)
+        (8 12 15 11)
+        (9 10 14 13)
+    )
+    
+// cfl
+    patch cflSides
+    (
+        (12 13 17 16)
+        (15 19 18 14)
+        (12 16 19 15)
+        (13 14 18 17)
+    )
+    
+// Electrolyte
+    patch electrolyteSides
+    (
+        (16 17 21 20)
+        (19 23 22 18)
+        (16 20 23 19)
+        (17 18 22 21)
+    )
+        
+// afl
+    patch aflSides
+    (
+        (20 24 27 23)
+        (21 22 26 25)
+        (20 21 25 24)
+        (23 27 26 22)
+    )
+    
+// anode
+    patch anodeSides
+    (
+        (24 28 31 27)
+        (25 26 30 29)
+        (24 25 29 28)
+        (27 31 30 26)
+    )
+    
+// Fuel
+    patch fuelInlet
+    (
+        (28 32 35 31)
+    )
+    patch fuelOutlet
+    (
+        (29 30 34 33)
+    )
+    patch fuelSides
+    (
+        (31 35 34 30)	//inlet	(cross flow)
+        (28 29 33 32)   //outlet (cross flow)
+    )
+    
+// Interconnect1
+    patch interconnect1Sides
+    (
+        (32 33 37 36)
+        (35 39 38 34)
+        (32 36 39 35)
+        (33 34 38 37)
+    )    
+	patch interconnect1
+    (
+        (36 37 38 39)
+    )
+);
+
+mergePatchPairs 
+(
+);
+
+
+// ************************************************************************* //

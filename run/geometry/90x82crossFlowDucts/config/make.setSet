@@ -1,0 +1,10 @@
+cellSet interconnect0 new boxToCell (0 0 0)        (90.0e-3 82.0e-3 1.016e-3)
+
+cellSet air           new boxToCell (0 0 1.016e-3) (90.0e-3 82.0e-3 1.905e-3)
+
+cellSet electrolyte   new boxToCell (0 0 1.905e-3) (90.0e-3 82.0e-3 3.048e-3)
+
+cellSet fuel          new boxToCell (0 0 3.048e-3) (90.0e-3 82.0e-3 4.1148e-3)
+
+cellSet interconnect1 new boxToCell (0 0 4.1148e-3) (90.0e-3 82.0e-3 5.1308)
+

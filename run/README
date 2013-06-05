@@ -1,0 +1,77 @@
+Directory "geometry" contains a number of subdirectoies, each of which contain
+files for a specific geometry and the generation of its meshes.
+
+Directory "case" contains model input files necessary to run the model, other
+than those required to build the meshes.
+
+Script "installGeomtry" can be used to import the mesh-making files from one of
+the geometry subdirectories to a case directory.  See the USAGE line in the
+script.  The script "installGeomtry" uses the script "clearGeometry".
+
+The out-of-box "case" files are unlikely to fully conform to the user's needs, 
+and should be modified accordingly.  The following list shows a few details.
+
+    run mode ..................... galvanostatic
+    mean current density ......... 4000 A/m^2
+    inlet air velocity vector .... [1 0 0]
+    inlet fuel velocity vector ... [1 0 0]
+    air species .................. O2, N2  (YO2 = 0.233, YN2 = 0.767 at inlet)
+    fuel species ................. H2 H2O  (YH2 = 0.782, YH2O = 0.218 at inlet)
+    inlet gas temperature ........ 1000K
+    inlet gas properties ......... consistent with composition and temperature
+                                   (using NIST webbook)
+
+The fields in the "0" directory are defined on the global mesh.  They are subset
+to the region meshes during mesh splitting.
+Note that the given fluid velocity vectors are consistent only with a co-flow 
+configuration.
+
+In each geometry subdirectory there is a Makefile which can be used to easily
+build the meshes and run the model.  The Makefile targets of most immediate
+interest to the user are:
+    Allser:
+    Allpar:
+    mesh:
+    parprep:
+    runpar:
+    runser:
+    reconstruct:
+    view:
+
+
+SERIAL RUN
+---------
+To build the meshes, run the code in serial from the command line, and generate
+the VTK files for viewing:
+    make Allser
+This is equivalent to the sequence
+    make mesh
+    make runser
+    make view
+To submit the run to a queue, first
+    make mesh
+and then submit a script to your queue.
+On completion of the run:
+    make view
+
+
+PARALLEL RUN
+------------
+Set the environment variable NPROCS to the desired number of processors.
+Ensure consistency with parameters in system/decomposeParDict.
+
+To build the meshes, run the code in parallel from the command line, and
+generate the VTK files for viewing:
+    make Allpar
+This is equivalent to the sequence
+    make mesh
+    make parprep
+    make reconstruct
+    make view
+To submit the run to a queue, first
+    make mesh
+    make parprep
+and then submit a script to your queue.
+On completion of the run:
+    make reconstruct
+    make view

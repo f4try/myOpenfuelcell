@@ -21,14 +21,6 @@ internalField   uniform 0;
 
 boundaryField
 {
-    aflSides
-    {
-        type          zeroGradient;
-    }
-    anodeSides
-    {
-        type          zeroGradient;
-    }
     fuelInlet
     {
         type          fixedValue;
@@ -39,11 +31,23 @@ boundaryField
     {
         type          zeroGradient;
     }
-    fuel_to_interconnect1
+    fuelSides
+    {
+        type          zeroGradient;
+    }
+    anodeSides
+    {
+        type          zeroGradient;
+    }
+    aflSides
     {
         type          zeroGradient;
     }
     fuel_to_electrolyte
+    {
+        type          zeroGradient;
+    }
+    fuel_to_interconnect1
     {
         type          zeroGradient;
     }

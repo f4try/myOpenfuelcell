@@ -1,0 +1,3 @@
+faceSet airSides  new patchToFace airSides  all
+faceSet airInlet  new patchToFace airInlet  all
+faceSet airOutlet new patchToFace airOutlet all

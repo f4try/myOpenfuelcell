@@ -1,0 +1,3 @@
+faceSet fuelSides  new patchToFace fuelSides  all
+faceSet fuelInlet  new patchToFace fuelInlet  all
+faceSet fuelOutlet new patchToFace fuelOutlet all

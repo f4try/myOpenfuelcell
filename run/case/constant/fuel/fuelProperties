@@ -1,0 +1,41 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    object          transportProperties;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// Fuel(0.782*H2 + 0.218*H2O by mass) properties @ 1000 K
+
+rho             rho     [1 -3 0 0 0 0 0]     0.0305;
+mu              mu      [1 -1 -1 0 0 0 0]    2.41e-5;
+Cp              Cp      [0 2 -2 -1 0 0 0]    1.22e4;
+k               k       [1 1 -3 -1 0 0 0]    0.432;
+
+// hydraulic diameter for Reynolds Number calculation
+// not calculated if value = 0
+dHyd            dHyd    [0 1 0 0 0 0 0]      0;
+
+diffusivity
+{
+    //type        fixedDiffusivity;
+    //diff0       diff0 [0 2 -1 0 0 0 0]  7.6e-4;
+    // --------------------------------------
+    type        binaryFSG;
+    Tname       T;
+    pName       p;
+    speciesA    H2;
+    speciesB    H2O;
+}
+
+// ************************************************************************* //

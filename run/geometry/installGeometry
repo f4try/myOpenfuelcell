@@ -1,0 +1,50 @@
+#!/bin/csh
+
+# Transfer geometry files from a geometry directory to a case directory
+# The case directory must already exist
+# Existing geometry in the case directory will be overwritten.
+
+#
+# USAGE:  installGeometry <geometryPathName> <casePathName>
+#
+# eg: installGeometry ./40x24coFlow3Ax3Fchannels ../case
+#
+
+# check number of arguments and their existence
+
+if ($#argv != 2) then
+    echo " USAGE:  installGeometry <geometryPathName> <casePathName>
+    exit
+endif
+
+set GEODIR = $1
+if(! -d $GEODIR) then
+    echo "directory not found: " ${GEODIR}
+    exit
+endif
+
+set CASEDIR = $2
+if( ! -d $CASEDIR ) then
+    echo "directory not found: " ${CASEDIR}
+    exit
+endif
+
+
+# clear
+clearGeometry ${CASEDIR}
+
+
+# install
+echo "installing geometry: " ${GEODIR}
+echo "               into: " ${CASEDIR}
+
+cp -p ${GEODIR}/Makefile ${CASEDIR}
+cp -rp ${GEODIR}/config/ ${CASEDIR}
+cp -p ${GEODIR}/controlDict.mesh ${CASEDIR}/system/
+cp -p ${GEODIR}/createPatchDict ${CASEDIR}/system/
+cp -p ${GEODIR}/blockMeshDict ${CASEDIR}/constant/polyMesh/
+cp -p ${GEODIR}/porousZonesAir ${CASEDIR}/constant/air/porousZones
+cp -p ${GEODIR}/porousZonesFuel ${CASEDIR}/constant/fuel/porousZones
+
+echo "done"
+exit(0)
