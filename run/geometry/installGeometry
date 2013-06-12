@@ -34,6 +34,20 @@ endif
 clearGeometry ${CASEDIR}
 
 
+# ensure existence of required case subdirectories
+if (! -d ${CASEDIR}/constant/polyMesh) then
+    mkdir ${CASEDIR}/constant/polyMesh
+endif
+
+if (! -d ${CASEDIR}/0/air) then
+    mkdir ${CASEDIR}/0/air
+endif
+
+if (! -d ${CASEDIR}/0/fuel) then
+    mkdir ${CASEDIR}/0/fuel
+endif
+
+
 # install
 echo "installing geometry: " ${GEODIR}
 echo "               into: " ${CASEDIR}
