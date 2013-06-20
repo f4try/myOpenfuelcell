@@ -50,6 +50,9 @@ reconstruct:
 	(reconstructPar);
 	(reconstructPar -region air);
 	(reconstructPar -region fuel);
+	(reconstructPar -region electrolyte);
+	(reconstructPar -region interconnect0);
+	(reconstructPar -region interconnect1);
 #############
 view:
 	(foamToVTK -latestTime);

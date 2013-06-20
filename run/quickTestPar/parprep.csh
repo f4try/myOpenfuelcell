@@ -1,8 +1,8 @@
 #!/bin/csh
 
 ## edit system/decomposeParDict for the desired decomposition
-## set environment variable NPROCS to number of processors.  e.g.,
-## setenv NPROCS 2
+## set environment variable NPROCS to number of processors.
+##     e.g., setenv NPROCS 2
 ## make mesh
 ##
 ## then:
@@ -13,15 +13,20 @@ echo "NPROCS = " $NPROCS
 
 # To reconstruct and visualize the regions, we need the *ProcAddressing files
 # created by decomposePar -region <region name>
-# Only the fluid subregions have fields, so we restrict this decomp to fluids
-# After the fluid region decomp, we rename the processor* directories as proc_*
+# After the region decomp, we rename the processor* directories as proc_*
 # to (a) allow the parallel decomp to proceed 
 # while (b) saving the *ProcAddressing files for later copy
 #
 cp system/decomposeParDict system/air
 cp system/decomposeParDict system/fuel
+cp system/decomposeParDict system/electrolyte
+cp system/decomposeParDict system/interconnect0
+cp system/decomposeParDict system/interconnect1
 decomposePar -region air
 decomposePar -region fuel
+decomposePar -region electrolyte
+decomposePar -region interconnect0
+decomposePar -region interconnect1
 rename processor proc_ processor*
 
 
@@ -46,6 +51,9 @@ while ( $i < $NPROCS )
     # copy the new region fields to the 0 dir
     cp -rf 1/air ./0
     cp -rf 1/fuel ./0
+    cp -rf 1/electrolyte ./0
+    cp -rf 1/interconnect0 ./0
+    cp -rf 1/interconnect1 ./0
     cd ..
     echo "processor"$i "done"
     @ i++
@@ -97,14 +105,14 @@ mpirun -np $NPROCS setsToZones -noFlipMap -region fuel -constant -parallel
 ./cleanup.csh
 
 
-# copy *ProcAddressing files from earlier fluid region decomposition
-# to processor fluid region meshes
+# copy *ProcAddressing files from earlier region decomposition
+# to processor region meshes
 @ I = 0
 while ( $I < $NPROCS )
-    foreach FLUID ( air fuel )
-        echo $FLUID
-        set SRCD = proc_$I/constant/$FLUID/polyMesh
-	set DESTD = processor$I/constant/$FLUID/polyMesh
+    foreach REGION ( air fuel electrolyte interconnect0 interconnect1 )
+        echo $REGION
+        set SRCD = proc_$I/constant/$REGION/polyMesh
+	set DESTD = processor$I/constant/$REGION/polyMesh
         cp $SRCD/*ProcAddressing $DESTD
     end
     echo "processor"$I "done"
