@@ -37,13 +37,28 @@ inertSofcSpecie  N2;   //inert for purposes of mass fraction calculation
                        // not necessarily chemically inert
 
 
-// molar Cp polynomial coefficients
+// toddYoung polynomials
 // from Todd&Young, J. Power Sources 110 (2002) pp 186-200
 //
-toddYoung
+// molar Cp coefficients (molar heat capacity) [J/(mol K]
+CpCoeffs
 {
     O2  34.850  -57.975  203.68  -300.37  231.72  -91.821  14.776;
     N2  29.027  4.8987  -38.040  105.17  -113.56  55.554  -10.350;
+}
+
+// mu coeficcients (dynamic viscosity) [1e-7 kg/(m s)]
+muCoeffs
+{
+    O2  -1.6918  889.75  -892.79  905.98  -598.36  221.64  -34.754;
+    N2   1.2719  771.45  -809.20  832.47  -553.93  206.15  -32.430;
+}
+
+// k coefficients (thermal conductivity) [W/(m K)]
+kCoeffs
+{
+    O2  -0.1857  11.118  -7.3734  6.7130  -4.1797  1.4910  -0.2278;
+    N2  -0.3216  14.810  -25.473  38.837  -32.133  13.493  -2.2741;
 }
 
 // ************************************************************************* //

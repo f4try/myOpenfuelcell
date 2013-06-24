@@ -59,7 +59,7 @@ if (Pstream::myProcNo() == 0)
         << "sForm"
         << nl;
 
-    forAll(airSpeciesNames, i)
+    forAll(fuelSpeciesNames, i)
     {
         cout<< "fuelSpecies[" << i    << "] "
             << std::setiosflags(std::ios::left)
@@ -96,13 +96,16 @@ if (Pstream::myProcNo() == 0)
     }
 
 
-    // toddYoung molar Cp polynomials
-    // ------------------------------
-    dictionary& tyDictFuel = fuelSpeciesDict.subDict("toddYoung");
+    // toddYoung polynomials
+    // from Todd&Young, J. Power Sources 110 (2002) pp 186-200
+
+    // molar Cp polynomials
+    // --------------------
+    dictionary& tyDictFuelCp = fuelSpeciesDict.subDict("CpCoeffs");
     PtrList<polyToddYoung> molarCpFuel(fuelSpecies.size());
     forAll(fuelSpecies, i)
     {
-        polyToddYoung tmp(tyDictFuel.lookup(fuelSpecies[i].name()));
+        polyToddYoung tmp(tyDictFuelCp.lookup(fuelSpecies[i].name()));
         molarCpFuel.set
         (
             i,
@@ -110,6 +113,40 @@ if (Pstream::myProcNo() == 0)
         );
         Info<< "CpCoeffs(" << fuelSpecies[i].name() << ") ";
         molarCpFuel[i].writeData();
+    }
+    Info<< endl;
+
+    // mu polynomials
+    // --------------
+    dictionary& tyDictFuelMu = fuelSpeciesDict.subDict("muCoeffs");
+    PtrList<polyToddYoung> muFuelL(fuelSpecies.size());
+    forAll(fuelSpecies, i)
+    {
+        polyToddYoung tmp(tyDictFuelMu.lookup(fuelSpecies[i].name()));
+        muFuelL.set
+        (
+            i,
+            new polyToddYoung(tmp)
+        );
+        Info<< "muCoeffs(" << fuelSpecies[i].name() << ") ";
+        muFuelL[i].writeData();
+    }
+    Info<< endl;
+
+    // k polynomials
+    // --------------
+    dictionary& tyDictFuelK = fuelSpeciesDict.subDict("kCoeffs");
+    PtrList<polyToddYoung> kFuelL(fuelSpecies.size());
+    forAll(fuelSpecies, i)
+    {
+        polyToddYoung tmp(tyDictFuelK.lookup(fuelSpecies[i].name()));
+        kFuelL.set
+        (
+            i,
+            new polyToddYoung(tmp)
+        );
+        Info<< "kCoeffs(" << fuelSpecies[i].name() << ") ";
+        kFuelL[i].writeData();
     }
     Info<< endl;
 

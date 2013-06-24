@@ -97,13 +97,16 @@ if (Pstream::myProcNo() == 0)
     }
 
 
-    // toddYoung molar Cp polynomials
-    // ------------------------------
-    dictionary& tyDictAir = airSpeciesDict.subDict("toddYoung");
+    // toddYoung polynomials
+    // from Todd&Young, J. Power Sources 110 (2002) pp 186-200
+
+    // molar Cp polynomials
+    // --------------------
+    dictionary& tyDictAirCp = airSpeciesDict.subDict("CpCoeffs");
     PtrList<polyToddYoung> molarCpAir(airSpecies.size());
     forAll(airSpecies, i)
     {
-        polyToddYoung tmp(tyDictAir.lookup(airSpecies[i].name()));
+        polyToddYoung tmp(tyDictAirCp.lookup(airSpecies[i].name()));
         molarCpAir.set
         (
             i,
@@ -111,6 +114,40 @@ if (Pstream::myProcNo() == 0)
         );
         Info<< "CpCoeffs(" << airSpecies[i].name() << ") ";
         molarCpAir[i].writeData();
+    }
+    Info<< endl;
+
+    // mu polynomials
+    // --------------
+    dictionary& tyDictAirMu = airSpeciesDict.subDict("muCoeffs");
+    PtrList<polyToddYoung> muAirL(airSpecies.size());
+    forAll(airSpecies, i)
+    {
+        polyToddYoung tmp(tyDictAirMu.lookup(airSpecies[i].name()));
+        muAirL.set
+        (
+            i,
+            new polyToddYoung(tmp)
+        );
+        Info<< "muCoeffs(" << airSpecies[i].name() << ") ";
+        muAirL[i].writeData();
+    }
+    Info<< endl;
+
+    // k polynomials
+    // --------------
+    dictionary& tyDictAirK = airSpeciesDict.subDict("kCoeffs");
+    PtrList<polyToddYoung> kAirL(airSpecies.size());
+    forAll(airSpecies, i)
+    {
+        polyToddYoung tmp(tyDictAirK.lookup(airSpecies[i].name()));
+        kAirL.set
+        (
+            i,
+            new polyToddYoung(tmp)
+        );
+        Info<< "kCoeffs(" << airSpecies[i].name() << ") ";
+        kAirL[i].writeData();
     }
     Info<< endl;
 
