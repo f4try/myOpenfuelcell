@@ -1,4 +1,4 @@
-    Info<< "Reading fuel field p\n" << endl;
+    Info<< "Creating fuel field p" << endl;
     volScalarField pFuel
     (
         IOobject
@@ -12,7 +12,7 @@
         fuelMesh
     );
 
-    Info<< "Reading fuel field rho\n" << endl;
+    Info<< "Creating fuel field rho" << endl;
     volScalarField rhoFuel
     (
         IOobject
@@ -29,7 +29,7 @@
     );
     rhoFuel.correctBoundaryConditions();
 
-    Info<< "Creating fuel field mu\n" << endl;
+    Info<< "Creating fuel field mu" << endl;
     volScalarField muFuel
     (
         IOobject
@@ -47,7 +47,7 @@
     muFuel.correctBoundaryConditions();
 
 
-    Info<< "Reading fuel field U\n" << endl;
+    Info<< "Creating fuel field U" << endl;
     volVectorField Ufuel
     (
         IOobject
@@ -61,7 +61,7 @@
         fuelMesh
     );
 
-    Info<< "Reading/calculating fuel face flux field phi\n" << endl;
+    Info<< "Creating fuel face flux field phi" << endl;
     surfaceScalarField phiFuel
     (
         IOobject
@@ -103,6 +103,7 @@
 
 
     // regional field obtained from Tcell
+    Info<< "Creating fuel field Tfuel" << endl;
     volScalarField Tfuel
     (
         IOobject
@@ -118,7 +119,7 @@
         zeroGradientFvPatchScalarField::typeName
     );
 
-    Info<< "Reading fuel field cp\n" << endl;
+    Info<< "Creating fuel field cp" << endl;
     volScalarField cpFuel
     (
         IOobject
@@ -135,8 +136,25 @@
     );
     cpFuel.correctBoundaryConditions();
 
+    Info<< "Creating fuel field k" << endl;
+    volScalarField kFuel
+    (
+        IOobject
+        (
+            "k",
+            runTime.timeName(),
+            fuelMesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        fuelMesh,
+        kF,
+        zeroGradientFvPatchScalarField::typeName
+    );
+    kFuel.correctBoundaryConditions();
 
-    Info<< "Reading fuel porous zones" << endl;
+
+    Info<< "Creating fuel porous zones" << endl;
     porousZones anodeZones(fuelMesh);
 
     Info<< "    number of porous zones = " << anodeZones.size() << nl;
@@ -151,7 +169,7 @@
     Info<< endl;
 
 
-    Info<< "creating current density field\n" << endl;
+    Info<< "Creating current density field" << endl;
 
     // NOTE hkr 2012 Aug 28
     //      I think this field would be better defined on the electrolyte mesh.

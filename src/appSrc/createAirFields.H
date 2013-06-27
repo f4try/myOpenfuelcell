@@ -1,4 +1,4 @@
-    Info<< "Reading air field p\n" << endl;
+    Info<< "Creating air field p" << endl;
     volScalarField pAir
     (
         IOobject
@@ -12,7 +12,7 @@
         airMesh
     );
 
-    Info<< "Reading air field rho\n" << endl;
+    Info<< "Creating air field rho" << endl;
     volScalarField rhoAir
     (
         IOobject
@@ -29,7 +29,7 @@
     );
     rhoAir.correctBoundaryConditions();
 
-    Info<< "Creating air field mu\n" << endl;
+    Info<< "Creating air field mu" << endl;
     volScalarField muAir
     (
         IOobject
@@ -46,7 +46,7 @@
     );
     muAir.correctBoundaryConditions();
 
-    Info<< "Reading air field U\n" << endl;
+    Info<< "Creating air field U" << endl;
     volVectorField Uair
     (
         IOobject
@@ -60,7 +60,7 @@
         airMesh
     );
 
-    Info<< "Reading/calculating air face flux field phi\n" << endl;
+    Info<< "Creating air face flux field phi" << endl;
     surfaceScalarField phiAir
     (
         IOobject
@@ -102,6 +102,7 @@
 
 
     // regional field obtained from Tcell
+    Info<< "Creating air field Tair" << endl;
     volScalarField Tair
     (
         IOobject
@@ -117,7 +118,7 @@
         zeroGradientFvPatchScalarField::typeName
     );
 
-    Info<< "Reading air field cp\n" << endl;
+    Info<< "Creating air field cp" << endl;
     volScalarField cpAir
     (
         IOobject
@@ -134,8 +135,25 @@
     );
     cpAir.correctBoundaryConditions();
 
+    Info<< "Creating air field k" << endl;
+    volScalarField kAir
+    (
+        IOobject
+        (
+            "k",
+            runTime.timeName(),
+            airMesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        airMesh,
+        kA,
+        zeroGradientFvPatchScalarField::typeName
+    );
+    kAir.correctBoundaryConditions();
 
-    Info<< "Reading air porous zones" << endl;
+
+    Info<< "Creating air porous zones" << endl;
     porousZones cathodeZones(airMesh);
 
     Info<< "    number of porous zones = " << cathodeZones.size() << nl;

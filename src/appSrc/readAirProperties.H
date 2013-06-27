@@ -15,7 +15,7 @@
     dimensionedScalar muA(airProperties.lookup("mu"));
     dimensionedScalar rhoA(airProperties.lookup("rho"));
     dimensionedScalar CpA(airProperties.lookup("Cp"));
-    dimensionedScalar kAir(airProperties.lookup("k"));
+    dimensionedScalar kA(airProperties.lookup("k"));
 
     // hydraulic diameter for Reynolds number calculation
     dimensionedScalar dHydAir(airProperties.lookup("dHyd"));
@@ -24,7 +24,7 @@
     Info << "    muA   = "    << muA       << nl
          << "    rhoA  = "    << rhoA      << nl
          << "    CpA   = "    << CpA       << nl
-         << "    kAir  = "    << kAir      << nl
+         << "    kA    = "    << kA        << nl
          << "    dHydAir  = " << dHydAir   << nl
          << endl;
 

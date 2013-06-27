@@ -151,6 +151,16 @@ if (Pstream::myProcNo() == 0)
     }
     Info<< endl;
 
+    Info<< "ToddYoung checks" << nl;
+    forAll(airSpecies, i)
+    {
+        Info<< airSpecies[i].name() << nl;
+        Info<< "    Cp(1473) = " << molarCpAir[i].polyVal(1473) << nl;
+        Info<< "    mu(1473) = " << muAirL[i].polyVal(1473) << nl;
+        Info<< "    k(1473)  = " << kAirL[i].polyVal(1473) << nl;
+    }
+    Info<< nl;
+
 
     // mass fraction fields and files
     // ------------------------------

@@ -33,14 +33,14 @@
         rhoCpCellIn.rmap(rhoCpF, fuelCellMap);
 
 
-        scalarField kF(fuelMesh.nCells(), kFuel.value());
+        //scalarField kIn(fuelMesh.nCells(), kF.value());
+        scalarField& kIn = kFuel.internalField();
 
         forAll(anodeZones, iz)
         {
             label znId =
                 fuelMesh.cellZones().findZoneID(anodeZones[iz].zoneName());
 
-            dimensionedScalar CpZn(anodeZones[iz].dict().lookup("Cp"));
             dimensionedScalar kZn(anodeZones[iz].dict().lookup("k"));
             scalar porZn = anodeZones[iz].porosity();
 
@@ -48,13 +48,16 @@
 
             forAll(znCells, cellI)
             {
-                kF[znCells[cellI]] =
-                    kZn.value()*(1 - porZn) + kFuel.value()*porZn;
+                //kIn[znCells[cellI]] =
+                //    kZn.value()*(1 - porZn) + kF.value()*porZn;
+
+                kIn[znCells[cellI]] *= porZn;
+                kIn[znCells[cellI]] += (1 - porZn)*kZn.value();
             }
         }
 
         // Perform reverse mapping
-        kCellIn.rmap(kF, fuelCellMap);
+        kCellIn.rmap(kIn, fuelCellMap);
 
 
         // Map fuel fluxes

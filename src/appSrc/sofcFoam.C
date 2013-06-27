@@ -124,6 +124,9 @@ int main(int argc, char *argv[])
     #   include "muAir.H"
     #   include "muFuel.H"
 
+    #   include "kAir.H"
+    #   include "kFuel.H"
+
     #   include "solveFuel.H"
     #   include "solveAir.H"
     #   include "ReynoldsNumber.H"

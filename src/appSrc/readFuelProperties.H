@@ -15,7 +15,7 @@
     dimensionedScalar muF(fuelProperties.lookup("mu"));
     dimensionedScalar rhoF(fuelProperties.lookup("rho"));
     dimensionedScalar CpF(fuelProperties.lookup("Cp"));
-    dimensionedScalar kFuel(fuelProperties.lookup("k"));
+    dimensionedScalar kF(fuelProperties.lookup("k"));
 
     // hydraulic diameter for Reynolds number calculation
     dimensionedScalar dHydFuel(fuelProperties.lookup("dHyd"));
@@ -24,7 +24,7 @@
     Info << "    muF       = " << muF       << nl
          << "    rhoF      = " << rhoF      << nl
          << "    CpF       = " << CpF       << nl
-         << "    kFuel     = " << kFuel     << nl
+         << "    kF        = " << kF        << nl
          << "    dHydFuel  = " << dHydFuel  << nl
          << endl;
 

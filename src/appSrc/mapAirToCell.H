@@ -26,14 +26,14 @@
         rhoCpCellIn.rmap(rhoCpF, airCellMap);
 
 
-        scalarField kF(airMesh.nCells(), kAir.value());
+        //scalarField kIn(airMesh.nCells(), kA.value());
+        scalarField& kIn = kAir.internalField();
 
         forAll(cathodeZones, iz)
         {
             label znId =
                 airMesh.cellZones().findZoneID(cathodeZones[iz].zoneName());
 
-            dimensionedScalar CpZn(cathodeZones[iz].dict().lookup("Cp"));
             dimensionedScalar kZn(cathodeZones[iz].dict().lookup("k"));
             scalar porZn = cathodeZones[iz].porosity();
 
@@ -41,13 +41,16 @@
 
             forAll(znCells, cellI)
             {
-                kF[znCells[cellI]] =
-                    kZn.value()*(1 - porZn) + kAir.value()*porZn;
+                //kIn[znCells[cellI]] =
+                //    kZn.value()*(1 - porZn) + kA.value()*porZn;
+                    
+                kIn[znCells[cellI]] *= porZn;
+                kIn[znCells[cellI]] += (1 - porZn)*kZn.value();
             }
         }
 
         // Perform reverse mapping
-        kCellIn.rmap(kF, airCellMap);
+        kCellIn.rmap(kIn, airCellMap);
 
 
         // Map air fluxes
