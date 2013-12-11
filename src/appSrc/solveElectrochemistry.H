@@ -143,7 +143,7 @@
 
     // mean current density
     dimensionedScalar ibar ("ibar", dimensionSet(0, -2, 0, 0, 0, 1, 0), 0.0);
-    ibar.value() = Foam::average(i);
+    ibar.value() = Foam::gAverage(i); //S.Keuler, Bugfix: global average needed for parallel simulation
 
     Info << "min,mean,max(i): "
          << Foam::min(i) <<" , " << ibar.value() << " , "
