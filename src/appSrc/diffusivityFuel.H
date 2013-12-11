@@ -161,9 +161,9 @@ forAll(fuelSpecies, a)
              << "]"
              << nl
              << "    internalField() min mean max = "
-             << Foam::min(diffSpFuelIn) << "  "
-             << Foam::average(diffSpFuelIn) << "  "
-             << Foam::max(diffSpFuelIn)
+             << Foam::gMin(diffSpFuelIn) << "  "      //S.Keuler, Bugfix for consistent output (parallel simulation) [next three lines]
+             << Foam::gAverage(diffSpFuelIn) << "  "
+             << Foam::gMax(diffSpFuelIn)
 	     << nl;
 
         diffSpFuel[a].correctBoundaryConditions();

@@ -34,8 +34,8 @@
     }
 
     Info << "min,max(anodeT): "
-         << Foam::min(anodeT) <<" , "
-         << Foam::max(anodeT) << endl;
+         << Foam::gMin(anodeT) <<" , "  //S.Keuler, Bugfix for consistent output (parallel simulation) [two lines]
+         << Foam::gMax(anodeT) << endl;
 
 
     // Interpolate cathode mole fractions of oxidant species to anode
@@ -146,8 +146,8 @@
     ibar.value() = Foam::gAverage(i); //S.Keuler, Bugfix: global average needed for parallel simulation
 
     Info << "min,mean,max(i): "
-         << Foam::min(i) <<" , " << ibar.value() << " , "
-         << Foam::max(i) << endl;
+         << Foam::gMin(i) <<" , " << ibar.value() << " , " //S.Keuler, Bugfix for consistent output (parallel simulation) [two lines]
+         << Foam::gMax(i) << endl;
 
 
     // voltage correction

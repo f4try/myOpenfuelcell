@@ -154,9 +154,9 @@ forAll(airSpecies, a)
              << "]"
              << nl
              << "    internalField min mean max = "
-             << Foam::min(diffSpAirIn) << "  "
-             << Foam::average(diffSpAirIn) << "  "
-             << Foam::max(diffSpAirIn)
+             << Foam::gMin(diffSpAirIn) << "  "    //S.Keuler, Bugfix for consistent output (parallel simulation) [next three lines]
+             << Foam::gAverage(diffSpAirIn) << "  "
+             << Foam::gMax(diffSpAirIn)
              << nl;
 
         diffSpAir[a].correctBoundaryConditions();
