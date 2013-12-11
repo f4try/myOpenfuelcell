@@ -44,10 +44,9 @@
             scalarField hSpI = CpI.polyInt(Tr, anodeT);
             hSpAir.set(i, hSpI);
 
-            //
-            //hFormSum += airSpecies[i].hForm()/airSpecies[i].ne();
-            // no reactions on air side!
-            //
+            hFormSum += airSpecies[i].hForm()/airSpecies[i].ne();
+            // allow reactions on airside, S.Keuler (Dec. 2013)
+         
 
             if(airSpecies[i].rSign() > 0)
             {

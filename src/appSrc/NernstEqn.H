@@ -106,10 +106,38 @@
         }
     }
 
-    // update with air reactants
+    // update with air reactants and products
     forAll(airSpecies, i)
-    {
-        if (airSpecies[i].rSign() == -1)
+    {      
+        if (airSpecies[i].rSign() == 1) // S.Keuler (Dec. 2013): allow reactions on airside too
+        {
+            // product
+            scalar stoiCoeffI = rxnSpCoef[airSpecies[i].name()];
+
+            Qrxn *= Foam::pow(xAir[i], stoiCoeffI);
+
+            scalarField Hi = stoiCoeffI*
+            (
+                 airSpecies[i].hForm()
+                 + molarCpAir[i].polyInt(Tr, anodeT)
+            );
+            deltaHrxn += Hi;
+
+            scalarField Si = stoiCoeffI*
+            (
+                 airSpecies[i].sForm()
+                 + molarCpAir[i].polyIntS(Tr, anodeT)
+            );
+            deltaSrxn += Si;
+
+            if (firstTime)
+            {
+                Info << airSpecies[i].name() << "  " << stoiCoeffI << nl;
+                Info<< "   mean H(T) = " << gAverage(Hi) << nl;
+                Info<< "   mean S(T) = " << gAverage(Si) << nl;
+            }
+        } 
+        else if (airSpecies[i].rSign() == -1)
         {
             scalar stoiCoeffI = rxnSpCoef[airSpecies[i].name()];
 

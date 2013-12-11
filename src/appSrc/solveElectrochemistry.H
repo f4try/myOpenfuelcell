@@ -54,7 +54,7 @@
     PtrList<scalarField> xAir(airSpecies.size());
     forAll(airSpecies, s)
     {
-        if (airSpecies[s].rSign() == -1)    //reactant
+        if (airSpecies[s].rSign() == 0)    //reactant or product
         {
             xAir.set
             (
