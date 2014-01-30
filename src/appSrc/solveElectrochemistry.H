@@ -54,7 +54,7 @@
     PtrList<scalarField> xAir(airSpecies.size());
     forAll(airSpecies, s)
     {
-        if (airSpecies[s].rSign() == 0)    //reactant or product
+        if (airSpecies[s].rSign() != 0)    //reactant or product (S.Keuler, corrected 30.01.2014)
         {
             xAir.set
             (
@@ -90,7 +90,7 @@
 
     forAll(Yfuel, j)
     {
-        sumFYjOnMj += Yfuel[j].boundaryField()[anodeID]/fuelSpecies[j].MW();
+      sumFYjOnMj += Yfuel[j].boundaryField()[anodeID]/fuelSpecies[j].MW();
     }
 
     PtrList<scalarField> xFuel(fuelSpecies.size());
