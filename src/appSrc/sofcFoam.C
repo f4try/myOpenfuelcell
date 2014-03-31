@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 #   include "createCellFields.H"
 
     // Interconnect0 components
-#   include "createInterconnect0Mesh.H"
+#   include "createInterconnectMesh.H"
 
      // Air-related components
 #   include "createAirMesh.H"
@@ -90,8 +90,6 @@ int main(int argc, char *argv[])
 #   include "createFuelFields.H"
 #   include "createFuelSpecies.H"
 
-    // Interconnect1 components
-#   include "createInterconnect1Mesh.H"
 #   include "readInterconnectProperties.H"
 
 #   include "readRxnProperties.H"
