@@ -1,0 +1,28 @@
+#!/bin/sh
+#------------------------------------------------------------------------------
+echo 'Cleaning backup files'
+find . \( -name 'VTK' \) -exec rm -rf {} \;
+##find . \( -name '[1-9]*' \) -exec rm -rf {} \;
+find . \( -name 'output' \) -exec rm {} \;
+find . \( -name '*.dat' -o -name '*.log' \) -exec rm {} \;
+find . \( -name 'sets' \) -exec rm -rf {} \;
+find . \( -name 'cellToRegion' \) -exec rm {} \;
+find . \( -name '*RegionAddressing' \) -exec rm {} \;
+find ./0 \( -name 'polyMesh' \) -exec rm -rf {} \;
+rm -rf [1-9]*
+rm logs > /dev/null 2>&1
+rm testLoopReport > /dev/null 2>&1
+
+echo ''
+
+foamCleanTutorials cases
+foamClearPolyMesh
+foamClearPolyMesh -region air
+foamClearPolyMesh -region fuel
+foamClearPolyMesh -region electrolyte
+foamClearPolyMesh -region interconnect0
+foamClearPolyMesh -region interconnect1
+
+rmdir constant/[aefi]*/polyMesh
+
+# ----------------------------------------------------------------- end-of-file

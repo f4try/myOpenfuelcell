@@ -1,0 +1,88 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM Extend Project: Open source CFD        |
+|  \\    /   O peration     | Version:  1.6-ext                               |
+|   \\  /    A nd           | Web:      www.extend-project.de                 |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      yO2;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0.233;
+
+boundaryField
+{
+    interconnect
+    {
+        type         zeroGradient;
+    }
+    sides
+    {
+        type         zeroGradient;
+    }
+    airInlet
+    {
+        type         fixedValue;
+	value        uniform 0.233;
+    }
+    airOutlet
+    {
+        type         zeroGradient;
+    }
+    airSides
+    {
+        type         zeroGradient;
+    }
+    cathodeSides
+    {
+        type         zeroGradient;
+    }
+    cflSides
+    {
+        type         zeroGradient;
+    }
+    electrolyteSides
+    {
+        type         zeroGradient;
+    }
+    aflSides
+    {
+        type         zeroGradient;
+    }
+    anodeSides
+    {
+        type         zeroGradient;
+    }
+    fuelInlet
+    {
+        type         fixedValue;
+	value        uniform 0.782;
+    }
+    fuelOutlet
+    {
+        type         zeroGradient;
+    }
+    fuelSides
+    {
+        type         zeroGradient;
+    }
+    sides
+    {
+        type         zeroGradient;
+    }
+    interconnect
+    {
+        type         zeroGradient;
+    }
+}
+
+
+// ************************************************************************* //

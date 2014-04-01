@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/267/sofcFoam/trunk/run/quickTest/system/air
+END
+fvSchemes
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/264/sofcFoam/trunk/run/quickTest/system/air/fvSchemes
+END
+fvSolution
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/267/sofcFoam/trunk/run/quickTest/system/air/fvSolution
+END

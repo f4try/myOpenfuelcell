@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/271/sofcFoam/trunk/run/quickTest/system
+END
+controlDict.mesh
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/264/sofcFoam/trunk/run/quickTest/system/controlDict.mesh
+END
+fvSchemes
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/269/sofcFoam/trunk/run/quickTest/system/fvSchemes
+END
+controlDict
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/271/sofcFoam/trunk/run/quickTest/system/controlDict
+END
+decomposeParDict
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/264/sofcFoam/trunk/run/quickTest/system/decomposeParDict
+END
+controlDict.run
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/264/sofcFoam/trunk/run/quickTest/system/controlDict.run
+END
+createPatchDict
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/266/sofcFoam/trunk/run/quickTest/system/createPatchDict
+END
+fvSolution
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/271/sofcFoam/trunk/run/quickTest/system/fvSolution
+END

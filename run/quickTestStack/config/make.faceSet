@@ -1,0 +1,15 @@
+faceSet sides new patchToFace sides all
+faceSet airInlet new patchToFace airInlet all
+faceSet airOutlet new patchToFace airOutlet all
+faceSet fuelInlet new patchToFace fuelInlet all
+faceSet fuelOutlet new patchToFace fuelOutlet all
+faceSet sides add patchToFace airInlet  all
+faceSet sides add patchToFace airOutlet all
+faceSet sides add patchToFace fuelInlet  all
+faceSet sides add patchToFace fuelOutlet all
+
+faceSet airInlet clear
+faceSet airOutlet clear
+
+faceSet fuelInlet clear
+faceSet fuelOutlet clear

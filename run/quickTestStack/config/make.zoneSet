@@ -1,0 +1,5 @@
+cellSet cathode new boxToCell (0 0 5.0e-3) (40.0e-3 12.0e-3 5.267e-3)
+cellSet cfl new boxToCell   (0 0 5.267e-3) (40.0e-3 12.0e-3 5.285e-3)
+
+cellSet afl new boxToCell   (0 0 5.293e-3) (40.0e-3 12.0e-3 5.3e-3)
+cellSet anode new boxToCell   (0 0 5.3e-3) (40.0e-3 12.0e-3 6.3e-3)

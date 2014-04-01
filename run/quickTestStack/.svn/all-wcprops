@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/285/sofcFoam/trunk/run/quickTest
+END
+runscript
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/264/sofcFoam/trunk/run/quickTest/runscript
+END
+Allclean
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/284/sofcFoam/trunk/run/quickTest/Allclean
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/264/sofcFoam/trunk/run/quickTest/Makefile
+END

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/284/sofcFoam/trunk/run/quickTest/constant
+END
+rxnProperties
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/267/sofcFoam/trunk/run/quickTest/constant/rxnProperties
+END
+cellProperties
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/284/sofcFoam/trunk/run/quickTest/constant/cellProperties
+END

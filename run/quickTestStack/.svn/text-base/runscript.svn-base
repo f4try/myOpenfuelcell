@@ -1,0 +1,13 @@
+#!/bin/tcsh
+
+# useful for submitting job to queue
+# edit for your circumstances
+
+####################################################
+##                                                ##
+##  usage:  qsub -V -cwd -S /bin/tcsh runscript   ##
+##                                                ##
+####################################################
+
+sofcFoam
+

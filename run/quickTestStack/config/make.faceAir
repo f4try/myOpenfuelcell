@@ -1,0 +1,10 @@
+faceSet airOutlet new boxToFace (1.00000e-03 7.00000e-03 -1.00000e-06) (6.00000e-03 1.70000e-02 1.00000e-06)
+
+faceSet airInlet new boxToFace (3.40000e-02 1.00000e-03 -1.00000e-06) (3.90000e-02 6.00000e-03 1.00000e-06)
+faceSet airInlet add boxToFace (3.40000e-02 1.80000e-02 -1.00000e-06) (3.90000e-02 2.30000e-02 1.00000e-06)
+
+faceSet sides delete faceToFace airInlet all
+faceSet sides delete faceToFace airOutlet all
+
+
+

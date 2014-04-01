@@ -1,0 +1,7 @@
+faceSet fuelOutlet new boxToFace (3.40000e-02 7.00000e-03 -1.00000e-06) (3.90000e-02 1.70000e-02 1.00000e-06)
+
+faceSet fuelInlet new boxToFace (1.00000e-03 1.00000e-03 -1.00000e-06) (6.00000e-03 6.00000e-03 1.00000e-06)
+faceSet fuelInlet add boxToFace (1.00000e-03 1.80000e-02 -1.00000e-06) (6.00000e-03 2.30000e-02 1.00000e-06)
+
+faceSet sides delete faceToFace fuelInlet all
+faceSet sides delete faceToFace fuelOutlet all

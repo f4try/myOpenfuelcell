@@ -1,0 +1,7 @@
+cellSet layer1 new boxToCell (9.00000e-03 1.00000e-03 5.28500e-03) (3.10000e-02 2.30000e-02 5.29300e-03)
+cellSet layer2 new boxToCell (9.00000e-03 1.00000e-03 1.65850e-02) (3.10000e-02 2.30000e-02 1.65930e-02)
+cellSet layer3 new boxToCell (9.00000e-03 1.00000e-03 2.78850e-02) (3.10000e-02 2.30000e-02 2.78930e-02)
+
+cellSet electrolyte new boxToCell (9.00000e-03 1.00000e-03 5.28500e-03) (3.10000e-02 2.30000e-02 5.29300e-03)
+cellSet electrolyte add boxToCell (9.00000e-03 1.00000e-03 1.65850e-02) (3.10000e-02 2.30000e-02 1.65930e-02)
+cellSet electrolyte add boxToCell (9.00000e-03 1.00000e-03 2.78850e-02) (3.10000e-02 2.30000e-02 2.78930e-02)
