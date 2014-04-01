@@ -1,4 +1,4 @@
-    Info<< "Creating fuel field p" << endl;
+    Info<< "Reading fuel field p\n" << endl;
     volScalarField pFuel
     (
         IOobject
@@ -12,7 +12,7 @@
         fuelMesh
     );
 
-    Info<< "Creating fuel field rho" << endl;
+    Info<< "Reading fuel field rho\n" << endl;
     volScalarField rhoFuel
     (
         IOobject
@@ -29,7 +29,7 @@
     );
     rhoFuel.correctBoundaryConditions();
 
-    Info<< "Creating fuel field mu" << endl;
+    Info<< "Creating fuel field mu\n" << endl;
     volScalarField muFuel
     (
         IOobject
@@ -47,7 +47,7 @@
     muFuel.correctBoundaryConditions();
 
 
-    Info<< "Creating fuel field U" << endl;
+    Info<< "Reading fuel field U\n" << endl;
     volVectorField Ufuel
     (
         IOobject
@@ -61,7 +61,7 @@
         fuelMesh
     );
 
-    Info<< "Creating fuel face flux field phi" << endl;
+    Info<< "Reading/calculating fuel face flux field phi\n" << endl;
     surfaceScalarField phiFuel
     (
         IOobject
@@ -103,7 +103,6 @@
 
 
     // regional field obtained from Tcell
-    Info<< "Creating fuel field Tfuel" << endl;
     volScalarField Tfuel
     (
         IOobject
@@ -119,7 +118,7 @@
         zeroGradientFvPatchScalarField::typeName
     );
 
-    Info<< "Creating fuel field cp" << endl;
+    Info<< "Reading fuel field cp\n" << endl;
     volScalarField cpFuel
     (
         IOobject
@@ -154,7 +153,7 @@
     kFuel.correctBoundaryConditions();
 
 
-    Info<< "Creating fuel porous zones" << endl;
+    Info<< "Reading fuel porous zones" << endl;
     porousZones anodeZones(fuelMesh);
 
     Info<< "    number of porous zones = " << anodeZones.size() << nl;
@@ -169,27 +168,4 @@
     Info<< endl;
 
 
-    Info<< "Creating current density field" << endl;
 
-    // NOTE hkr 2012 Aug 28
-    //      I think this field would be better defined on the electrolyte mesh.
-
-    volScalarField idensity
-    (
-        IOobject
-        (
-            "i",
-            runTime.timeName(),
-            fuelMesh,
-            IOobject::READ_IF_PRESENT,
-            IOobject::AUTO_WRITE
-        ),
-        fuelMesh,
-        dimensionedScalar
-        (
-            "i",
-            dimensionSet(0, -2, 0, 0, 0, 1, 0),
-            ibar0.value()
-        ),
-        zeroGradientFvPatchScalarField::typeName
-    );

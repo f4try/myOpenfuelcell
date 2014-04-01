@@ -2,11 +2,8 @@
 
     Info << nl << "Calculating electrochemical heating" << endl;
 
-    // interpolate anode current density i from fuel side to electrolyte side
-    scalarField iEA =
-        fuelAnodeToElectrolyteAnode.faceInterpolate(i);
-
-    iEA = Foam::max(0e0, iEA);
+    // iEA applied in cell volumes (not patch)
+    scalarField iEA = idensity.internalField();
 
 
     //scalar Tr = 298.15;  //reference Temperature [K] for enthalpy calculations
@@ -123,19 +120,12 @@
 //        - iEA*V.value()/hE.value();
 //
 
-    scalarField Tsource =
+    scalarField& electrochemicalHeatingIn = electrochemicalHeating.internalField();
+    electrochemicalHeatingIn =
     (
-        -hFormSum*volMolRate - hSource - iEA*V.value()/hE.value()
+        -hFormSum*volMolRate - hSource - iEA*voltage/hE.value()
     );
-
-
-    // smear the surface heating field into electrolyte volume
-    smearPatchToMesh smearInterpolation
-    (
-        electrolyteMesh,
-        electrolyteAnodeName
-    );
-    electrochemicalHeating.internalField() = smearInterpolation.smear(Tsource);
+    electrochemicalHeating.correctBoundaryConditions();
 
     Info << "min,mean,max(electrochemicalHeating): "
          << gMin(electrochemicalHeating.internalField()) << "  "

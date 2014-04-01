@@ -1,6 +1,6 @@
     scalarField& idensityIn = idensity.internalField();
-    smearPatchToMesh smearIdensity(fuelMesh, anodeName);
+    smearPatchToMesh smearIdensity(electrolyteMesh, electrolyteAnodeName);
     idensityIn = smearIdensity.smear(i);
     idensity.correctBoundaryConditions();
-    idensity.boundaryField()[anodeID] == i;
+
 
