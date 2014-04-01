@@ -28,9 +28,9 @@
          << "    dHydAir  = " << dHydAir   << nl
          << endl;
 
-    Switch ReA(Switch::TRUE);
+    bool ReA(true);
     if(dHydAir.value() == 0)
     {
-        ReA = Switch::FALSE;
+        ReA = false;
         Info << "Hydraulic diameter = 0: not calculating ReAir" << nl << endl;
     } 

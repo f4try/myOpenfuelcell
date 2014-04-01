@@ -28,9 +28,9 @@
          << "    dHydFuel  = " << dHydFuel  << nl
          << endl;
 
-    Switch ReF(Switch::TRUE);
+    bool ReF(true);
     if(dHydFuel.value() == 0)
     {
-        ReF = Switch::FALSE;
+        ReF = false;
         Info << "Hydraulic diameter = 0: not calculating ReFuel" << nl << endl;
     }
