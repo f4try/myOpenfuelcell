@@ -114,7 +114,7 @@
     // scalarField R is based on anodeT
     #include "ASRfunction.H"
 
-    // Takes voltage from cell center of cell adjacent to boundary face and applies it at the face  
+    // Takes voltage from cell center of cell adjacent to boundary face and applies it at the face   
     forAll(electrolyteAnodePatch, facei)
     {
 	voltage.boundaryField()[electrolyteAnodeID][facei] = voltage[electrolyteAnodePatch.faceCells()[facei]];
