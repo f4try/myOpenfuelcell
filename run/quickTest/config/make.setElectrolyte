@@ -1,0 +1,3 @@
+cellSet layer1 new boxToCell (0.00000e-03 0.00000e-03 5.28500e-03) (4.00000e-02 1.20000e-02 5.29300e-03)
+
+cellSet electrolyte new boxToCell (0.00000e-03 0.00000e-03 5.28500e-03) (4.00000e-02 1.20000e-02 5.29300e-03)
