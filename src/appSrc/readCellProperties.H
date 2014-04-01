@@ -18,6 +18,7 @@
     dimensionedScalar V(cellProperties.lookup("voltage"));
     dimensionedScalar ibar0(cellProperties.lookup("ibar0"));
     dimensionedScalar Tinit(cellProperties.lookup("Tinit"));
+    dimensionedScalar numCells(cellProperties.lookup("numCells"));
     dimensionedScalar Rhat("Rhat", dimensionSet(1, 4, -3, 0, 0, -2, 0), 0);
 
     // echo inputs from dictionary to stdout
