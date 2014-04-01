@@ -7,29 +7,15 @@
 
     const scalar Tr = 298.15;  //reference Temperature [K] for thermodynamics
 
-
-// hkr 2013 May 24
-// ---------------
-    // initialize current density field
-    static scalarField i(anodePatch.size());
-    if(firstTime)
-    {
-        //i = ibar0.value();
-        // idensity field is initialized with ibar0.
-        // anode patch is later updated by i
-        i = idensity.boundaryField()[anodeID];
-    }
-
-
     // Interpolate global temperature to electrolyte/fuel interface
     // ------------------------------------------------------------
-    scalarField anodeT(anodePatch.size());
+    scalarField anodeT(electrolyteAnodePatch.size());
     {
         surfaceScalarField Ts = fvc::interpolate(Tcell);
 
         forAll (anodeT, faceI)
         {
-            anodeT[faceI] = Ts[anodeMask[faceI]];
+            anodeT[faceI] = Ts[electrolyteAnodeMask[faceI]];
         }
     }
 
@@ -124,47 +110,32 @@
     // Calculate Nernst potential
     #include "NernstEqn.H"
 
-
     // area specific resistance, R
     // scalarField R is based on anodeT
     #include "ASRfunction.H"
 
+    // Takes voltage from cell center of cell adjacent to boundary face and applies it at the face  
+    forAll(electrolyteAnodePatch, facei)
+    {
+	voltage.boundaryField()[electrolyteAnodeID][facei] = voltage[electrolyteAnodePatch.faceCells()[facei]];
+    }
 
-    // Calculate current density
-    //scalarField i = (Nernst - V.value())/R;
-    i = (Nernst - V.value())/R;
-
+    // Solve Current
+    scalarField    i = (Nernst - voltage.boundaryField()[electrolyteAnodeID])/R;
     // ensure i > 0
     i = Foam::max(i, Foam::doubleScalarSMALL);
 
-    // idensity field provides visualization
-    // and is used only for initialization
+    // Smear boundary current over electrolyte volume
     #include "idensity.H"
+    
+    // Calculate mean current density
+    #include "solveCurrent.H"
 
     // mean current density
-    dimensionedScalar ibar ("ibar", dimensionSet(0, -2, 0, 0, 0, 1, 0), 0.0);
-    ibar.value() = Foam::gAverage(i); //S.Keuler, Bugfix: global average needed for parallel simulation
-
-    Info << "min,mean,max(i): "
-         << Foam::gMin(i) <<" , " << ibar.value() << " , " //S.Keuler, Bugfix for consistent output (parallel simulation) [two lines]
-         << Foam::gMax(i) << endl;
-
-
-    // voltage correction
-    if (galvanostatic)
-    {
-        V += Rhat*(ibar - ibar0);
-
-        Info << "ibar0 = " << ibar0.value()
-             << "    ibar = " << ibar.value()
-             << "    V = " << V.value() << endl;
-    }
-    else
-    {
-        Info << "    ibar = " << ibar.value()
-             << "    V = " << V.value() << endl;
-    }
-
+    Info << "min,mean,max(current): "
+         << gMin(idensity.internalField()) << " , "
+         << gAverage(idensity.internalField()) << " , "
+         << gMax(idensity.internalField()) << endl;
 
     // Calculate electrochemical heating
     #include "electrochemicalHeating.H"
