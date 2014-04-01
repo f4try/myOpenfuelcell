@@ -14,13 +14,15 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 2;		//numberOfSubdomains= nx*ny*nz
+numberOfSubdomains $NPROCS;		//numberOfSubdomains= nx*ny*nz
+
+preserveFaceZones (iFaces);
 
 method          simple;	
 
 simpleCoeffs
 {
-    n               (2 1 1);
+    n               (1 $NPROCS 1);
     delta           0.001;
 }
 

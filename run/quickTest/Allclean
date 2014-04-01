@@ -12,6 +12,7 @@ find ./0 \( -name 'polyMesh' \) -exec rm -rf {} \;
 rm -rf [1-9]*
 rm logs > /dev/null 2>&1
 rm testLoopReport > /dev/null 2>&1
+rm -rf proc_*
 
 echo ''
 

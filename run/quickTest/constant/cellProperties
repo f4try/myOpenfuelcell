@@ -47,6 +47,7 @@ Rhat            Rhat [1 4 -3 0 0 -2 0] 1.0e-5;    // ohm m^2
 
 // initial Temperature for fuel and air T fields
 Tinit		Tinit [0 0 0 1 0 0 0] 1000.0;	  // K
+numCells		numCells [0 0 0 0 0 0 0] 1;	  // K
 
 
 // special patch names

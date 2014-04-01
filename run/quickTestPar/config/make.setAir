@@ -1,7 +1,0 @@
-cellSet air new boxToCell (0 0 5.0e-3) 	     (40.0e-3 12.0e-3 5.285e-3)
-cellSet air add boxToCell (0 1.0e-3 3.5e-3)  (40.0e-3 3.0e-3 5.0e-3)
-cellSet air add boxToCell (0 5.0e-3 3.5e-3)  (40.0e-3 7.0e-3 5.0e-3)
-cellSet air add boxToCell (0 9.0e-3 3.5e-3)  (40.0e-3 11.0e-3 5.0e-3)
-
-cellSet cathode new boxToCell (0 0 5.0e-3) (40.0e-3 12.0e-3 5.267e-3)
-cellSet cfl new boxToCell   (0 0 5.267e-3) (40.0e-3 12.0e-3 5.285e-3)

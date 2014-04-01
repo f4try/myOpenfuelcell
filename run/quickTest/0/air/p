@@ -56,7 +56,7 @@ boundaryField
         type            zeroGradient;
     }
 
-    air_to_interconnect0
+    air_to_interconnect
     {
         type            zeroGradient;
     }

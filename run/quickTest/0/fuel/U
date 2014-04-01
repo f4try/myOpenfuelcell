@@ -58,7 +58,7 @@ boundaryField
         value           uniform (0 0 0);
     }
 
-    fuel_to_interconnect1
+    fuel_to_interconnect
     {
         type            fixedValue;
         value           uniform (0 0 0);

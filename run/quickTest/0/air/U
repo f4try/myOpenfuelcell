@@ -50,7 +50,7 @@ boundaryField
        type            fixedValue;
        value           uniform (0 0 0);
     }        
-    air_to_interconnect0
+    air_to_interconnect
     {
         type            fixedValue;
         value           uniform (0 0 0);

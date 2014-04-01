@@ -1,8 +1,0 @@
-cellSet fuel new boxToCell (0 0 5.293e-3)   (40.0e-3 12.0e-3 6.3e-3)
-cellSet fuel add boxToCell (0 1e-3 6.3e-3)  (40.0e-3 3.0e-3 7.8e-3)
-cellSet fuel add boxToCell (0 5e-3 6.3e-3)  (40.0e-3 7.0e-3 7.8e-3)
-cellSet fuel add boxToCell (0 9e-3 6.3e-3)  (40.0e-3 11.0e-3 7.8e-3)
-
-cellSet afl new boxToCell (0 0 5.293e-3) (40.0e-3 12.0e-3 5.3e-3)
-cellSet anode new boxToCell (0 0 5.3e-3) (40.0e-3 12.0e-3 6.3e-3)
-
