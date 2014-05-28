@@ -12,9 +12,7 @@
         )
     );
 
-
     Switch galvanostatic(cellProperties.lookup("galvanostatic"));
-
     dimensionedScalar V(cellProperties.lookup("voltage"));
     dimensionedScalar ibar0(cellProperties.lookup("ibar0"));
     dimensionedScalar Tinit(cellProperties.lookup("Tinit"));

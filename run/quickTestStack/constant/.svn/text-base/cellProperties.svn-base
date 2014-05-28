@@ -27,6 +27,7 @@ FoamFile
 // false ==> potentiostatic
 //
 galvanostatic true;
+activationOverpotential false;// Added SBB 11-02-2014
 
 // voltage
 // galvanostatic ==> initial value

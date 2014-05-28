@@ -31,6 +31,7 @@ Description
 
 Developed by
     Hrvoje Jasak (h.jasak@wikki.co.uk)
+    Steven Beale (s.beale@fz-juelich.de)
     Dong Hyup Jeon (DongHyup.Jeon@nrc-cnrc.gc.ca)
     Helmut Roth (helmut.roth@nrc-cnrc.gc.ca)
     Hae-won Choi (haewon1972@gmail.com)
@@ -57,6 +58,8 @@ Developed by
 #include "diffusivityModels.H"
 #include "porousZones.H"
 #include "polyToddYoung.H"
+#include "RiddersRoot.H"//added SBB
+#include "testFunction.H"//added SBB
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -82,6 +85,7 @@ int main(int argc, char *argv[])
     // Electrolyte components
 #   include "createElectrolyteMesh.H"
 #   include "readElectrolyteProperties.H"
+#   include "readActivationParameters.H"//Added SBB
 #   include "createElectrolyteFields.H"
 
     // Fuel-related components

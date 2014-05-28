@@ -18,7 +18,6 @@
     dimensionedScalar CpElectrolyte(electrolyteProperties.lookup("Cp"));
     dimensionedScalar kElectrolyte(electrolyteProperties.lookup("k"));
 
-
     // echo inputs from dictionary to stdout
     Info
         << "    rhoElectrolyte  = " << rhoElectrolyte  << nl

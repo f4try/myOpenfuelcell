@@ -14,7 +14,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 2;		//numberOfSubdomains= nx*ny*nz
+numberOfSubdomains 4;		//numberOfSubdomains= nx*ny*nz
 
 preserveFaceZones (iFaces);
 
@@ -22,7 +22,7 @@ method          simple;
 
 simpleCoeffs
 {
-    n               (1 2 1);
+    n               (2 2 1);
     delta           0.001;
 }
 

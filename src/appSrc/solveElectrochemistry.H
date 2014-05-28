@@ -4,6 +4,7 @@
     const scalar F = physicalConstant::F.value();         // C/mol
     const scalar FF = physicalConstant::FF.value();       // C/kmol
     const scalar Rgas = physicalConstant::Rgas.value();   // J/(mol K)
+    const scalar pAtm = physicalConstant::pAtm.value();   // Pa - added SBB 06-12-2013
 
     const scalar Tr = 298.15;  //reference Temperature [K] for thermodynamics
 
@@ -80,6 +81,7 @@
     }
 
     PtrList<scalarField> xFuel(fuelSpecies.size());
+    const scalarField& pFuelPatch = pFuel.boundaryField()[anodeID]; //added hj 03-09-2013
     forAll(fuelSpecies,s)
     {
         if(fuelSpecies[s].rSign() != 0)    //reactant or product
@@ -120,8 +122,13 @@
 	voltage.boundaryField()[electrolyteAnodeID][facei] = voltage[electrolyteAnodePatch.faceCells()[facei]];
     }
 
+    // Activation overpotential - added SBB 04-09-2013
+    // scalarField etaAnode is computed from an inverse Butler-Volmer eqn.
+    #include "activationOverpotential.H"
+
     // Solve Current
-    scalarField    i = (Nernst - voltage.boundaryField()[electrolyteAnodeID])/R;
+    scalarField    i = (Nernst - voltage.boundaryField()[electrolyteAnodeID]-etaAnode-etaCathode)/R;
+
     // ensure i > 0
     i = Foam::max(i, Foam::doubleScalarSMALL);
 
@@ -136,6 +143,8 @@
          << gMin(idensity.internalField()) << " , "
          << gAverage(idensity.internalField()) << " , "
          << gMax(idensity.internalField()) << endl;
+
+
 
     // Calculate electrochemical heating
     #include "electrochemicalHeating.H"

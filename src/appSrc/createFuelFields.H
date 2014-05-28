@@ -169,3 +169,44 @@
 
 
 
+// Added SBB 02-02-14
+ 
+    volScalarField etaA
+    (
+        IOobject
+        (
+            "etaA",
+            runTime.timeName(),
+            fuelMesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        fuelMesh,
+        dimensionedScalar
+        (
+            "etaA",
+            dimensionSet(1, 2, -3, 0, 0, -1, 0),
+            0
+        ),
+        zeroGradientFvPatchScalarField::typeName
+    );
+
+    volScalarField etaC
+    (
+        IOobject
+        (
+            "etaC",
+            runTime.timeName(),
+            fuelMesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        fuelMesh,
+        dimensionedScalar
+        (
+            "etaC",
+            dimensionSet(1, 2, -3, 0, 0, -1, 0),
+            0
+        ),
+        zeroGradientFvPatchScalarField::typeName
+    );
