@@ -122,17 +122,19 @@
 	voltage.boundaryField()[electrolyteAnodeID][facei] = voltage[electrolyteAnodePatch.faceCells()[facei]];
     }
 
-    // Activation overpotential - added SBB 04-09-2013
-    // scalarField etaAnode is computed from an inverse Butler-Volmer eqn.
-    #include "activationOverpotential.H"
 
     // Solve Current
-    scalarField    i = (Nernst - voltage.boundaryField()[electrolyteAnodeID]-etaAnode-etaCathode)/R;
+    scalarField i(anodePatch.size());    
+    i = (Nernst - voltage.boundaryField()[electrolyteAnodeID]-etaA.boundaryField()[electrolyteAnodeID]-etaC.boundaryField()[electrolyteAnodeID])/R;
 
     // ensure i > 0
     i = Foam::max(i, Foam::doubleScalarSMALL);
 
-    // Smear boundary current over electrolyte volume
+    // Activation overpotential - added SBB 04-09-2013
+    // scalarField etaAnode is computed from an inverse Butler-Volmer eqn.
+    #include "activationOverpotential.H"
+
+    // Smear boundary current and Nernst potential over electrolyte volume
     #include "idensity.H"
     
     // Calculate mean current density

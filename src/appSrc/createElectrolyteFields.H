@@ -36,7 +36,47 @@
         ),
         zeroGradientFvPatchScalarField::typeName
     );
+// Added SBB 02-02-14
+ 
+    volScalarField etaA
+    (
+        IOobject
+        (
+            "etaA",
+            runTime.timeName(),
+            electrolyteMesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        electrolyteMesh,
+        dimensionedScalar
+        (
+            "etaA",
+            dimensionSet(1, 2, -3, 0, 0, -1, 0),
+            0
+        ),
+        zeroGradientFvPatchScalarField::typeName
+    );
 
+    volScalarField etaC
+    (
+        IOobject
+        (
+            "etaC",
+            runTime.timeName(),
+            electrolyteMesh,
+            IOobject::READ_IF_PRESENT,
+            IOobject::AUTO_WRITE
+        ),
+        electrolyteMesh,
+        dimensionedScalar
+        (
+            "etaC",
+            dimensionSet(1, 2, -3, 0, 0, -1, 0),
+            0
+        ),
+        zeroGradientFvPatchScalarField::typeName
+    );
 
     Info<< "creating voltage field\n" << endl;
     volScalarField voltage
@@ -51,5 +91,21 @@
         ),
         electrolyteMesh,
         V,
+        zeroGradientFvPatchScalarField::typeName
+    );
+
+    Info<< "creating Nernst potential field\n" << endl;
+    volScalarField NernstPot
+    (
+        IOobject
+        (
+            "NernstPot",
+            runTime.timeName(),
+            electrolyteMesh,
+            IOobject::NO_READ,
+            IOobject::AUTO_WRITE
+        ),
+        electrolyteMesh,
+        1,
         zeroGradientFvPatchScalarField::typeName
     );

@@ -96,16 +96,16 @@
 //  Save data for output
 
     scalarField& etaAIn = etaA.internalField();
-    smearPatchToMesh smearetaA(fuelMesh, anodeName);
+    smearPatchToMesh smearetaA(electrolyteMesh, electrolyteAnodeName);
     etaAIn = smearetaA.smear(etaAnode);
     etaA.correctBoundaryConditions();
-    etaA.boundaryField()[anodeID] == etaAnode;
+    etaA.boundaryField()[electrolyteAnodeID] == etaAnode;
 
     scalarField& etaCIn = etaC.internalField();
-    smearPatchToMesh smearetaC(fuelMesh, anodeName);
+    smearPatchToMesh smearetaC(electrolyteMesh, electrolyteAnodeName);
     etaCIn = smearetaC.smear(etaCathode);
     etaC.correctBoundaryConditions();
-    etaC.boundaryField()[anodeID] == etaCathode;
+    etaC.boundaryField()[electrolyteAnodeID] == etaCathode;
 
 
 
