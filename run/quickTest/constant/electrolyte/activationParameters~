@@ -26,7 +26,4 @@ gammaCathode    gammaCathode [0 -2 0 -1 0 1 0]    1.51556e+8;
 m               m            [0 0 0 0 0 0 0]            0.22;
 ECathode        ECathode     [1 2 -2 0 1 0 0]      1.3986e+5;
 alphaCathode    alphaCathode [0 0 0 0 0 0 0]            0.65; 
-n         n         [0 0 0 0 0 0 0]     0;
-relaxA    relaxA    [0 0 0 0 0 0 0]     1;
-relaxC    relaxC    [0 0 0 0 0 0 0]     1;
 // ************************************************************************* //

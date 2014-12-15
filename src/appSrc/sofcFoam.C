@@ -109,6 +109,8 @@ int main(int argc, char *argv[])
     // Gas diffusivity models
 #   include "createDiffusivityModels.H"
 
+#   include "varInit.H"	//Added Qing, 25.06.2014
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
@@ -139,6 +141,7 @@ int main(int argc, char *argv[])
 
     #   include "YfuelEqn.H"
     #   include "YairEqn.H"
+
 
     #   include "solveElectrochemistry.H"
 

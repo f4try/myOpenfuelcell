@@ -24,6 +24,22 @@
          << Foam::gMin(anodeT) <<" , "  //S.Keuler, Bugfix for consistent output (parallel simulation) [two lines]
          << Foam::gMax(anodeT) << endl;
 
+    // Interpolate global temperature to electrolyte/air interface
+    // ------------------------------------------------------------
+    scalarField cathodeT(electrolyteCathodePatch.size());
+    {
+        surfaceScalarField Ts = fvc::interpolate(Tcell);
+
+        forAll (cathodeT, faceI)
+        {
+            cathodeT[faceI] = Ts[electrolyteCathodeMask[faceI]];
+        }
+    }
+
+    Info << "min,max(cathodeT): "
+         << Foam::gMin(cathodeT) <<" , " 
+         << Foam::gMax(cathodeT) << endl;
+
 
     // Interpolate cathode mole fractions of oxidant species to anode
     // --------------------------------------------------------------
@@ -39,6 +55,7 @@
     }
 
     PtrList<scalarField> xAir(airSpecies.size());
+    const scalarField& pAirPatch = pAir.boundaryField()[cathodeID]; //added Qing 04.06.2014
     forAll(airSpecies, s)
     {
         if (airSpecies[s].rSign() != 0)    //reactant or product (S.Keuler, corrected 30.01.2014)
@@ -124,15 +141,27 @@
 
 
     // Solve Current
+    // Add etaA and etaC into the current function after the pre-iteration, Qing, 22.06.2014
     scalarField i(anodePatch.size());    
-    i = (Nernst - voltage.boundaryField()[electrolyteAnodeID]-etaA.boundaryField()[electrolyteAnodeID]-etaC.boundaryField()[electrolyteAnodeID])/R;
 
+        if (runTime.value() > PreIterAct.value())
+	{
+	    i = (Nernst - voltage.boundaryField()[electrolyteAnodeID] - etaA.boundaryField()[electrolyteAnodeID] - etaC.boundaryField()[electrolyteAnodeID])/R;
+	}
+	else
+	{
+	 i = (Nernst - voltage.boundaryField()[electrolyteAnodeID])/R;
+	}
+	
     // ensure i > 0
     i = Foam::max(i, Foam::doubleScalarSMALL);
 
     // Activation overpotential - added SBB 04-09-2013
     // scalarField etaAnode is computed from an inverse Butler-Volmer eqn.
+  	
+    if (runTime.value() > PreIterAct.value()){
     #include "activationOverpotential.H"
+}
 
     // Smear boundary current and Nernst potential over electrolyte volume
     #include "idensity.H"

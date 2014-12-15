@@ -3,6 +3,7 @@
     const polyPatch& anodePatch = fuelMesh.boundaryMesh()[anodeID];
     const polyPatch& cathodePatch = airMesh.boundaryMesh()[cathodeID];
     const polyPatch& electrolyteAnodePatch = electrolyteMesh.boundaryMesh()[electrolyteAnodeID];
+    const polyPatch& electrolyteCathodePatch = electrolyteMesh.boundaryMesh()[electrolyteCathodeID];
 
     patchToPatchInterpolation anodeToCathode
     (
@@ -40,6 +41,13 @@
         electrolyteAnodeMask[i] = electrolyteFaceMap[electrolyteAnodePatch.start() + i];
     }
 
+    // Create a mask from global faces to the cathode surface on the air mesh
+    labelList electrolyteCathodeMask(electrolyteCathodePatch.size());
+
+    forAll (electrolyteCathodeMask, i)
+    {
+        electrolyteCathodeMask[i] = electrolyteFaceMap[electrolyteCathodePatch.start() + i];
+    }
 
 
     // Ohmic heating will occur in the electrolyte
@@ -49,4 +57,10 @@
     (
         fuelMesh.boundaryMesh()[anodeID],
         electrolyteMesh.boundaryMesh()[electrolyteAnodeID]
+    );
+
+    patchToPatchInterpolation airCathodeToElectrolyteCathode
+    (
+        airMesh.boundaryMesh()[cathodeID],
+        electrolyteMesh.boundaryMesh()[electrolyteCathodeID]
     );

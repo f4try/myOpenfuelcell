@@ -23,8 +23,13 @@
 
     dimensionedScalar gammaCathodeElectrolyte(activationParameters.lookup("gammaCathode"));
     dimensionedScalar mElectrolyte(activationParameters.lookup("m"));
+    dimensionedScalar nElectrolyte(activationParameters.lookup("n"));
     dimensionedScalar ECathodeElectrolyte(activationParameters.lookup("ECathode"));
     dimensionedScalar alphaCathodeElectrolyte(activationParameters.lookup("alphaCathode"));
+
+    dimensionedScalar relaxA(activationParameters.lookup("relaxA"));	//Qing, 22.06.2014
+    dimensionedScalar relaxC(activationParameters.lookup("relaxC"));	
+
 
     // echo inputs from dictionary to stdout
     Info<< "activation overpotential = " << activationOverpotential << nl;

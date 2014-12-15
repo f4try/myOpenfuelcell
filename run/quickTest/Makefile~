@@ -51,7 +51,7 @@ parprep:
 run:
 	(./prun | tee log.prun);
 srun:
-	(fuelCellFoam | tee log.srun);
+	(sofcFoam | tee log.srun);
 #############
 reconstruct:
 	(reconstructPar);
