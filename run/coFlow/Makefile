@@ -1,7 +1,6 @@
-###################################################################################################
-EXE=sofcFoam
-test: clear mesh run view
-mesh: bmesh patchBC regionMesh control
+################################################################################
+All: mesh parprep run reconstruct view
+mesh: bmesh patchBC regionSets regionInterface regionMesh control
 ###############
 clean:
 	(rm -rf *.log [1-9]*);
@@ -21,38 +20,59 @@ patchBC:
 	(rm -rf ./constant/polyMesh/sets/*_old);
 	(setsToZones -noFlipMap);
 	(createPatch -overwrite);
-regionMesh:
+regionSets:
 	(rm -rf constant/polyMesh/sets constant/polyMesh/*Zones);
 	(setSet -batch ./config/make.setSet -noVTK);
 	(rm -rf constant/polyMesh/sets/*_old);
 	(setsToZones -noFlipMap);
-	(splitMeshRegions -cellZones);
-	(cp -rf 0.001/* ./constant/);
+regionInterface:
+	(setSet -batch ./config/make.setIFaces -noVTK);
+	(rm -rf constant/polyMesh/sets/*_old);
+	(rm constant/polyMesh/sets/[abc]Faces);
+	(setsToZones -noFlipMap);
+regionMesh:
+	(splitMeshRegions -cellZonesOnly);
+	(cp -r 0.001/* ./constant);
 	(rm -rf 0.001);
 	(setSet -batch ./config/make.setAir -region air -noVTK);
-	(rm -rf constant/air/polyMesh/sets/*_old);
 	(setsToZones -noFlipMap -region air);
 	(setSet -batch ./config/make.setFuel -region fuel -noVTK);
-	(rm -rf constant/fuel/polyMesh/sets/*_old);
 	(setsToZones -noFlipMap -region fuel);
+	(setSet -batch ./config/make.setElectrolyte -region electrolyte -noVTK);
+	(setsToZones -noFlipMap -region electrolyte);
+	(rm -f constant/[aefi]*/[kpTU] constant/[aefi]*/rho);
+	(rm -f constant/[aefi]*/Y* constant/[aefi]*/diff*);
 control:
 	(cp -rf ./system/controlDict.run ./system/controlDict);
 #############
+parprep:
+	(./parprep.csh | tee log.parprep);
+#############
 run:
-	(make clean);
-	($(EXE) | tee srun.log);	
+	(./prun | tee log.prun);
+srun:
+	(fuelCellFoam | tee log.srun);
+#############
+reconstruct:
+	(reconstructPar);
+	(reconstructPar -region air);
+	(reconstructPar -region fuel);
+	(reconstructPar -region electrolyte);
+	(reconstructPar -region interconnect);
+	(reconstructPar -region interconnect);
+#############
 view:
 	(foamToVTK -latestTime);
 	(foamToVTK -latestTime -region air);
 	(foamToVTK -latestTime -region fuel);
 	(foamToVTK -latestTime -region electrolyte);
-	(foamToVTK -latestTime -region interconnect0);
-	(foamToVTK -latestTime -region interconnect1);
+	(foamToVTK -latestTime -region interconnect);
+	(foamToVTK -latestTime -region interconnect);
 viewAll:
 	(foamToVTK);
 	(foamToVTK -region air);
 	(foamToVTK -region fuel);
 	(foamToVTK -region electrolyte);
-	(foamToVTK -region interconnect0);
-	(foamToVTK -region interconnect1);
-###################################################################################################
+	(foamToVTK -region interconnect);
+	(foamToVTK -region interconnect);
+################################################################################

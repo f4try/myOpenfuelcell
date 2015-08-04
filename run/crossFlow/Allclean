@@ -12,6 +12,7 @@ find ./0 \( -name 'polyMesh' \) -exec rm -rf {} \;
 rm -rf [1-9]*
 rm logs > /dev/null 2>&1
 rm testLoopReport > /dev/null 2>&1
+rm -rf proc_*
 
 echo ''
 
@@ -20,7 +21,8 @@ foamClearPolyMesh
 foamClearPolyMesh -region air
 foamClearPolyMesh -region fuel
 foamClearPolyMesh -region electrolyte
-foamClearPolyMesh -region interconnect0
-foamClearPolyMesh -region interconnect1
+foamClearPolyMesh -region interconnect
+
+rmdir constant/[aefi]*/polyMesh
 
 # ----------------------------------------------------------------- end-of-file

@@ -49,7 +49,7 @@ boundaryField
         type            zeroGradient;
     }
     
-    air_to_interconnect0
+    air_to_interconnect
     {
         type            zeroGradient;
     }
@@ -57,7 +57,7 @@ boundaryField
     air_to_electrolyte //cathode
     {
         type            fixedGradient;
-        gradient        uniform -300;
+        gradient        uniform 0;
     }
 }
 

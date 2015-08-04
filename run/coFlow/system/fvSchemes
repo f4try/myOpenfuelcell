@@ -40,7 +40,8 @@ laplacianSchemes
 
 interpolationSchemes
 {
-    default         harmonic;
+    //default         harmonic;
+    default         linear;
     interpolate(T)  harmonic;
     interpolate(k)  harmonic;
 }
@@ -53,6 +54,7 @@ snGradSchemes
 fluxRequired
 {
     default         no;
+    T;
 }
 
 

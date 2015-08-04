@@ -52,10 +52,10 @@ boundaryField
     fuel_to_electrolyte //anode
     {
         type            fixedGradient;
-        gradient        uniform -300;
+        gradient        uniform 0;
     }
 
-    fuel_to_interconnect1
+    fuel_to_interconnect
     {
         type            zeroGradient;
     }

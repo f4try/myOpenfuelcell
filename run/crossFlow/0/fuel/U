@@ -19,14 +19,14 @@ FoamFile
 
 dimensions      [0 1 -1 0 0 0 0];
 
-internalField   uniform (1 0 0);
+internalField   uniform (0 0 0);
 
 boundaryField
 {
     fuelInlet
     {
         type            fixedValue;
-        value           uniform (1 0 0);  
+        value           uniform (1.0 0 0);
     }
 
     fuelOutlet
@@ -53,12 +53,12 @@ boundaryField
     }
         
     fuel_to_electrolyte //anode
-    { 
+    {
         type            fixedValue;
         value           uniform (0 0 0);
     }
 
-    fuel_to_interconnect1
+    fuel_to_interconnect
     {
         type            fixedValue;
         value           uniform (0 0 0);

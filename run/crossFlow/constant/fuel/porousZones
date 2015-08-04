@@ -38,18 +38,18 @@ FoamFile
 
         diffusivity
         {
-            //type        fixedDiffusivity;
-            //diff0       diff0 [0 2 -1 0 0 0 0]  1.3124e-4;
+            type        fixedDiffusivity;
+            diff0       diff0 [0 2 -1 0 0 0 0]  1.3124e-4;
             // ------------------------------------------ //
-            type        porousFSG;
-            Tname       T;
-            pName       p;
-            speciesA    H2;     // diffusing species
-            speciesB    H2O;    // background species
-            porosity    0.5;
-            tortuosity  3.0;
-            dPore       dPore [0 1 0 0 0 0 0] 1.333333e-06;   // pore size
-            doBinary    false;
+            //type        porousFSG;
+            //Tname       T;
+            //pName       p;
+            //speciesA    H2;     // diffusing species
+            //speciesB    H2O;    // background species
+            //porosity    0.5;
+            //tortuosity  3.0;
+            //dPore       dPore [0 1 0 0 0 0 0] 1.333333e-06;   // pore size
+            //doBinary    false;
         }
     }
 
@@ -74,18 +74,18 @@ FoamFile
 
         diffusivity
         {
-            //type        fixedDiffusivity;
-            //diff0       diff0 [0 2 -1 0 0 0 0]  4.6321e-05;
+            type        fixedDiffusivity;
+            diff0       diff0 [0 2 -1 0 0 0 0]  4.6321e-05;
             // ------------------------------------------ //
-            type        porousFSG;
-            Tname       T;
-            pName       p;
-            speciesA    H2;     // diffusing species
-            speciesB    H2O;    // background species
-            porosity    0.25;
-            tortuosity  3.0;
-            dPore       dPore [0 1 0 0 0 0 0] 2.888889e-07;   // pore size
-            doBinary    false;
+            //type        porousFSG;
+            //Tname       T;
+            //pName       p;
+            //speciesA    H2;     // diffusing species
+            //speciesB    H2O;    // background species
+            //porosity    0.25;
+            //tortuosity  3.0;
+            //dPore       dPore [0 1 0 0 0 0 0] 2.888889e-07;   // pore size
+            //doBinary    false;
         }
     }
 )

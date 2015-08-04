@@ -32,19 +32,29 @@ galvanostatic true;
 // galvanostatic ==> initial value
 // potentiostaic ==> prescribed value
 //
-voltage         V [1 2 -3 0 0 -1 0] 0.85;         // volts
+voltage         V [1 2 -3 0 0 -1 0] 0.80;         // volts
 
 // mean current density
 // galvanostatic ==> prescribed value
 // potentiostaic ==> initial value
 //
-ibar0           ibar0 [0 -2 0 0 0 1 0] 4000.0;    // amperes/m^2
+ibar0           ibar0 [0 -2 0 0 0 1 0] 5000.0;    // amperes/m^2
+
+// available fuel cell types: SOFC / HTPEFC
+fuelCellType    SOFC;
 
 // voltage correction relaxation coefficient for galvanostatic run
+//
 Rhat            Rhat [1 4 -3 0 0 -2 0] 1.0e-5;    // ohm m^2
+Rhat0           Rhat0 [1 4 -3 0 0 -2 0] 1.0e-5;   // ohm m^2, relaxation coefficient during pre-iteration for voltage correction
+// pre-iteration
+PreIterAct    PreIterAct    [0 0 0 0 0 0 0]    100;    //pre-iteration for actvation term
+PreIterV    PreIterV    [0 0 0 0 0 0 0]    0;    //pre-iteration for voltage correction
+
 
 // initial Temperature for fuel and air T fields
 Tinit		Tinit [0 0 0 1 0 0 0] 1000.0;	  // K
+numCells		numCells [0 0 0 0 0 0 0] 1;	  // K
 
 
 // special patch names
@@ -60,3 +70,4 @@ electrolyteAnodePatch      electrolyte_to_fuel;
 electrolyteCathodePatch    electrolyte_to_air;
 
 // ************************************************************************* //
+

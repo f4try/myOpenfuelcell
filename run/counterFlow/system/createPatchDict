@@ -157,40 +157,22 @@ patches
         set electrolyteSides;
     }
     {
-        name interconnect0Sides;
+        name interconnectSides;
         patchInfo
         {
             type patch;
         }
         constructFrom set;
-        set interconnect0Sides;
+        set interconnectSides;
     }
     {
-        name interconnect0;
+        name interconnectSides;
         patchInfo
         {
             type patch;
         }
         constructFrom set;
-        set interconnect0;
-    }
-    {
-        name interconnect1Sides;
-        patchInfo
-        {
-            type patch;
-        }
-        constructFrom set;
-        set interconnect1Sides;
-    }
-    {
-        name interconnect1;
-        patchInfo
-        {
-            type patch;
-        }
-        constructFrom set;
-        set interconnect1;
+        set interconnectSides;
     }
 );
 

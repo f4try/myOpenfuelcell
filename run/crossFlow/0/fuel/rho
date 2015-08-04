@@ -56,7 +56,7 @@ boundaryField
         type            zeroGradient;
     }
 
-    fuel_to_interconnect1
+    fuel_to_interconnect
     {
         type            zeroGradient;
     }

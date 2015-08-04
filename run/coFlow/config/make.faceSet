@@ -1,30 +1,27 @@
-faceSet interconnect0Sides new patchToFace interconnect0Sides all
-faceSet interconnect0   new patchToFace interconnect0 all
+faceSet interconnectSides new patchToFace interconnectSides all
+faceSet interconnect new patchToFace interconnect all
 
-faceSet interconnect1Sides new patchToFace interconnect1Sides all
-faceSet interconnect1      new patchToFace interconnect1  all
+faceSet electrolyteSides new patchToFace electrolyteSides all
 
-faceSet electrolyteSides     new patchToFace electrolyteSides all
-
-faceSet cflSides  new patchToFace cflSides  all
+faceSet cflSides new patchToFace cflSides all
 faceSet cathodeSides new patchToFace cathodeSides all
-faceSet airSides  new patchToFace airSides  all
-faceSet airInlet  new patchToFace airInlet  all
+faceSet airSides new patchToFace airSides all
+faceSet airInlet new patchToFace airInlet all
 faceSet airOutlet new patchToFace airOutlet all
 
-faceSet aflSides   new patchToFace aflSides   all
+faceSet aflSides new patchToFace aflSides all
 faceSet anodeSides new patchToFace anodeSides all
-faceSet fuelSides  new patchToFace fuelSides  all
-faceSet fuelInlet  new patchToFace fuelInlet  all
+faceSet fuelSides new patchToFace fuelSides all
+faceSet fuelInlet new patchToFace fuelInlet all
 faceSet fuelOutlet new patchToFace fuelOutlet all
 
-faceSet interconnect0Sides add patchToFace airInlet  all
-faceSet interconnect0Sides add patchToFace airOutlet all
-faceSet interconnect0Sides add patchToFace airSides  all
+faceSet interconnectSides add patchToFace airInlet  all
+faceSet interconnectSides add patchToFace airOutlet all
+faceSet interconnectSides add patchToFace airSides  all
 
-faceSet interconnect1Sides add patchToFace fuelInlet  all
-faceSet interconnect1Sides add patchToFace fuelOutlet all
-faceSet interconnect1Sides add patchToFace fuelSides  all
+faceSet interconnectSides add patchToFace fuelInlet  all
+faceSet interconnectSides add patchToFace fuelOutlet all
+faceSet interconnectSides add patchToFace fuelSides  all
 
 faceSet airSides clear
 faceSet airInlet clear
