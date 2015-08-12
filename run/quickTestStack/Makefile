@@ -52,7 +52,7 @@ run:
 	(./prun | tee log.prun);
 #############
 srun:
-	(sofcFoam | tee log.srun);
+	(fuelCellFoam | tee log.srun);
 #############
 reconstruct:
 	(reconstructParMesh -region air -constant);
