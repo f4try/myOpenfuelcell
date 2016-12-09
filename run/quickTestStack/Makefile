@@ -50,21 +50,22 @@ parprep:
 #############
 run:
 	(./prun | tee log.prun);
-#############
 srun:
 	(fuelCellFoam | tee log.srun);
 #############
+###reconstructMesh:
+#############
 reconstruct:
+	(reconstructParMesh);
 	(reconstructParMesh -region air -constant);
 	(reconstructParMesh -region fuel -constant);
 	(reconstructParMesh -region electrolyte -constant);
 	(reconstructParMesh -region interconnect -constant);
-
-	(reconstructPar -zeroTime);
-	(reconstructPar -zeroTime -region air);
-	(reconstructPar -zeroTime -region fuel);
-	(reconstructPar -zeroTime -region electrolyte);
-	(reconstructPar -zeroTime -region interconnect);
+	(reconstructPar);
+	(reconstructPar -region air);
+	(reconstructPar -region fuel);
+	(reconstructPar -region electrolyte);
+	(reconstructPar -region interconnect);
 #############
 view:
 	(foamToVTK -latestTime);

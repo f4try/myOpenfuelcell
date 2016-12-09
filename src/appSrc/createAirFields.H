@@ -46,6 +46,27 @@
     );
     muAir.correctBoundaryConditions();
 
+// Added SBB
+    Info<< "Creating air field nu" << endl;
+    volScalarField nuAir
+    (
+        IOobject
+        (
+            "nu",
+            runTime.timeName(),
+            airMesh,
+            IOobject::NO_READ,
+            IOobject::NO_WRITE
+        ),
+        airMesh,
+        muA/rhoA,
+        zeroGradientFvPatchScalarField::typeName
+    );
+    nuAir.correctBoundaryConditions();
+
+
+//End added SBB 
+
     Info<< "Creating air field U" << endl;
     volVectorField Uair
     (
@@ -154,7 +175,21 @@
 
 
     Info<< "Creating air porous zones" << endl;
-    porousZones cathodeZones(airMesh);
+/*    porousZones cathodeZones(airMesh);  Deleted SBB*/
+/* Lines added SBB */
+    IOdictionary airPorousZones
+    (
+        IOobject
+        (
+            "porousZones",
+            runTime.constant(),
+            airMesh,
+            IOobject::MUST_READ,
+            IOobject::NO_WRITE
+        )
+    );
+    porousZoneList cathodeZones(airMesh, airPorousZones); 
+/* End lines added SBB */
 
     Info<< "    number of porous zones = " << cathodeZones.size() << nl;
     forAll(cathodeZones, i)

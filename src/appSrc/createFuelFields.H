@@ -45,6 +45,26 @@
         zeroGradientFvPatchScalarField::typeName
     );
     muFuel.correctBoundaryConditions();
+// Added SBB
+    Info<< "Creating fuel field nu" << endl;
+    volScalarField nuFuel
+    (
+        IOobject
+        (
+            "nu",
+            runTime.timeName(),
+            fuelMesh,
+            IOobject::NO_READ,
+            IOobject::NO_WRITE
+        ),
+        fuelMesh,
+        muF/rhoF,
+        zeroGradientFvPatchScalarField::typeName
+    );
+    nuFuel.correctBoundaryConditions();
+
+
+//End added SBB 
 
 
     Info<< "Reading fuel field U\n" << endl;
@@ -154,8 +174,21 @@
 
 
     Info<< "Reading fuel porous zones" << endl;
-    porousZones anodeZones(fuelMesh);
-
+/*    porousZones anodeZones(fuelMesh);Deleted SBB*/
+/* Lines added SBB */
+    IOdictionary fuelPorousZones
+    (
+        IOobject
+        (
+            "porousZones",
+            runTime.constant(),
+            fuelMesh,
+            IOobject::MUST_READ,
+            IOobject::NO_WRITE
+        )
+    );
+    porousZoneList anodeZones(fuelMesh, fuelPorousZones); 
+/* End lines added SBB */
     Info<< "    number of porous zones = " << anodeZones.size() << nl;
     forAll(anodeZones, i)
     {

@@ -16,26 +16,51 @@ FoamFile
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-(
+/*( Deleted SBB*/
     anode
     {
-        coordinateSystem
+/* Deleted SBB
+       coordinateSystem
         {
             e1        (1 0 0);
             e2        (0 0 1); 
         }
 
-        porosity    0.5;
+        porosity    0.5; 
+
+End deleted SBB*/
 
         Cp          Cp [0 2 -2 -1 0 0 0]    1000;
         k           k  [1 1 -3 -1 0 0 0]    3.0;
-
+/* Deleted SBB
         Darcy
         {
             d         d [0 -2 0 0 0 0 0] (1e12 1e12 1e12);
             f         f [0 -1 0 0 0 0 0] (0 0 0);
         }
-
+End deleted SBB */
+/* Added SBB */
+    type            DarcyForchheimer;	// porosity Model: fixCoeff, powerLaw, DarcyForchheimer
+    active          yes;		// status
+    cellZone        anode;		// name of porous zone
+    porosity        0.5;		// porosity
+    DarcyForchheimerCoeffs		// coefficents for DarcyForchheimer; with the name of type + Coeffs
+    {
+        d   (1e12 1e12 1e12);
+        f   (0 0 0);
+        coordinateSystem
+        {
+            type    cartesian;
+            origin  (0 0 0);
+            coordinateRotation
+            {
+                type    axesRotation;
+                e1      (1 0 0);
+                e2      (0 0 1);
+            }
+        }
+    }
+/* End added SBB */
         diffusivity
         {
             type        fixedDiffusivity;
@@ -55,6 +80,7 @@ FoamFile
 
     afl
     {
+/* Deleted SBB
         coordinateSystem
         {
             e1        (1 0 0);
@@ -62,20 +88,46 @@ FoamFile
         }
 
         porosity    0.25;
+End deleted SBB */
 
         Cp          Cp [0 2 -2 -1 0 0 0]    1000;
         k           k  [1 1 -3 -1 0 0 0]    3.0;
+
+/* Deleted SBB
 
         Darcy
         {
             d         d [0 -2 0 0 0 0 0] (1e12 1e12 1e12);
             f         f [0 -1 0 0 0 0 0] (0 0 0);
         }
+end deleted SBB*/
+/* Added SBB */
+    type            DarcyForchheimer;
+    active          yes;
+    cellZone        afl;
+    porosity        0.25;
+    DarcyForchheimerCoeffs
+    {
+        d   (1e12 1e12 1e12);
+        f   (0 0 0);
+        coordinateSystem
+        {
+            type    cartesian;
+            origin  (0 0 0);
+            coordinateRotation
+            {
+                type    axesRotation;
+                e1      (1 0 0);
+                e2      (0 0 1);
+            }
+        }
+    }
+/* End added SBB */
 
         diffusivity
         {
             type        fixedDiffusivity;
-            diff0       diff0 [0 2 -1 0 0 0 0]  4.6321e-05;
+            diff0       diff0 [0 2 -1 0 0 0 0] 4.6321e-05;
             // ------------------------------------------ //
             //type        porousFSG;
             //Tname       T;
@@ -88,5 +140,4 @@ FoamFile
             //doBinary    false;
         }
     }
-)
 // ************************************************************************* //

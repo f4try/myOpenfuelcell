@@ -53,12 +53,18 @@ run:
 srun:
 	(fuelCellFoam | tee log.srun);
 #############
+###reconstructMesh:
+#############
 reconstruct:
+	(reconstructParMesh);
+	(reconstructParMesh -region air -constant);
+	(reconstructParMesh -region fuel -constant);
+	(reconstructParMesh -region electrolyte -constant);
+	(reconstructParMesh -region interconnect -constant);
 	(reconstructPar);
 	(reconstructPar -region air);
 	(reconstructPar -region fuel);
 	(reconstructPar -region electrolyte);
-	(reconstructPar -region interconnect);
 	(reconstructPar -region interconnect);
 #############
 view:
@@ -67,12 +73,10 @@ view:
 	(foamToVTK -latestTime -region fuel);
 	(foamToVTK -latestTime -region electrolyte);
 	(foamToVTK -latestTime -region interconnect);
-	(foamToVTK -latestTime -region interconnect);
 viewAll:
 	(foamToVTK);
 	(foamToVTK -region air);
 	(foamToVTK -region fuel);
 	(foamToVTK -region electrolyte);
-	(foamToVTK -region interconnect);
 	(foamToVTK -region interconnect);
 ################################################################################

@@ -29,7 +29,7 @@ gradSchemes
 divSchemes
 {
     default              none;
-    div(rhoCpPhi,T)      Gauss upwind;
+    div(rhoCpPhi,T)      Gauss upwind;// Added "bounded" SBB
 }
 
 laplacianSchemes

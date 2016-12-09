@@ -56,10 +56,11 @@ Developed by
 #include "smearPatchToMesh.H"
 
 #include "diffusivityModels.H"
-#include "porousZones.H"
+/* #include "porousZones.H" Deleted SBB */
+#include "porousZoneList.H"//Added SBB
 #include "polyToddYoung.H"
-#include "RiddersRoot.H"//added SBB
-#include "testFunction.H"//added SBB
+#include "RiddersRoot.H"//added SBB (previously)
+#include "testFunction.H"//added SBB (previously)
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -128,7 +129,10 @@ int main(int argc, char *argv[])
 
     #   include "muAir.H"
     #   include "muFuel.H"
-
+// Following lines added SBB
+    #   include "nuAir.H"
+    #   include "nuFuel.H"
+// End lines added SBB
     #   include "kAir.H"
     #   include "kFuel.H"
 

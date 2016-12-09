@@ -17,12 +17,11 @@ rm -rf proc_*
 echo ''
 
 foamCleanTutorials cases
-foamClearPolyMesh
-foamClearPolyMesh -region air
-foamClearPolyMesh -region fuel
-foamClearPolyMesh -region electrolyte
-foamClearPolyMesh -region interconnect0
-foamClearPolyMesh -region interconnect1
+foamCleanPolyMesh
+foamCleanPolyMesh -region air
+foamCleanPolyMesh -region fuel
+foamCleanPolyMesh -region electrolyte
+foamCleanPolyMesh -region interconnect
 
 rmdir constant/[aefi]*/polyMesh
 
