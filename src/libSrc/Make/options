@@ -4,6 +4,20 @@ endif
 
 EXE_INC = -g \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/coordinateSystems \
+    -I$(LIB_SRC)/meshTools/coordinateSystems/coordinateRotation \
+    -I$(LIB_SRC)/meshTools/AMIInterpolation/patches/cyclic/cyclicAMILduInterfaceField \
+    -I$(LIB_SRC)/meshTools/AMIInterpolation/patches/cyclicAMI/cyclicAMILduInterfaceField \
+    -I$(LIB_SRC)/meshTools/AMIInterpolation/AMIInterpolation \
+    -I$(LIB_SRC)/meshTools/searchableSurface \
+    -I$(LIB_SRC)/meshTools/AMIInterpolation/faceAreaIntersect \
+    -I$(LIB_SRC)/meshTools/AMIInterpolation/AMIInterpolation/AMIMethod/AMIMethod \
+    -I$(LIB_SRC)/meshTools/indexedOctree \
+    -I$(LIB_SRC)/meshTools/triSurface/triangleFuncs \
+    -I$(LIB_SRC)/meshTools/triSurface/triSurfaceTools \
+    -I$(LIB_SRC)/meshTools/triSurface/surfaceLocation \
+    -I$(LIB_SRC)/meshTools/meshTools \
+    -I$(LIB_SRC)/meshTools/AMIInterpolation/patches/cyclicAMI/cyclicAMIPolyPatch \
     $(OFV)
 
 LIB_LIBS = \
