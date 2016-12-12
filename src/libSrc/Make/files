@@ -18,5 +18,12 @@ polyToddYoung/polyToddYoung.C
 regionProperties/regionProperties.C
 
 sofcSpecie/sofcSpecie.C
+porosity = porosityModel
+$(porosity)/porosityModel/porousZone.C
+$(porosity)/porosityModel/porousZoneNew.C
+$(porosity)/porosityModel/porousZoneList.C
+$(porosity)/DarcyForchheimer/DarcyForchheimer.C
+$(porosity)/fixedCoeff/fixedCoeff.C
+$(porosity)/powerLaw/powerLaw.C
 
 LIB = $(FOAM_USER_LIBBIN)/libsofcFoam
