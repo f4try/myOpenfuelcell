@@ -34,7 +34,7 @@
             );
 
             //Yi.max(0.0);
-            Yi.max(Foam::doubleScalarSMALL);
+            Yi.max(Foam::doubleScalarSmall);
             Yt += Yi;
         }
         else
@@ -46,7 +46,7 @@
     Info<< "inertIndex = " << inertIndex << nl;
     Yfuel[inertIndex] = scalar(1) - Yt;
     //Yfuel[inertIndex].max(0.0);
-    Yfuel[inertIndex].max(Foam::doubleScalarSMALL);
+    Yfuel[inertIndex].max(Foam::doubleScalarSmall);
 
     forAll(Yfuel, i)
     {

@@ -2,19 +2,19 @@
     // Map to cell.  In practice, fields for rho, Cp and k will come from
     // components (air, fuel, electrolyte) but currently they are constant
 
-    scalarField& rhoCpCellIn = rhoCpCell.internalField();
+    scalarField& rhoCpCellIn = rhoCpCell.primitiveFieldRef();
     rhoCpCellIn = 0.0;
 
-    scalarField& kCellIn = kCell.internalField();
+    scalarField& kCellIn = kCell.primitiveFieldRef();
     kCellIn = 0.0;
 
-    scalarField& TsourceCellIn = TsourceCell.internalField();
+    scalarField& TsourceCellIn = TsourceCell.primitiveFieldRef();
     TsourceCellIn = 0.0;
 
-    scalarField& phiCellIn = phiCell.internalField();
+    scalarField& phiCellIn = phiCell.primitiveFieldRef();
     phiCellIn = 0.0;
 
-    scalarField& rhoCpPhiCellIn = rhoCpPhiCell.internalField();
+    scalarField& rhoCpPhiCellIn = rhoCpPhiCell.primitiveFieldRef();
     rhoCpPhiCellIn = 0.0;
 
 #   include "mapAirToCell.H"

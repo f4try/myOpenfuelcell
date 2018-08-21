@@ -6,9 +6,9 @@ if(ReA)
     (
         Foam::gAverage
         (
-            rhoAir.boundaryField()[airInletID]
-            *Uair.boundaryField()[airInletID]
-            /muAir.boundaryField()[airInletID]
+            rhoAir.boundaryFieldRef()[airInletID]
+            *Uair.boundaryFieldRef()[airInletID]
+            /muAir.boundaryFieldRef()[airInletID]
         )
     );
      
@@ -24,9 +24,9 @@ if(ReF)
     (
         Foam::gAverage
         (
-            rhoFuel.boundaryField()[fuelInletID]
-            *Ufuel.boundaryField()[fuelInletID]
-            /muFuel.boundaryField()[fuelInletID]
+            rhoFuel.boundaryFieldRef()[fuelInletID]
+            *Ufuel.boundaryFieldRef()[fuelInletID]
+            /muFuel.boundaryFieldRef()[fuelInletID]
         )
     );
 

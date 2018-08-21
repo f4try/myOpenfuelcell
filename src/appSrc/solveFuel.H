@@ -28,7 +28,7 @@
 
     for (int corr = 0; corr < nCorr; corr++)
     {
-        pFuel.boundaryField().updateCoeffs();
+        pFuel.boundaryFieldRef().updateCoeffs();
         rUAfuel = 1.0/UEqn.A();
         Ufuel = UEqn.H()/UEqn.A();
         Ufuel.correctBoundaryConditions();

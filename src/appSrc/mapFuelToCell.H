@@ -5,7 +5,7 @@
         // mass based heat capacity cp
         // cp [J/kg-K] = Cp/M where Cp = [J/mol-K], M = [kg/mol]
 
-        scalarField& cp = cpFuel.internalField();
+        scalarField& cp = cpFuel.primitiveFieldRef();
         cp = 0;
 
         forAll(fuelSpecies, i)
@@ -17,13 +17,13 @@
             scalar rMWi = 1.0/(fuelSpecies[i].MW()*1e-3);    // 1/[kg/mol]
             scalarField cpi =
             (
-                 molarCpFuel[i].polyVal(Tfuel.internalField())*rMWi
+                 molarCpFuel[i].polyVal(Tfuel.primitiveFieldRef())*rMWi
             );
-            cp += Yfuel[i].internalField()*cpi;
+            cp += Yfuel[i].primitiveFieldRef()*cpi;
         }
         cpFuel.correctBoundaryConditions();
 
-        scalarField rhoCpF = cp*rhoFuel.internalField();
+        scalarField rhoCpF = cp*rhoFuel.primitiveFieldRef();
 
         Info<< "min mean max rhoCpF(fuel) = " << gMin(rhoCpF) << " "
             << gAverage(rhoCpF) << " " << gMax(rhoCpF) << nl;
@@ -34,7 +34,7 @@
 
 
         //scalarField kIn(fuelMesh.nCells(), kF.value());
-        scalarField& kIn = kFuel.internalField();
+        scalarField& kIn = kFuel.primitiveFieldRef();
 
         forAll(anodeZones, iz)
         {
@@ -76,12 +76,12 @@
         //
 
         scalarField rhoCpPhiF =
-            //CpFuel.value()*phiFuel.internalField();
-            linearInterpolate(cpFuel)*phiFuel.internalField();
+            //CpFuel.value()*phiFuel.primitiveFieldRef();
+            linearInterpolate(cpFuel)*phiFuel.primitiveFieldRef();
 
         phiCellIn.rmap
         (
-            phiFuel.internalField()*fuelInternalFaceMask,
+            phiFuel.primitiveFieldRef()*fuelInternalFaceMask,
             fuelInternalFaceMap
         );
 
@@ -93,7 +93,7 @@
 
 
         // Do electrolyte interface    (hkr: 2010 Dec 03)
-        scalarField anodePhi = phiFuel.boundaryField()[anodeID];
+        scalarField anodePhi = phiFuel.boundaryFieldRef()[anodeID];
         forAll(anodePhi, faceI)
         {
             phiCell[anodeMask[faceI]] = anodePhi[faceI];
@@ -138,24 +138,24 @@
                 curFpm -= mesh.boundary()
                     [fuelPatchesMap[patchI]].patch().start();
 
-                phiCell.boundaryField()[fuelPatchesMap[patchI]].
+                phiCell.boundaryFieldRef()[fuelPatchesMap[patchI]].
                     scalarField::rmap
                     (
-                        phiFuel.boundaryField()[patchI]*curMask,
+                        phiFuel.boundaryFieldRef()[patchI]*curMask,
                         curFpm
                     );
 
-                rhoCpPhiCell.boundaryField()[fuelPatchesMap[patchI]].
+                rhoCpPhiCell.boundaryFieldRef()[fuelPatchesMap[patchI]].
                     scalarField::rmap
                     (
                         (
-                            cpFuel.boundaryField()[patchI]
-                            *phiFuel.boundaryField()[patchI]
+                            cpFuel.boundaryFieldRef()[patchI]
+                            *phiFuel.boundaryFieldRef()[patchI]
                         )*curMask,
                         curFpm
                     );
 
-                //rhoCpPhiCell.boundaryField()[fuelPatchesMap[patchI]] *=
+                //rhoCpPhiCell.boundaryFieldRef()[fuelPatchesMap[patchI]] *=
                 //(
                 //    CpFuel.value()
                 //);

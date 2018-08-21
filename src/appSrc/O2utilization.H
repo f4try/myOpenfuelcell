@@ -2,9 +2,9 @@
     // total air mass rate at inlet
     scalarField  rateInlet =
     (
-        rhoAir.boundaryField()[airInletID]
+        rhoAir.boundaryFieldRef()[airInletID]
         *(
-             Uair.boundaryField()[airInletID]
+             Uair.boundaryFieldRef()[airInletID]
              &
              airMesh.Sf().boundaryField()[airInletID]
          )
@@ -13,9 +13,9 @@
     // total air mass rate at outlet
     scalarField  rateOutlet =
     (
-        rhoAir.boundaryField()[airOutletID]
+        rhoAir.boundaryFieldRef()[airOutletID]
         *(
-             Uair.boundaryField()[airOutletID]
+             Uair.boundaryFieldRef()[airOutletID]
              &
              airMesh.Sf().boundaryField()[airOutletID]
          )
@@ -24,9 +24,9 @@
     // total air mass rate at cathode/electrolyte interface
     scalarField  rateCathode =
     (
-        rhoAir.boundaryField()[cathodeID]
+        rhoAir.boundaryFieldRef()[cathodeID]
         *(
-             Uair.boundaryField()[cathodeID]
+             Uair.boundaryFieldRef()[cathodeID]
              &
              airMesh.Sf().boundaryField()[cathodeID]
          )
@@ -46,12 +46,12 @@
         {
             scalar rateInletI = gSum
             (
-                rateInlet*Yair[I].boundaryField()[airInletID]
+                rateInlet*Yair[I].boundaryFieldRef()[airInletID]
             );
 
             scalar rateOutletI = gSum
             (
-                rateOutlet*Yair[I].boundaryField()[airOutletID]
+                rateOutlet*Yair[I].boundaryFieldRef()[airOutletID]
             );
 
             scalar rateElecI = gSum

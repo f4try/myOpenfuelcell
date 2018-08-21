@@ -1,6 +1,6 @@
 // obtain nu(air mixture) from mu(air mixture) and rho(air mixture)
 {
-    scalarField& nu = nuAir.internalField();
+    scalarField& nu = nuAir.primitiveFieldRef();
     nu = 0;
     nu = muAir/rhoAir;
     nuAir.correctBoundaryConditions();

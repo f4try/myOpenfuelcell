@@ -24,7 +24,7 @@
 
     for (int corr = 0; corr < nCorr; corr++)
     {
-        pAir.boundaryField().updateCoeffs();
+        pAir.boundaryFieldRef().updateCoeffs();
         rUAair = 1.0/UEqn.A();
         Uair = UEqn.H()/UEqn.A();
         Uair.correctBoundaryConditions();

@@ -114,7 +114,7 @@
      B = -2*(1-alphaCathodeElectrolyte.value())*F/(Rgas*anodeT[j]);
      testFunction tf(i[j], i0Cathode[j], A , B);
      etaCathode[j] = RiddersRoot<testFunction>(tf, 1e-5).root(0., 1.2); // eta aus (0., 1.2)
-     //etaCathode[j] = Foam::max(Foam::doubleScalarSMALL, etaCathode[j]);
+     //etaCathode[j] = Foam::max(Foam::doubleScalarSmall, etaCathode[j]);
    }
     Info<< "min,mean,max calBV(etaCa) = " << gMin(etaCathode) << "  "
         << gAverage(etaCathode) << "  " << gMax(etaCathode) << nl;
@@ -130,17 +130,17 @@
 
 //  Save data for output
 
-    scalarField& etaAIn = etaA.internalField();
+    scalarField& etaAIn = etaA.primitiveFieldRef();
     smearPatchToMesh smearetaA(electrolyteMesh, electrolyteAnodeName);
     etaAIn = smearetaA.smear(etaAnode);
     etaA.correctBoundaryConditions();
-    etaA.boundaryField()[electrolyteAnodeID] == etaAnode;
+    etaA.boundaryFieldRef()[electrolyteAnodeID] == etaAnode;
 
-    scalarField& etaCIn = etaC.internalField();
+    scalarField& etaCIn = etaC.primitiveFieldRef();
     smearPatchToMesh smearetaC(electrolyteMesh, electrolyteAnodeName);
     etaCIn = smearetaC.smear(etaCathode);
     etaC.correctBoundaryConditions();
-    etaC.boundaryField()[electrolyteCathodeID] == etaCathode;
+    etaC.boundaryFieldRef()[electrolyteCathodeID] == etaCathode;
 
 
 

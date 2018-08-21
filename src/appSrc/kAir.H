@@ -1,15 +1,15 @@
 // obtain k(air mixture) from k(species components)
 
 {
-    scalarField& kAIn = kAir.internalField();
+    scalarField& kAIn = kAir.primitiveFieldRef();
     kAIn = 0;
 
     // initially using a simple linear combination weighted by mass fraction
 
     forAll(airSpecies, I)
     {
-        scalarField kI = kAirL[I].polyVal(Tair.internalField());
-        kAIn += kI*Yair[I].internalField();
+        scalarField kI = kAirL[I].polyVal(Tair.primitiveFieldRef());
+        kAIn += kI*Yair[I].primitiveFieldRef();
     }
     kAIn *= 1e-2;   // k=0.01*(ToddYoung polynomial value)
                     // Table 3, J. Power Sources 110 (2002) 186-200 (page 190)

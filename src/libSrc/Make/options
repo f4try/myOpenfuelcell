@@ -4,6 +4,8 @@ endif
 
 EXE_INC = -g \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/searchableSurfaces/searchableSurface \
+    -I$(LIB_SRC)/meshTools/AABBTree \
     -I$(LIB_SRC)/meshTools/coordinateSystems \
     -I$(LIB_SRC)/meshTools/coordinateSystems/coordinateRotation \
     -I$(LIB_SRC)/meshTools/AMIInterpolation/patches/cyclic/cyclicAMILduInterfaceField \

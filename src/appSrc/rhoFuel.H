@@ -13,7 +13,7 @@
     {
         // sumFuelYIonMI was calculated in getXfuel.H
 
-        scalarField& rho = rhoFuel.internalField();
+        scalarField& rho = rhoFuel.primitiveFieldRef();
         rho = pFuel/(RR*Tfuel)/sumFuelYIonMI;
         rhoFuel.correctBoundaryConditions();
 

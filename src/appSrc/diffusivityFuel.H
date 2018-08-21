@@ -20,7 +20,7 @@ forAll(fuelSpecies, a)
     fuelDiff = 0;         //diffusivity field passed to/from model
 
     //diffSpFuel[a] is diffusivity field for specie a, to be used in YEqn
-    scalarField& diffSpFuelIn = diffSpFuel[a].internalField();
+    scalarField& diffSpFuelIn = diffSpFuel[a].primitiveFieldRef();
     diffSpFuelIn = 0;
 
     if(fuelSpecies[a].name() != fuelInertSpecie)
@@ -160,7 +160,7 @@ forAll(fuelSpecies, a)
              << fuelSpecies[a].name()
              << "]"
              << nl
-             << "    internalField() min mean max = "
+             << "    primitiveFieldRef() min mean max = "
              << Foam::gMin(diffSpFuelIn) << "  "      //S.Keuler, Bugfix for consistent output (parallel simulation) [next three lines]
              << Foam::gAverage(diffSpFuelIn) << "  "
              << Foam::gMax(diffSpFuelIn)

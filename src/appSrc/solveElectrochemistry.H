@@ -45,17 +45,17 @@
     // --------------------------------------------------------------
     scalarField sumAYjOnMj    //sum(Yj/MWj)
     (
-        Yair[0].boundaryField()[cathodeID].size(),
+        Yair[0].boundaryFieldRef()[cathodeID].size(),
         0
     );
 
     forAll(Yair, j)
     {
-        sumAYjOnMj += Yair[j].boundaryField()[cathodeID]/airSpecies[j].MW();
+        sumAYjOnMj += Yair[j].boundaryFieldRef()[cathodeID]/airSpecies[j].MW();
     }
 
     PtrList<scalarField> xAir(airSpecies.size());
-    const scalarField& pAirPatch = pAir.boundaryField()[cathodeID]; //added Qing 04.06.2014
+    const scalarField& pAirPatch = pAir.boundaryFieldRef()[cathodeID]; //added Qing 04.06.2014
     forAll(airSpecies, s)
     {
         if (airSpecies[s].rSign() != 0)    //reactant or product (S.Keuler, corrected 30.01.2014)
@@ -69,12 +69,12 @@
             xAir[s] =
                 cathodeToAnode.faceInterpolate
                 (
-                    Yair[s].boundaryField()[cathodeID]/airSpecies[s].MW()
+                    Yair[s].boundaryFieldRef()[cathodeID]/airSpecies[s].MW()
                     /sumAYjOnMj
                 );
 
             // ensure positivity
-            xAir[s] = Foam::max(xAir[s], Foam::doubleScalarSMALL);
+            xAir[s] = Foam::max(xAir[s], Foam::doubleScalarSmall);
 
             Info << "min,mean,max(X" << airSpecies[s].name() << "): "
                  << Foam::gMin(xAir[s]) <<" , "
@@ -88,17 +88,17 @@
     // -------------------------------------------------------------------
     scalarField sumFYjOnMj    //sum(Yj/MWj)
     (
-        Yfuel[0].boundaryField()[anodeID].size(),
+        Yfuel[0].boundaryFieldRef()[anodeID].size(),
         0
     );
 
     forAll(Yfuel, j)
     {
-      sumFYjOnMj += Yfuel[j].boundaryField()[anodeID]/fuelSpecies[j].MW();
+      sumFYjOnMj += Yfuel[j].boundaryFieldRef()[anodeID]/fuelSpecies[j].MW();
     }
 
     PtrList<scalarField> xFuel(fuelSpecies.size());
-    const scalarField& pFuelPatch = pFuel.boundaryField()[anodeID]; //added hj 03-09-2013
+    const scalarField& pFuelPatch = pFuel.boundaryFieldRef()[anodeID]; //added hj 03-09-2013
     forAll(fuelSpecies,s)
     {
         if(fuelSpecies[s].rSign() != 0)    //reactant or product
@@ -111,12 +111,12 @@
 
             xFuel[s] =
             (
-                Yfuel[s].boundaryField()[cathodeID]/fuelSpecies[s].MW()
+                Yfuel[s].boundaryFieldRef()[cathodeID]/fuelSpecies[s].MW()
                 /sumFYjOnMj
             );
 
             // ensure positivity
-            xFuel[s] = Foam::max(xFuel[s], Foam::doubleScalarSMALL);
+            xFuel[s] = Foam::max(xFuel[s], Foam::doubleScalarSmall);
 
             Info << "min,mean,max(X" << fuelSpecies[s].name() << "): "
                  << Foam::gMin(xFuel[s]) <<" , "
@@ -136,7 +136,7 @@
     // Takes voltage from cell center of cell adjacent to boundary face and applies it at the face   
     forAll(electrolyteAnodePatch, facei)
     {
-	voltage.boundaryField()[electrolyteAnodeID][facei] = voltage[electrolyteAnodePatch.faceCells()[facei]];
+	voltage.boundaryFieldRef()[electrolyteAnodeID][facei] = voltage[electrolyteAnodePatch.faceCells()[facei]];
     }
 
 
@@ -146,15 +146,15 @@
 
         if (runTime.value() > PreIterAct.value())
 	{
-	    i = (Nernst - voltage.boundaryField()[electrolyteAnodeID] - etaA.boundaryField()[electrolyteAnodeID] - etaC.boundaryField()[electrolyteAnodeID])/R;
+	    i = (Nernst - voltage.boundaryFieldRef()[electrolyteAnodeID] - etaA.boundaryFieldRef()[electrolyteAnodeID] - etaC.boundaryFieldRef()[electrolyteAnodeID])/R;
 	}
 	else
 	{
-	 i = (Nernst - voltage.boundaryField()[electrolyteAnodeID])/R;
+	 i = (Nernst - voltage.boundaryFieldRef()[electrolyteAnodeID])/R;
 	}
 	
     // ensure i > 0
-    i = Foam::max(i, Foam::doubleScalarSMALL);
+    i = Foam::max(i, Foam::doubleScalarSmall);
 
     // Activation overpotential - added SBB 04-09-2013
     // scalarField etaAnode is computed from an inverse Butler-Volmer eqn.
@@ -171,9 +171,9 @@
 
     // mean current density
     Info << "min,mean,max(current): "
-         << gMin(idensity.internalField()) << " , "
-         << gAverage(idensity.internalField()) << " , "
-         << gMax(idensity.internalField()) << endl;
+         << gMin(idensity.primitiveFieldRef()) << " , "
+         << gAverage(idensity.primitiveFieldRef()) << " , "
+         << gMax(idensity.primitiveFieldRef()) << endl;
 
 
 
@@ -225,8 +225,8 @@
             {
                 scalarField gammaCathodeS =
                 (
-                    diffSpAir[s].boundaryField()[cathodeID]
-                    *rhoAir.boundaryField()[cathodeID]
+                    diffSpAir[s].boundaryFieldRef()[cathodeID]
+                    *rhoAir.boundaryFieldRef()[cathodeID]
                 );
 
                 // interface patchField
@@ -234,8 +234,8 @@
                 fixedGradientFvPatchScalarField& YsBC =
                     refCast<fixedGradientFvPatchScalarField>
                     (
-                        //Ys.boundaryField()[anodeID]
-                        Ys.boundaryField()[cathodeID]
+                        //Ys.boundaryFieldRef()[anodeID]
+                        Ys.boundaryFieldRef()[cathodeID]
                     );
 
                 // gradient boundary condition
@@ -266,10 +266,10 @@
 
 
         // Set the interface velocity condition
-        Uair.boundaryField()[cathodeID] ==
+        Uair.boundaryFieldRef()[cathodeID] ==
         (
             -anodeToCathode.faceInterpolate(mfluxSum)
-            /rhoAir.boundaryField()[cathodeID]
+            /rhoAir.boundaryFieldRef()[cathodeID]
             *(airMesh.Sf().boundaryField()[cathodeID])
             /(airMesh.magSf().boundaryField()[cathodeID])
         );
@@ -318,8 +318,8 @@
             {
                 scalarField gammaAnodeS =
                 (
-                    diffSpFuel[s].boundaryField()[anodeID]
-                    *rhoFuel.boundaryField()[anodeID]
+                    diffSpFuel[s].boundaryFieldRef()[anodeID]
+                    *rhoFuel.boundaryFieldRef()[anodeID]
                 );
 
                 // interface patchField
@@ -327,7 +327,7 @@
                 fixedGradientFvPatchScalarField& YsBC =
                     refCast<fixedGradientFvPatchScalarField>
                     (
-                        Ys.boundaryField()[anodeID]
+                        Ys.boundaryFieldRef()[anodeID]
                     );
 
                 // gradient boundary condition
@@ -352,10 +352,10 @@
 
 
         // Set the interface velocity condition
-        Ufuel.boundaryField()[anodeID] ==
+        Ufuel.boundaryFieldRef()[anodeID] ==
         (
             -(mfluxSum)
-            /rhoFuel.boundaryField()[anodeID]
+            /rhoFuel.boundaryFieldRef()[anodeID]
             *(fuelMesh.Sf().boundaryField()[anodeID])
             /(fuelMesh.magSf().boundaryField()[anodeID])
         );

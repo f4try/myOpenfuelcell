@@ -477,7 +477,7 @@ void Foam::FaceCellWave<Type>::sendPatchInfo
     const List<Type>& faceInfo
 ) const
 {
-    OPstream toNeighbour(Pstream::blocking, neighbour);
+    OPstream toNeighbour(Pstream::commsTypes::blocking, neighbour);
 
     writeFaces(nFaces, faceLabels, faceInfo, toNeighbour);
 }
@@ -492,7 +492,7 @@ Foam::label Foam::FaceCellWave<Type>::receivePatchInfo
     List<Type>& faceInfo
 ) const
 {
-    IPstream fromNeighbour(Pstream::blocking, neighbour);
+    IPstream fromNeighbour(Pstream::commsTypes::blocking, neighbour);
 
     label nFaces = 0;
     readFaces(nFaces, faceLabels, faceInfo, fromNeighbour);

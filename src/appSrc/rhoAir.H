@@ -13,7 +13,7 @@
     {
         // sumAirYIonMI was calculated in getXair.H
 
-        scalarField& rho = rhoAir.internalField();
+        scalarField& rho = rhoAir.primitiveFieldRef();
         rho = pAir/(RR*Tair)/sumAirYIonMI;
         rhoAir.correctBoundaryConditions();
 

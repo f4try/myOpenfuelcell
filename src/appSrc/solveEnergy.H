@@ -19,9 +19,9 @@
 
 
     Info << "T min mean max     = "
-         << Foam::gMin(Tcell.internalField()) << "    " //S.Keuler, Bugfix for consistent output (parallel simulation) [next three lines]
-         << Foam::gAverage(Tcell.internalField()) << "    "
-         << Foam::gMax(Tcell.internalField())
+         << Foam::gMin(Tcell.primitiveFieldRef()) << "    " //S.Keuler, Bugfix for consistent output (parallel simulation) [next three lines]
+         << Foam::gAverage(Tcell.primitiveFieldRef()) << "    "
+         << Foam::gMax(Tcell.primitiveFieldRef())
          << nl <<endl;
 
     Info<< " sum TcellEqn.source() =   " << gSum(TcellEqn.source()) << nl;

@@ -60,7 +60,7 @@ Foam::tmp<Foam::Field<Type> > Foam::smearPatchToMesh::smear
 
     // Create result
     tmp<Field<Type> > tresult(new Field<Type>(mesh_.nCells()));
-    Field<Type>& result = tresult();
+    Field<Type>& result = tresult.ref();
 
     const labelList& addr = addressing();
 

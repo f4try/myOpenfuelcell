@@ -20,7 +20,7 @@ forAll(airSpecies, a)
     airDiff = 0;         //diffusivity field passed to/from model
 
     //diffSpAir[a] is diffusivity field for specie a, to be used in YEqn
-    scalarField& diffSpAirIn = diffSpAir[a].internalField();
+    scalarField& diffSpAirIn = diffSpAir[a].primitiveFieldRef();
     diffSpAirIn = 0;
 
     if(airSpecies[a].name() != airInertSpecie)
@@ -153,7 +153,7 @@ forAll(airSpecies, a)
              << airSpecies[a].name()
              << "]"
              << nl
-             << "    internalField min mean max = "
+             << "    primitiveFieldRef min mean max = "
              << Foam::gMin(diffSpAirIn) << "  "    //S.Keuler, Bugfix for consistent output (parallel simulation) [next three lines]
              << Foam::gAverage(diffSpAirIn) << "  "
              << Foam::gMax(diffSpAirIn)

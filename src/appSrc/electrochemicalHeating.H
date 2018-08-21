@@ -3,7 +3,7 @@
     Info << nl << "Calculating electrochemical heating" << endl;
 
     // iEA applied in cell volumes (not patch)
-    scalarField iEA = idensity.internalField();
+    scalarField iEA = idensity.primitiveFieldRef();
 
 
     //scalar Tr = 298.15;  //reference Temperature [K] for enthalpy calculations
@@ -120,7 +120,7 @@
 //        - iEA*V.value()/hE.value();
 //
 
-    scalarField& electrochemicalHeatingIn = electrochemicalHeating.internalField();
+    scalarField& electrochemicalHeatingIn = electrochemicalHeating.primitiveFieldRef();
     electrochemicalHeatingIn =
     (
         -hFormSum*volMolRate - hSource - iEA*voltage/hE.value()
@@ -128,7 +128,7 @@
     electrochemicalHeating.correctBoundaryConditions();
 
     Info << "min,mean,max(electrochemicalHeating): "
-         << gMin(electrochemicalHeating.internalField()) << "  "
-         << gAverage(electrochemicalHeating.internalField()) << "  "
-         << gMax(electrochemicalHeating.internalField()) << endl;
+         << gMin(electrochemicalHeating.primitiveFieldRef()) << "  "
+         << gAverage(electrochemicalHeating.primitiveFieldRef()) << "  "
+         << gMax(electrochemicalHeating.primitiveFieldRef()) << endl;
 

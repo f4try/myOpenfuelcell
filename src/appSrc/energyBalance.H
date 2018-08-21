@@ -15,17 +15,17 @@
         // Int(rho U Cp T & dA)
         qVect = gSum
 	(
-	    rhoCpPhiCell.boundaryField()[patchI]
-	    *Tcell.boundaryField()[patchI]
+	    rhoCpPhiCell.boundaryFieldRef()[patchI]
+	    *Tcell.boundaryFieldRef()[patchI]
 	);
         qVectSum += qVect;
 
         // Int(k gradT $ dA)
         qDuct = gSum
         (
-            kCell.boundaryField()[patchI]
-            *Tcell.boundaryField()[patchI].snGrad()
-            *mesh.magSf().boundaryField()[patchI]
+            kCell.boundaryFieldRef()[patchI]
+            *Tcell.boundaryFieldRef()[patchI].snGrad()
+            *mesh.magSf().boundaryFieldRef()[patchI]
         );
         qDuctSum += qDuct;
         
@@ -46,7 +46,7 @@
     // -------------------
     scalar qSrcSum = gSum
     (
-        TsourceCell.internalField()*mesh.V()
+        TsourceCell.primitiveFieldRef()*mesh.V()
     );
     Info<< " sum(TsourceCell dV) = " << qSrcSum << nl << endl;
 

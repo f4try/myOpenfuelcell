@@ -15,7 +15,7 @@
         // Add electrochemical heating from electrolyte
         TsourceCellIn.rmap
         (
-            electrochemicalHeating.internalField(),
+            electrochemicalHeating.primitiveFieldRef(),
             electrolyteCellMap
         );
 

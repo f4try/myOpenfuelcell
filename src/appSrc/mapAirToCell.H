@@ -5,18 +5,18 @@
         // mass based heat capacity cp
         // cp [J/kg-K] = Cp/M where Cp = [J/mol-K], M = [kg/mol]
 
-        scalarField& cp = cpAir.internalField();
+        scalarField& cp = cpAir.primitiveFieldRef();
         cp = 0;
 
         forAll(airSpecies, i)
         {
             scalar rMWi = 1.0/(airSpecies[i].MW()*1e-3);    // 1/[kg/mol]
-            scalarField cpi = molarCpAir[i].polyVal(Tair.internalField())*rMWi;
-            cp += Yair[i].internalField()*cpi;
+            scalarField cpi = molarCpAir[i].polyVal(Tair.primitiveFieldRef())*rMWi;
+            cp += Yair[i].primitiveFieldRef()*cpi;
         }
         cpAir.correctBoundaryConditions();
 
-        scalarField rhoCpF = cp*rhoAir.internalField();
+        scalarField rhoCpF = cp*rhoAir.primitiveFieldRef();
 
         Info << nl;
         Info<< "min mean max rhoCpF(air) = " << gMin(rhoCpF) << " "
@@ -27,7 +27,7 @@
 
 
         //scalarField kIn(airMesh.nCells(), kA.value());
-        scalarField& kIn = kAir.internalField();
+        scalarField& kIn = kAir.primitiveFieldRef();
 
         forAll(cathodeZones, iz)
         {
@@ -69,12 +69,12 @@
         //
 
         scalarField rhoCpPhiF =
-            //CpAir.value()*phiAir.internalField();
-            linearInterpolate(cpAir)*phiAir.internalField();
+            //CpAir.value()*phiAir.primitiveFieldRef();
+            linearInterpolate(cpAir)*phiAir.primitiveFieldRef();
 
         phiCellIn.rmap
         (
-            phiAir.internalField()*airInternalFaceMask,
+            phiAir.primitiveFieldRef()*airInternalFaceMask,
             airInternalFaceMap
         );
 
@@ -86,7 +86,7 @@
 
 
         // Do electrolyte interface    (hkr: 2010 Dec 03)
-        scalarField cathodePhi = phiAir.boundaryField()[cathodeID];
+        scalarField cathodePhi = phiAir.boundaryFieldRef()[cathodeID];
         forAll(cathodePhi, faceI)
         {
             phiCell[cathodeMask[faceI]] = cathodePhi[faceI];
@@ -131,24 +131,24 @@
                 curFpm -= mesh.boundary()
                     [airPatchesMap[patchI]].patch().start();
 
-                phiCell.boundaryField()[airPatchesMap[patchI]].
+                phiCell.boundaryFieldRef()[airPatchesMap[patchI]].
                     scalarField::rmap
                     (
-                        phiAir.boundaryField()[patchI]*curMask,
+                        phiAir.boundaryFieldRef()[patchI]*curMask,
                         curFpm
                     );
 
-                rhoCpPhiCell.boundaryField()[airPatchesMap[patchI]].
+                rhoCpPhiCell.boundaryFieldRef()[airPatchesMap[patchI]].
                     scalarField::rmap
                     (
                         (
-                            cpAir.boundaryField()[patchI]
-                            *phiAir.boundaryField()[patchI]
+                            cpAir.boundaryFieldRef()[patchI]
+                            *phiAir.boundaryFieldRef()[patchI]
                         )*curMask,
                         curFpm
                     );
 
-                //rhoCpPhiCell.boundaryField()[airPatchesMap[patchI]] *=
+                //rhoCpPhiCell.boundaryFieldRef()[airPatchesMap[patchI]] *=
                 //(
                 //    CpAir.value()
                 //);

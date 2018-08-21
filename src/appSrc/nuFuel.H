@@ -1,6 +1,6 @@
 // obtain nu(fuel mixture) from mu(fuel mixture) and rhoFuel(fuel mixture)
 {
-    scalarField& nu = nuFuel.internalField();
+    scalarField& nu = nuFuel.primitiveFieldRef();
     nu = 0;
     nu = muFuel/rhoFuel;
     nuFuel.correctBoundaryConditions();

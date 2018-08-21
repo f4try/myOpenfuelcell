@@ -2,9 +2,9 @@
     // total mass rate at fuel inlet
     scalarField  rateInlet =
     (
-        rhoFuel.boundaryField()[fuelInletID]
+        rhoFuel.boundaryFieldRef()[fuelInletID]
         *(
-             Ufuel.boundaryField()[fuelInletID]
+             Ufuel.boundaryFieldRef()[fuelInletID]
              &
              fuelMesh.Sf().boundaryField()[fuelInletID]
          )
@@ -13,9 +13,9 @@
     // total mass rate at fuel outlet
     scalarField  rateOutlet =
     (
-        rhoFuel.boundaryField()[fuelOutletID]
+        rhoFuel.boundaryFieldRef()[fuelOutletID]
         *(
-             Ufuel.boundaryField()[fuelOutletID]
+             Ufuel.boundaryFieldRef()[fuelOutletID]
              &
              fuelMesh.Sf().boundaryField()[fuelOutletID]
          )
@@ -24,9 +24,9 @@
     // total mass rate at anode/electrolyte interface
     scalarField  rateAnode =
     (
-        rhoFuel.boundaryField()[anodeID]
+        rhoFuel.boundaryFieldRef()[anodeID]
         *(
-             Ufuel.boundaryField()[anodeID]
+             Ufuel.boundaryFieldRef()[anodeID]
              &
              fuelMesh.Sf().boundaryField()[anodeID]
          )
@@ -48,7 +48,7 @@
             (
                 gSum
                 (
-                    rateInlet*Yfuel[I].boundaryField()[fuelInletID]
+                    rateInlet*Yfuel[I].boundaryFieldRef()[fuelInletID]
                 )
             );
 
@@ -56,7 +56,7 @@
             (
                 gSum
                 (
-                    rateOutlet*Yfuel[I].boundaryField()[fuelOutletID]
+                    rateOutlet*Yfuel[I].boundaryFieldRef()[fuelOutletID]
                 )
             );
 

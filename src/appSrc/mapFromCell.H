@@ -18,15 +18,15 @@
     }
 
     Info << "Tair min mean max  = "
-         << Foam::gMin(Tair.internalField())     << "    "
-         << Foam::gAverage(Tair.internalField()) << "    "
-         << Foam::gMax(Tair.internalField())
+         << Foam::gMin(Tair.primitiveFieldRef())     << "    "
+         << Foam::gAverage(Tair.primitiveFieldRef()) << "    "
+         << Foam::gMax(Tair.primitiveFieldRef())
          << endl;
 
     Info << "Tfuel min mean max = "
-         << Foam::gMin(Tfuel.internalField())     << "    "
-         << Foam::gAverage(Tfuel.internalField()) << "    "
-         << Foam::gMax(Tfuel.internalField())
+         << Foam::gMin(Tfuel.primitiveFieldRef())     << "    "
+         << Foam::gAverage(Tfuel.primitiveFieldRef()) << "    "
+         << Foam::gMax(Tfuel.primitiveFieldRef())
          << endl;
 }
 
