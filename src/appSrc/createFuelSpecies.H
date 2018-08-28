@@ -252,3 +252,49 @@ if (Pstream::myProcNo() == 0)
         );
         fuelDiffs.add(diffSpFuel[i]);
     }
+
+
+    // activation terms
+    // ------------------------------
+    dictionary fuelActivationParametersDict
+    (
+        fuelSpeciesDict.subDict("activationParameters").subDict("entries")
+    );
+
+    List<dimensionedScalar> fuelStoichNumbers(fuelSpeciesNames.size());
+    List<Switch> activeFuelSwitch(fuelSpeciesNames.size(), false);
+
+    forAll(fuelSpeciesNames, apI)
+    {
+        fuelStoichNumbers[apI] = dimensionedScalar
+        (
+            fuelActivationParametersDict.subDict
+            (
+                fuelSpeciesNames[apI]
+            ).lookup("stoichiometricCoeff")
+        );
+        activeFuelSwitch[apI] = Switch
+        (
+            fuelActivationParametersDict.subDict
+            (
+                fuelSpeciesNames[apI]
+            ).lookup("active")
+        );
+    }
+
+    dimensionedScalar gammaFuel
+    (
+        fuelSpeciesDict.subDict("activationParameters").lookup("gamma")
+    );
+    dimensionedScalar EFuel
+    (
+        fuelSpeciesDict.subDict("activationParameters").lookup("E")
+    );
+    dimensionedScalar alphaFuel
+    (
+        fuelSpeciesDict.subDict("activationParameters").lookup("alpha")
+    );
+    dimensionedScalar relaxFuel
+    (
+        fuelSpeciesDict.subDict("activationParameters").lookup("relax")
+    );

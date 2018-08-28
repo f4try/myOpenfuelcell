@@ -21,33 +21,28 @@
     scalarField i0Anode(anodeT.size(), 1);
     scalarField etaCathode(anodeT.size(), 0);
     scalarField i0Cathode(anodeT.size(), 1);
-    if (activationOverpotential)//Begin activation calculation 
-{
+
     scalar A, B;
-    if (gammaAnodeElectrolyte.value() > 1.e-5) { // DF 9.9.2014
+    if (gammaFuel.value() > 1.e-5) { // DF 9.9.2014
     // Compute local anode exchange current density
     forAll(fuelSpecies, fsi)
     {
-        if (fuelSpecies[fsi].rSign() == 1) 
+        if(activeFuelSwitch[fsi])
         {
-        i0Anode *= Foam::pow((pFuelPatch*xFuel[fsi]/pAtm), bElectrolyte.value());
-        Info<< "min,mean,max (pf) = " << gMin(pFuelPatch) << "  "
-        << gAverage(pFuelPatch) << "  " << gMax(pFuelPatch) << nl;
-        Info<< "min,mean,max (xProduct) = " << gMin(xFuel[fsi]) << "  "
-        << gAverage(xFuel[fsi]) << "  " << gMax(xFuel[fsi]) << nl;
+            i0Anode *= Foam::pow
+            (
+                (pFuelPatch*xFuel[fsi]/pAtm),
+                fuelStoichNumbers[fsi].value()
+            );
+            Info<< "min,mean,max (pf) = " << gMin(pFuelPatch) << "  "
+            << gAverage(pFuelPatch) << "  " << gMax(pFuelPatch) << nl;
+            Info<< "min,mean,max (xProduct) = " << gMin(xFuel[fsi]) << "  "
+            << gAverage(xFuel[fsi]) << "  " << gMax(xFuel[fsi]) << nl;
         }
-         
-        else if (fuelSpecies[fsi].rSign() == -1) 
-        {
-        i0Anode *= Foam::pow((pFuelPatch*xFuel[fsi]/pAtm), aElectrolyte.value());
-        Info<< "min,mean,max (xReactant) = " << gMin(xFuel[fsi]) << "  "
-        << gAverage(xFuel[fsi]) << "  " << gMax(xFuel[fsi]) << nl;        
     }
-      
-        }
 
-    i0Anode *= gammaAnodeElectrolyte.value()*anodeT;
-    i0Anode *= Foam::exp(-1.*EAnodeElectrolyte.value()/(Rgas*anodeT));
+    i0Anode *= gammaFuel.value()*anodeT;
+    i0Anode *= Foam::exp(-1.*EFuel.value()/(Rgas*anodeT));
     Info<< "min,mean,max (anodeT) = " << gMin(anodeT) << "  "
         << gAverage(anodeT) << "  " << gMax(anodeT) << nl;
     Info<< "min,mean,max (i0An) = " << gMin(i0Anode) << "  "
@@ -57,16 +52,16 @@
 //    Compute anodic overpotential from inverse Butler-Volmer equation
 
     forAll (etaAnode, j) 
-   {
-      A = 2*alphaAnodeElectrolyte.value()*F/(Rgas*anodeT[j]);
-      B = -2*(1-alphaAnodeElectrolyte.value())*F/(Rgas*anodeT[j]);
+    {
+      A = 2*alphaFuel.value()*F/(Rgas*anodeT[j]);
+      B = -2*(1-alphaFuel.value())*F/(Rgas*anodeT[j]);
       testFunction tf(i[j], i0Anode[j], A , B);
       etaAnode[j] = RiddersRoot<testFunction>(tf, 1e-5).root(0., 1.2); // eta aus (0., 1.2)
    }
     Info<< "min,mean,max calBV(etaAn) = " << gMin(etaAnode) << "  "
         << gAverage(etaAnode) << "  " << gMax(etaAnode) << nl;
 
-    etaAnode = (1-relaxA.value()) * oldEtaA + relaxA.value() * etaAnode;	//relax the etaAnode, Qing, 22.06.2014
+    etaAnode = (1-relaxFuel.value()) * oldEtaA + relaxFuel.value() * etaAnode;	//relax the etaAnode, Qing, 22.06.2014
     Info<< "min,mean,max newBV(etaAn) = " << gMin(etaAnode) << "  "
         << gAverage(etaAnode) << "  " << gMax(etaAnode) << nl;
     } // if (gammaAnode()... DF 9.9.2014
@@ -79,27 +74,22 @@
 
     forAll(airSpecies, fsi)
     {
-        if (airSpecies[fsi].rSign() == 1) 
-	{
-        i0Cathode *= Foam::pow((pAirPatch*xAir[fsi]/pAtm), nElectrolyte.value());
-        Info<< "min,mean,max (pf) = " << gMin(pAirPatch) << "  "
-        << gAverage(pAirPatch) << "  " << gMax(pAirPatch) << nl;
-        Info<< "min,mean,max (xProduct) = " << gMin(xAir[fsi]) << "  "
-        << gAverage(xAir[fsi]) << "  " << gMax(xAir[fsi]) << nl;
-	}
-
-        else if (airSpecies[fsi].rSign() == -1) 
+        if(activeAirSwitch[fsi])
         {
-        i0Cathode *= Foam::pow((pAirPatch*xAir[fsi]/pAtm), mElectrolyte.value());  
-        Info<< "min,mean,max (pf) = " << gMin(pAirPatch) << "  "
-        << gAverage(pAirPatch) << "  " << gMax(pAirPatch) << nl;
-        Info<< "min,mean,max (xReactant) = " << gMin(xAir[fsi]) << "  "
-        << gAverage(xAir[fsi]) << "  " << gMax(xAir[fsi]) << nl;        
-   	}
+            i0Cathode *= Foam::pow
+            (
+                (pAirPatch*xAir[fsi]/pAtm),
+                airStoichNumbers[fsi].value()
+            );
+            Info<< "min,mean,max (pf) = " << gMin(pAirPatch) << "  "
+            << gAverage(pAirPatch) << "  " << gMax(pAirPatch) << nl;
+            Info<< "min,mean,max (xProduct) = " << gMin(xAir[fsi]) << "  "
+            << gAverage(xAir[fsi]) << "  " << gMax(xAir[fsi]) << nl;
+	    }
     }
 
-    i0Cathode *= gammaCathodeElectrolyte.value()*anodeT;
-    i0Cathode *= Foam::exp(-1.*ECathodeElectrolyte.value()/(Rgas*anodeT));
+    i0Cathode *= gammaAir.value()*anodeT;
+    i0Cathode *= Foam::exp(-1.*EAir.value()/(Rgas*anodeT));
 
     Info<< "min,mean,max (i0Ca) = " << gMin(i0Cathode) << "  "
         << gAverage(i0Cathode) << "  " << gMax(i0Cathode) << nl;
@@ -110,8 +100,8 @@
 
      forAll (etaCathode, j) 
    {
-     A = 2*alphaCathodeElectrolyte.value()*F/(Rgas*anodeT[j]);
-     B = -2*(1-alphaCathodeElectrolyte.value())*F/(Rgas*anodeT[j]);
+     A = 2*alphaAir.value()*F/(Rgas*anodeT[j]);
+     B = -2*(1-alphaAir.value())*F/(Rgas*anodeT[j]);
      testFunction tf(i[j], i0Cathode[j], A , B);
      etaCathode[j] = RiddersRoot<testFunction>(tf, 1e-5).root(0., 1.2); // eta aus (0., 1.2)
      //etaCathode[j] = Foam::max(Foam::doubleScalarSmall, etaCathode[j]);
@@ -119,10 +109,9 @@
     Info<< "min,mean,max calBV(etaCa) = " << gMin(etaCathode) << "  "
         << gAverage(etaCathode) << "  " << gMax(etaCathode) << nl;
 
-    etaCathode = (1-relaxC.value()) * oldEtaC + relaxC.value() * etaCathode;	//relax the etaCathode, Qing, 22.06.2014
+    etaCathode = (1-relaxAir.value()) * oldEtaC + relaxAir.value() * etaCathode;	//relax the etaCathode, Qing, 22.06.2014
     Info<< "min,mean,max newBV(etaCa) = " << gMin(etaCathode) << "  "
         << gAverage(etaCathode) << "  " << gMax(etaCathode) << nl;
-}
    oldEtaA = etaAnode;
    oldEtaC = etaCathode;
 

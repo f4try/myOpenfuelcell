@@ -86,7 +86,6 @@ int main(int argc, char *argv[])
     // Electrolyte components
 #   include "createElectrolyteMesh.H"
 #   include "readElectrolyteProperties.H"
-#   include "readActivationParameters.H"//Added SBB
 #   include "createElectrolyteFields.H"
 
     // Fuel-related components

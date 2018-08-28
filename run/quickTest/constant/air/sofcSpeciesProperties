@@ -61,4 +61,26 @@ kCoeffs
     N2  -0.3216  14.810  -25.473  38.837  -32.133  13.493  -2.2741;
 }
 
+activationParameters
+{
+    gamma gamma [0 -2 0 -1 0 1 0]   1.51556e+8;
+    E     E     [1 2 -2 0 1 0 0]    1.3986e+5;
+    alpha alpha [0 0 0 0 0 0 0]     0.65;
+    relax relax [0 0 0 0 0 0 0]     1;
+
+    entries
+    {
+        O2 
+        {
+             stoichiometricCoeff stoichiometricCoeff [0 0 0 0 0 0 0] 0.22;
+             active true;
+        }              
+        N2 
+        {
+            stoichiometricCoeff stoichiometricCoeff [0 0 0 0 0 0 0] 0.0;
+            active false;
+        }              
+    }
+}
+
 // ************************************************************************* //

@@ -68,5 +68,28 @@ kCoeffs
     H2O  2.0103  -7.9139  35.922  -41.390  35.993  -18.974  4.1531;
 }
 
+activationParameters
+{
+    gamma gamma [0 -2 0 -1 0 1 0]   1.82527e+6;
+    E     E     [1 2 -2 0 1 0 0]    105.04e+3;
+    alpha alpha [0 0 0 0 0 0 0]     0.59;
+    relax relax [0 0 0 0 0 0 0]     1;
+
+    entries
+    {
+        H2O
+        {
+            stoichiometricCoeff stoichiometricCoeff [0 0 0 0 0 0 0] 0.33;
+            active true;
+        }
+
+        H2
+        {
+            stoichiometricCoeff stoichiometricCoeff [0 0 0 0 0 0 0] -0.1;
+            active true;
+        }
+    }
+}
+
 // ************************************************************************* //
 

@@ -7,6 +7,10 @@
     const scalar pAtm = physicalConstant::pAtm.value();   // Pa - added SBB 06-12-2013
 
     const scalar Tr = 298.15;  //reference Temperature [K] for thermodynamics
+    scalarField i(anodePatch.size());    
+    scalarField iOld(cathodePatch.size());    
+    scalarField mfluxOld(cathodePatch.size());    
+    scalarField iNew(cathodePatch.size());    
 
     // Interpolate global temperature to electrolyte/fuel interface
     // ------------------------------------------------------------
@@ -138,20 +142,42 @@
     {
 	voltage.boundaryFieldRef()[electrolyteAnodeID][facei] = voltage[electrolyteAnodePatch.faceCells()[facei]];
     }
+        // SBB Get the interface velocity condition and set the mass flux and the "old" current density
+      mfluxOld =
+//     (phiAir.boundaryField()[cathodeID]) SBB: Careful with the [cathodeID]
+//     /(airMesh.magSf().boundaryField()[cathodeID])
+      -rhoAir.boundaryField()[cathodeID]*(
+      (Uair.boundaryField()[cathodeID]
+      & airMesh.Sf().boundaryField()[cathodeID])
+      /airMesh.magSf().boundaryField()[cathodeID]
+        );
+    iOld = -4.*FF*mfluxOld/32;//Magic numbers - Total mass flow is that of O2
+//    iOld = 2*FF*mfluxOld/2.01594;//Magic numbers - Total mass flow is that of H2
+    if (runTime.value() <= 1) iOld = ibar0.value();//First time step
 
 
     // Solve Current
     // Add etaA and etaC into the current function after the pre-iteration, Qing, 22.06.2014
-    scalarField i(anodePatch.size());    
+//    scalarField i(anodePatch.size());    
 
         if (runTime.value() > PreIterAct.value())
 	{
-	    i = (Nernst - voltage.boundaryFieldRef()[electrolyteAnodeID] - etaA.boundaryFieldRef()[electrolyteAnodeID] - etaC.boundaryFieldRef()[electrolyteAnodeID])/R;
+	    iNew = (Nernst - voltage.boundaryField()[electrolyteAnodeID] - etaA.boundaryField()[electrolyteAnodeID] - etaC.boundaryField()[electrolyteAnodeID])/R;
 	}
 	else
 	{
-	 i = (Nernst - voltage.boundaryFieldRef()[electrolyteAnodeID])/R;
+	 iNew = (Nernst - voltage.boundaryField()[electrolyteAnodeID])/R;
 	}
+            Info << "min,mean,max(iNew" << "): "
+                  << Foam::gMin(iNew) <<" , "
+                  << Foam::gAverage(iNew) <<" , "
+                 << Foam::gMax(iNew) << endl;        
+            Info << "min,mean,max(iOld" << "): "
+                  << Foam::gMin(iOld) <<" , "
+                  << Foam::gAverage(iOld) <<" , "
+                 << Foam::gMax(iNew) << endl;        
+    i = relax.value()*iNew + (1-relax.value())*iOld;//Relax current density	
+    iOld = i;
 	
     // ensure i > 0
     i = Foam::max(i, Foam::doubleScalarSmall);

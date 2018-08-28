@@ -15,6 +15,7 @@
     word fuelCellType(cellProperties.lookup("fuelCellType"));		//Qing, 04.06.2014
     dimensionedScalar PreIterAct(cellProperties.lookup("PreIterAct"));	//Qing, 22.06.2014
     dimensionedScalar PreIterV(cellProperties.lookup("PreIterV"));	//Qing, 22.06.2014
+    dimensionedScalar relax(cellProperties.lookup("relax"));	//SBB
 
     Switch galvanostatic(cellProperties.lookup("galvanostatic"));
     dimensionedScalar V(cellProperties.lookup("voltage"));
