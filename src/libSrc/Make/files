@@ -13,6 +13,10 @@ diffusivityModels/fsgMolecularWeights/fsgMolecularWeights.C
 diffusivityModels/binaryFSG/binaryFSG.C
 diffusivityModels/porousFSG/porousFSG.C
 
+activationOverpotentialModels/activationOverpotentialModel/activationOverpotentialModel.C
+activationOverpotentialModels/butlerVolmer/butlerVolmer.C
+activationOverpotentialModels/activationOverpotentialModel/newActivationOverpotentialModel.C
+
 polyToddYoung/polyToddYoung.C
 
 regionProperties/regionProperties.C

@@ -63,21 +63,22 @@ kCoeffs
 
 activationParameters
 {
-    gamma gamma [0 -2 0 -1 0 1 0]   1.51556e+8;
+    type  butlerVolmer;
+    gamma   1.51556e+8;
     E     E     [1 2 -2 0 1 0 0]    1.3986e+5;
-    alpha alpha [0 0 0 0 0 0 0]     0.65;
-    relax relax [0 0 0 0 0 0 0]     1;
+    alpha   0.65;
+    relax   1;
 
     entries
     {
         O2 
         {
-             stoichiometricCoeff stoichiometricCoeff [0 0 0 0 0 0 0] 0.22;
+             stoichiometricCoeff 0.22;
              active true;
         }              
         N2 
         {
-            stoichiometricCoeff stoichiometricCoeff [0 0 0 0 0 0 0] 0.0;
+            stoichiometricCoeff 0.0;
             active false;
         }              
     }

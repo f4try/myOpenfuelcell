@@ -254,48 +254,9 @@ if (Pstream::myProcNo() == 0)
         airDiffs.add(diffSpAir[i]);
     }
 
-
     // activation terms
     // ------------------------------
-    dictionary airActivationParametersDict
+    autoPtr<activationOverpotentialModel> airActivationOverpotential
     (
-        airSpeciesDict.subDict("activationParameters").subDict("entries")
-    );
-
-    List<dimensionedScalar> airStoichNumbers(airSpeciesNames.size());
-    List<Switch> activeAirSwitch(airSpeciesNames.size(), false);
-
-    forAll(airSpeciesNames, apI)
-    {
-        airStoichNumbers[apI] = dimensionedScalar
-        (
-            airActivationParametersDict.subDict
-            (
-                airSpeciesNames[apI]
-            ).lookup("stoichiometricCoeff")
-        );
-        activeAirSwitch[apI] = Switch
-        (
-            airActivationParametersDict.subDict
-            (
-                airSpeciesNames[apI]
-            ).lookup("active")
-        );
-    }
-
-    dimensionedScalar gammaAir
-    (
-        airSpeciesDict.subDict("activationParameters").lookup("gamma")
-    );
-    dimensionedScalar EAir
-    (
-        airSpeciesDict.subDict("activationParameters").lookup("E")
-    );
-    dimensionedScalar alphaAir
-    (
-        airSpeciesDict.subDict("activationParameters").lookup("alpha")
-    );
-    dimensionedScalar relaxAir
-    (
-        airSpeciesDict.subDict("activationParameters").lookup("relax")
+        activationOverpotentialModel::New(airSpeciesNames, airSpeciesDict.subDict("activationParameters"))
     );

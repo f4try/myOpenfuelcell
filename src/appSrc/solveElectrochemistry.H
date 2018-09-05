@@ -62,14 +62,14 @@
     const scalarField& pAirPatch = pAir.boundaryFieldRef()[cathodeID]; //added Qing 04.06.2014
     forAll(airSpecies, s)
     {
+        xAir.set
+        (
+            s,
+            new scalarField(anodeT.size(), 0)
+        );
+
         if (airSpecies[s].rSign() != 0)    //reactant or product (S.Keuler, corrected 30.01.2014)
         {
-            xAir.set
-            (
-                s,
-                new scalarField(anodeT.size(), 0)
-            );
-
             xAir[s] =
                 cathodeToAnode.faceInterpolate
                 (
@@ -105,14 +105,14 @@
     const scalarField& pFuelPatch = pFuel.boundaryFieldRef()[anodeID]; //added hj 03-09-2013
     forAll(fuelSpecies,s)
     {
+        xFuel.set
+        (
+            s,
+            new scalarField(anodeT.size(), 0)
+        );
+
         if(fuelSpecies[s].rSign() != 0)    //reactant or product
         {
-            xFuel.set
-            (
-                s,
-                new scalarField(anodeT.size(), 0)
-            );
-
             xFuel[s] =
             (
                 Yfuel[s].boundaryFieldRef()[cathodeID]/fuelSpecies[s].MW()

@@ -56,6 +56,7 @@ Developed by
 #include "smearPatchToMesh.H"
 
 #include "diffusivityModels.H"
+#include "activationOverpotentialModel.H"
 /* #include "porousZones.H" Deleted SBB */
 #include "porousZoneList.H"//Added SBB
 #include "polyToddYoung.H"
