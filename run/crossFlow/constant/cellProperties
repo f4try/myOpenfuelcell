@@ -50,7 +50,7 @@ Rhat0           Rhat0 [1 4 -3 0 0 -2 0] 1.0e-5;   // ohm m^2, relaxation coeffic
 // pre-iteration
 PreIterAct    PreIterAct    [0 0 0 0 0 0 0]    0;    //pre-iteration for actvation term
 PreIterV    PreIterV    [0 0 0 0 0 0 0]    0;    //pre-iteration for voltage correction
-
+relax    relax    [0 0 0 0 0 0 0]    0.1;    //relaxation parameter added SBB
 
 // initial Temperature for fuel and air T fields
 Tinit		Tinit [0 0 0 1 0 0 0] 1000.0;	  // K

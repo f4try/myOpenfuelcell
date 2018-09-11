@@ -37,15 +37,6 @@ inertSofcSpecie  N2;   //inert for purposes of mass fraction calculation
                        // not necessarily chemically inert
 
 
-// molar Cp polynomial coefficients
-// from Todd&Young, J. Power Sources 110 (2002) pp 186-200
-//
-toddYoung
-{
-    O2  34.850  -57.975  203.68  -300.37  231.72  -91.821  14.776;
-    N2  29.027  4.8987  -38.040  105.17  -113.56  55.554  -10.350;
-}
-
 // toddYoung polynomials
 // from Todd&Young, J. Power Sources 110 (2002) pp 186-200
 //
@@ -68,6 +59,29 @@ kCoeffs
 {
     O2  -0.1857  11.118  -7.3734  6.7130  -4.1797  1.4910  -0.2278;
     N2  -0.3216  14.810  -25.473  38.837  -32.133  13.493  -2.2741;
+}
+
+activationParameters
+{
+    type  butlerVolmer;
+    gamma   1.51556e+8;
+    E     E     [1 2 -2 0 1 0 0]    1.3986e+5;
+    alpha   0.65;
+    relax   1;
+
+    entries
+    {
+        O2 
+        {
+             stoichiometricCoeff 0.22;
+             active true;
+        }              
+        N2 
+        {
+            stoichiometricCoeff 0.0;
+            active false;
+        }              
+    }
 }
 
 // ************************************************************************* //

@@ -43,6 +43,7 @@ H2O     H2O  18.01534  2   1  -241.8349e3  188.835;
 inertSofcSpecie H2O;   //inert for purposes of mass fraction calculation
                        // not necessarily chemically inert
 
+
 // toddYoung polynomials
 // from Todd&Young, J. Power Sources 110 (2002) pp 186-200
 //
@@ -67,19 +68,29 @@ kCoeffs
     H2O  2.0103  -7.9139  35.922  -41.390  35.993  -18.974  4.1531;
 }
 
-
-// molar Cp polynomial coefficients
-// from Todd&Young, J. Power Sources 110 (2002) pp 186-200
-// [J/(mol K)
-//
-toddYoung
+activationParameters
 {
-    H2  21.157  56.036  -150.55  199.29  -136.15  46.903  -6.4725;
-    H2O 37.373  -41.205  146.01  -217.08  181.54  -79.409  14.015;
+    type  butlerVolmer;
+    gamma   1.82527e+6;
+    E     E     [1 2 -2 0 1 0 0]    105.04e+3;
+    alpha   0.59;
+    relax   1;
+
+    entries
+    {
+        H2O
+        {
+            stoichiometricCoeff 0.33;
+            active true;
+        }
+
+        H2
+        {
+            stoichiometricCoeff -0.1;
+            active true;
+        }
+    }
 }
 
 // ************************************************************************* //
-
-//  N2      N2   28.0134  0   0;
-//  N2  29.027  4.8987  -38.040  105.17  -113.56  55.554  -10.350;
 
