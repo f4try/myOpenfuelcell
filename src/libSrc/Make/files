@@ -15,6 +15,7 @@ diffusivityModels/porousFSG/porousFSG.C
 
 activationOverpotentialModels/activationOverpotentialModel/activationOverpotentialModel.C
 activationOverpotentialModels/butlerVolmer/butlerVolmer.C
+activationOverpotentialModels/tafel/tafel.C
 activationOverpotentialModels/activationOverpotentialModel/newActivationOverpotentialModel.C
 
 polyToddYoung/polyToddYoung.C

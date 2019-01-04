@@ -23,15 +23,13 @@ License
     Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Description
-    A Butler-Volmer overpotential model.
+    A Tafel overpotential model.
 
 Class
-    Foam::butlerVolmer
+    Foam::tafel
 
 Description
-    Base class for diffusivity models used for laminar incompressible
-    flow with two component mixtures and/or porous media.
-//    i = i0[exp(2*alpha*F*eta/RT-exp(-2*(1-alpha)*F*eta/RT)]
+//    i = i0[exp(2*alpha*F*eta/RT)]
 //    eta = Activation overpotential obtained by numerical iversion of BV eqn.
 //    i = local current density
 //    i0 = exchange current density
@@ -53,8 +51,8 @@ SourceFiles
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef butlerVolmer_H
-#define butlerVolmer_H
+#ifndef tafel_H
+#define tafel_H
 
 #include "activationOverpotentialModel.H"
 #include "dimensionedScalar.H"
@@ -71,10 +69,10 @@ namespace Foam
 //class activationOverpotentialModel;
 
 /*---------------------------------------------------------------------------*\
-                           Class butlerVolmer Declaration
+                           Class tafel Declaration
 \*---------------------------------------------------------------------------*/
 
-class butlerVolmer
+class tafel
 :
     public activationOverpotentialModel
 {
@@ -82,13 +80,13 @@ class butlerVolmer
 public:
 
     //- Runtime type information
-    TypeName("butlerVolmer");
+    TypeName("tafel");
 
 
     // Constructors
 
         //- construct from mesh, diffsivity field labelList and dictionary
-        butlerVolmer
+        tafel
         (
             const speciesTable& speciesNames,
             const dictionary& dict
@@ -97,7 +95,7 @@ public:
 
     // Destructor
 
-        ~butlerVolmer()
+        ~tafel()
         {}
 
 

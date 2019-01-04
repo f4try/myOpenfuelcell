@@ -95,7 +95,6 @@ class activationOverpotentialModel
         //- Disallow default bitwise assignment
         void operator=(const activationOverpotentialModel&);
 
-
 public:
 
     //- Runtime type information
@@ -128,13 +127,11 @@ public:
 
     // Constructors
 
-        //- Construct null
         activationOverpotentialModel
         (
             const speciesTable& speciesNames,
             const dictionary& dict
         );
-
 
     // Destructor
 
@@ -149,6 +146,25 @@ public:
             const scalarField& electrodeT,
             const scalarField& pPatch,
             const PtrList<scalarField> molFraction
+        ) const = 0;
+
+	    //- Returns the current density as a function of overpotential
+        virtual tmp<scalarField> currentDensity// Added SZ and SBB
+        (
+            const scalarField& electrodeT,
+            const scalarField& pPatch,
+            const PtrList<scalarField> molFraction,
+            const scalarField& overPotential
+        ) const = 0;
+
+	    //- Returns the overpotential as a function of current density
+
+        virtual tmp<scalarField> overPotential// Added SZ and SBB
+        (
+            const scalarField& electrodeT,
+            const scalarField& pPatch,
+            const PtrList<scalarField> molFraction,
+            const scalarField& i
         ) const = 0;
 
         //- Acess to stoichiometricNumbers_

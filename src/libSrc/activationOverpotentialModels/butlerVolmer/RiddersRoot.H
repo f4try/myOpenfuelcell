@@ -45,7 +45,6 @@ SourceFiles
 #define RiddersRoot_H
 
 #include "scalar.H"
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam

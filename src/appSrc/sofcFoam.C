@@ -60,8 +60,6 @@ Developed by
 /* #include "porousZones.H" Deleted SBB */
 #include "porousZoneList.H"//Added SBB
 #include "polyToddYoung.H"
-#include "RiddersRoot.H"//added SBB (previously)
-#include "testFunction.H"//added SBB (previously)
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

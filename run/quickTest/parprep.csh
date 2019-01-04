@@ -83,8 +83,8 @@ sed -i -e '/calculated/,/}/  s/value/gradient/; s/calculated/fixedGradient/' pro
 # region sets are lost in decomposition: replace them now
 #
 rm -rf processor*/constant/polyMesh/sets processor*/constant/polyMesh/*Zones
-mpirun -np $NPROCS setSet -batch ./config/make.setSet -noVTK -parallel
-mpirun -np $NPROCS setsToZones -noFlipMap -parallel
+mpirun -np $NPROCS setSet -batch ./config/make.setSet -noVTK -parallel -noZero
+mpirun -np $NPROCS setsToZones -noFlipMap -parallel -noZero
 
 
 # remove the 1 directory and create the fluid zones
@@ -93,18 +93,18 @@ rm -r processor*/1
 
 # air zones
 #
-mpirun -np $NPROCS setSet -batch ./config/make.setAir -region air -constant -noVTK -parallel
-mpirun -np $NPROCS setsToZones -noFlipMap -region air -constant -parallel
+mpirun -np $NPROCS setSet -batch ./config/make.setAir -region air -constant -noVTK -parallel -noZero
+mpirun -np $NPROCS setsToZones -noFlipMap -region air -constant -parallel -noZero
 
 # fuel zones
 #
-mpirun -np $NPROCS setSet -batch ./config/make.setFuel -region fuel -constant -noVTK -parallel
-mpirun -np $NPROCS setsToZones -noFlipMap -region fuel -constant -parallel
+mpirun -np $NPROCS setSet -batch ./config/make.setFuel -region fuel -constant -noVTK -parallel -noZero
+mpirun -np $NPROCS setsToZones -noFlipMap -region fuel -constant -parallel -noZero
 
 # electrolyte zones
 #
-mpirun -np $NPROCS setSet -batch ./config/make.setElectrolyte -region electrolyte -constant -noVTK -parallel
-mpirun -np $NPROCS setsToZones -noFlipMap -region electrolyte -constant -parallel
+mpirun -np $NPROCS setSet -batch ./config/make.setElectrolyte -region electrolyte -constant -noVTK -parallel -noZero
+mpirun -np $NPROCS setsToZones -noFlipMap -region electrolyte -constant -parallel -noZero
 
 
 # cleanup

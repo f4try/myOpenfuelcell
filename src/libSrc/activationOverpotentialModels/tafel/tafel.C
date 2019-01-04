@@ -1,25 +1,22 @@
 /*---------------------------------------------------------------------------*\
 \*---------------------------------------------------------------------------*/
 
-#include "butlerVolmer.H"
+#include "tafel.H"
 
 #include "addToRunTimeSelectionTable.H"
 #include "volFields.H"
-
-#include "testFunction.H"
-#include "RiddersRoot.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
 {
-    defineTypeNameAndDebug(butlerVolmer, 0);
-    addToRunTimeSelectionTable(activationOverpotentialModel, butlerVolmer, dictionary);
+    defineTypeNameAndDebug(tafel, 0);
+    addToRunTimeSelectionTable(activationOverpotentialModel, tafel, dictionary);
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-butlerVolmer::butlerVolmer
+tafel::tafel
 (
     const speciesTable& speciesNames,
     const dictionary& dict
@@ -30,7 +27,7 @@ butlerVolmer::butlerVolmer
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
-const tmp<scalarField> butlerVolmer::exchangeCurrentDensity
+const tmp<scalarField> tafel::exchangeCurrentDensity
 (
     const scalarField& electrodeT,
     const scalarField& pPatch,
@@ -65,7 +62,7 @@ const tmp<scalarField> butlerVolmer::exchangeCurrentDensity
     return pexchangeCurrentDensity;
 }
 
-scalar butlerVolmer::localCurrentDensity
+scalar tafel::localCurrentDensity
 (
     scalar i0,
     scalar T,
@@ -75,24 +72,14 @@ scalar butlerVolmer::localCurrentDensity
     scalar currentDensity;
 
     scalar A = 2*alpha()*physicalConstant::F.value()/(physicalConstant::Rgas.value()*T);
-    scalar B = -2*(1-alpha())*physicalConstant::F.value()/(physicalConstant::Rgas.value()*T);
 
-    currentDensity = Foam::exp
-    (
-        A*eta
-    );
-    currentDensity -= Foam::exp
-    (
-        B*eta
-    );
-
-    currentDensity *= i0;
+    currentDensity = i0*Foam::exp(A*eta);
 
     return currentDensity;
 }
 
 
-tmp<scalarField> butlerVolmer::currentDensity// SZ and SBB
+tmp<scalarField> tafel::currentDensity// SZ and SBB
 (
     const scalarField& electrodeT,
     const scalarField& pPatch,
@@ -118,7 +105,7 @@ tmp<scalarField> butlerVolmer::currentDensity// SZ and SBB
     return pcurrentDensity;
 }
 
-tmp<scalarField> butlerVolmer::overPotential// SZ and SBB
+tmp<scalarField> tafel::overPotential// SZ and SBB
 (
     const scalarField& electrodeT,
     const scalarField& pPatch,
@@ -135,12 +122,7 @@ tmp<scalarField> butlerVolmer::overPotential// SZ and SBB
 
     scalarField i0 = exchangeCurrentDensity(electrodeT, pPatch, molFraction).ref();
 
-    forAll(electrodeT, cellI)
-    {
-       testFunction tf(currentDensity[cellI], electrodeT[cellI], i0[cellI], *this);
-
-       cOverPotential[cellI] = RiddersRoot<testFunction>(tf, 1e-5).root(0., 1.2);  
-    }
+    cOverPotential = Foam::max(0.0,Foam::log(currentDensity/i0));  
 
     return pOverPotential;
 }
