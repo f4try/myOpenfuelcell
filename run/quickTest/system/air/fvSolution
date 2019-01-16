@@ -72,8 +72,8 @@ relaxationFactors
 {
     p               0.3;
     U               0.7;
-    yO2air          0.5;
-    yN2air          0.5;
+    YO2             0.99;
+    YN2             0.99;
 }
 
 
