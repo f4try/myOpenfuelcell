@@ -8,9 +8,9 @@
 
     const scalar Tr = 298.15;  //reference Temperature [K] for thermodynamics
     scalarField i(anodePatch.size());    
-    scalarField iOld(cathodePatch.size());    
-    scalarField mfluxOld(cathodePatch.size());    
-    scalarField iNew(cathodePatch.size());    
+    scalarField iOld(anodePatch.size());    
+    scalarField mfluxOld(anodePatch.size());    
+    scalarField iNew(anodePatch.size());    
 
     // Interpolate global temperature to electrolyte/fuel interface
     // ------------------------------------------------------------
@@ -39,7 +39,7 @@
             cathodeT[faceI] = Ts[electrolyteCathodeMask[faceI]];
         }
     }
-
+    cathodeT = cathodeToAnode.faceInterpolate(cathodeT);
     Info << "min,max(cathodeT): "
          << Foam::gMin(cathodeT) <<" , " 
          << Foam::gMax(cathodeT) << endl;
@@ -59,7 +59,8 @@
     }
 
     PtrList<scalarField> xAir(airSpecies.size());
-    const scalarField& pAirPatch = pAir.boundaryFieldRef()[cathodeID]; //added Qing 04.06.2014
+//    const scalarField& pAirPatch = pAir.boundaryFieldRef()[cathodeID]; //added Qing 04.06.2014
+    scalarField pAirPatch = cathodeToAnode.faceInterpolate(pAir.boundaryFieldRef()[cathodeID]);
     forAll(airSpecies, s)
     {
         xAir.set
@@ -151,7 +152,10 @@
       & airMesh.Sf().boundaryField()[cathodeID])
       /airMesh.magSf().boundaryField()[cathodeID]
         );
-    iOld = -4.*FF*mfluxOld/32;//Magic numbers - Total mass flow is that of O2
+    iOld = cathodeToAnode.faceInterpolate
+           (
+              -4.*FF*mfluxOld/31.9988//Magic numbers - Total mass flow is that of O2
+           );
 //    iOld = 2*FF*mfluxOld/2.01594;//Magic numbers - Total mass flow is that of H2
     if (runTime.value() <= 1) iOld = ibar0.value();//First time step
 
@@ -168,6 +172,15 @@
 	{
 	 iNew = (Nernst - voltage.boundaryField()[electrolyteAnodeID])/R;
 	}
+    i = relax.value()*iNew + (1-relax.value())*iOld;//Relax current density	
+//    i = 5000;
+	
+    // ensure i > 0
+    i = Foam::max(i, Foam::doubleScalarSmall);
+            Info << "min,mean,max(i" << "): "
+                  << Foam::gMin(i) <<" , "
+                  << Foam::gAverage(i) <<" , "
+                 << Foam::gMax(i) << endl;        
             Info << "min,mean,max(iNew" << "): "
                   << Foam::gMin(iNew) <<" , "
                   << Foam::gAverage(iNew) <<" , "
@@ -175,12 +188,7 @@
             Info << "min,mean,max(iOld" << "): "
                   << Foam::gMin(iOld) <<" , "
                   << Foam::gAverage(iOld) <<" , "
-                 << Foam::gMax(iNew) << endl;        
-    i = relax.value()*iNew + (1-relax.value())*iOld;//Relax current density	
-    iOld = i;
-	
-    // ensure i > 0
-    i = Foam::max(i, Foam::doubleScalarSmall);
+                 << Foam::gMax(iOld) << endl;        
 
     // Activation overpotential - added SBB 04-09-2013
     // scalarField etaAnode is computed from an inverse Butler-Volmer eqn.

@@ -50,8 +50,8 @@
         xAir,
         i
     ));
-   Info<< "min,mean,max calBV(etaAn) = " << gMin(etaCathode()) << "  "
-       << gAverage(etaAnode()) << "  " << gMax(etaCathode()) << nl;
+   Info<< "min,mean,max calBV(etaCa) = " << gMin(etaCathode()) << "  "
+       << gAverage(etaCathode()) << "  " << gMax(etaCathode()) << nl;
 
 // End activation calculation
 
