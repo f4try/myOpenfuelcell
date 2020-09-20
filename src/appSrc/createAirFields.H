@@ -6,7 +6,7 @@
             "p",
             runTime.timeName(),
             airMesh,
-            IOobject::MUST_READ,
+            IOobject::NO_READ,
             IOobject::AUTO_WRITE
         ),
         airMesh

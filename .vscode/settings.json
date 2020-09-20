@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "sofcFoam.C": "cpp",
+        "IOobject.C": "cpp",
+        "SpecieMixture.C": "cpp",
+        "lduMatrixTemplates.C": "cpp"
+    }
+}
