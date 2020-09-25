@@ -1,12 +1,9 @@
 {
-    Info << nl << "Solving energy" << endl;
+    Info << nl << "Solving phis" << endl;
 
-    fvScalarMatrix TcellEqn
+    fvScalarMatrix phisEqn
     (
-        fvm::div(rhoCpPhiCell, Tcell)
-      + fvm::SuSp(-fvc::div(rhoCpPhiCell), Tcell)
-      - fvm::laplacian(kCell, Tcell)
-      - TsourceCell
+        - fvm::laplacian(sigmaS,phis)
     );
 
     // Apply under-relaxation: not allowed
@@ -15,15 +12,15 @@
     // TcellEqn.relax();
 
     // Solve
-    TcellEqn.solve();
+    phisEqn.solve();
 
 
-    Info << "T min mean max     = "
-         << Foam::gMin(Tcell.primitiveFieldRef()) << "    " //S.Keuler, Bugfix for consistent output (parallel simulation) [next three lines]
-         << Foam::gAverage(Tcell.primitiveFieldRef()) << "    "
-         << Foam::gMax(Tcell.primitiveFieldRef())
+    Info << "phis min mean max     = "
+         << Foam::gMin(phis.primitiveFieldRef()) << "    " //S.Keuler, Bugfix for consistent output (parallel simulation) [next three lines]
+         << Foam::gAverage(phis.primitiveFieldRef()) << "    "
+         << Foam::gMax(phis.primitiveFieldRef())
          << nl <<endl;
 
-    Info<< " sum TcellEqn.source() =   " << gSum(TcellEqn.source()) << nl;
+    Info<< " sum phisEqn.source() =   " << gSum(phisEqn.source()) << nl;
     Info<< endl;
 }

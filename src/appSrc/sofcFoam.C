@@ -148,6 +148,8 @@ int main(int argc, char *argv[])
     #   include "solveElectrochemistry.H"
 
     #   include "mapToCell.H"
+    #   include "solvePhis.H"
+    #   include "solvePhil.H"
     #   include "solveEnergy.H"
 
         runTime.write();

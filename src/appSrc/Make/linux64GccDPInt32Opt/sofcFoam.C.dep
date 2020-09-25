@@ -57,6 +57,8 @@ YfuelEqn.H \
 YairEqn.H \
 solveElectrochemistry.H \
 mapToCell.H \
+solvePhis.H \
+solvePhil.H \
 solveEnergy.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/parRun.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Time.H \
@@ -883,6 +885,8 @@ YfuelEqn.H :
 YairEqn.H :
 solveElectrochemistry.H :
 mapToCell.H :
+solvePhis.H :
+solvePhil.H :
 solveEnergy.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/parRun.H :
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/Time.H :

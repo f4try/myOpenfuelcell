@@ -24,6 +24,8 @@
     dimensionedScalar numCells(cellProperties.lookup("numCells"));
     dimensionedScalar Rhat("Rhat", dimensionSet(1, 4, -3, 0, 0, -2, 0), 0);
     dimensionedScalar Rhat0("Rhat0", dimensionSet(1, 4, -3, 0, 0, -2, 0), 0);	//Qing, 22.06.2014
+    dimensionedScalar sigmaS("Rhat", dimensionSet(1, 4, -3, 0, 0, -2, 0), 0);
+    dimensionedScalar sigmaL("Rhat0", dimensionSet(1, 4, -3, 0, 0, -2, 0), 0);	//Qing, 22.06.2014
     // echo inputs from dictionary to stdout
     // -------------------------------------
     if (galvanostatic)
@@ -36,7 +38,13 @@
         Info<< "    Rhat  = " << Rhat << nl;
 
         Rhat0 = cellProperties.lookup("Rhat0");
-	Info<< "    Rhat0  = " << Rhat0 << nl;
+	    Info<< "    Rhat0  = " << Rhat0 << nl;
+
+        sigmaS = cellProperties.lookup("sigmaS");
+        Info<< "    sigmaS  = " << sigmaS << nl;
+
+        sigmaL = cellProperties.lookup("sigmaL");
+	    Info<< "    sigmaL  = " << sigmaL << nl;
     }
     else
     {
