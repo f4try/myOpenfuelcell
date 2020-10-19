@@ -109,3 +109,17 @@
         1,
         zeroGradientFvPatchScalarField::typeName
     );
+
+    Info<< "creating phil field\n" << endl;
+    volScalarField phil
+    (
+        IOobject
+        (
+            "phil",
+            runTime.timeName(),
+            electrolyteMesh,
+            IOobject::MUST_READ,
+            IOobject::AUTO_WRITE
+        ),
+        electrolyteMesh
+    );

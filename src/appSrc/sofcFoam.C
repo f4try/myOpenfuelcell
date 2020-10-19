@@ -148,7 +148,8 @@ int main(int argc, char *argv[])
     #   include "solveElectrochemistry.H"
 
     #   include "mapToCell.H"
-    #   include "solvePhis.H"
+    #   include "solvePhisAir.H"
+    #   include "solvePhisFuel.H"
     #   include "solvePhil.H"
     #   include "solveEnergy.H"
 

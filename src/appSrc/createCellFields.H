@@ -12,32 +12,32 @@
         mesh
     );
 
-    Info<< "Reading cell field phis\n" << endl;
-    volScalarField phis
-    (
-        IOobject
-        (
-            "phis",
-            runTime.timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    );
+    // Info<< "Reading cell field phis\n" << endl;
+    // volScalarField phis
+    // (
+    //     IOobject
+    //     (
+    //         "phis",
+    //         runTime.timeName(),
+    //         mesh,
+    //         IOobject::MUST_READ,
+    //         IOobject::AUTO_WRITEphisFuel
+    //     ),
+    //     mesh
+    // );
 
-    volScalarField phil
-    (
-        IOobject
-        (
-            "phil",
-            runTime.timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    );
+    // volScalarField phil
+    // (
+    //     IOobject
+    //     (
+    //         "phil",
+    //         runTime.timeName(),
+    //         mesh,
+    //         IOobject::MUST_READ,
+    //         IOobject::AUTO_WRITE
+    //     ),
+    //     mesh
+    // );
 
     volScalarField rhoCpCell
     (

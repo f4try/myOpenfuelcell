@@ -173,6 +173,20 @@
     );
     kAir.correctBoundaryConditions();
 
+    Info<< "Reading air field phis\n" << endl;
+    volScalarField phisAir
+    (
+        IOobject
+        (
+            "phisAir",
+            runTime.timeName(),
+            airMesh,
+            IOobject::MUST_READ,
+            IOobject::AUTO_WRITE
+        ),
+        airMesh
+    );
+
 
     Info<< "Creating air porous zones" << endl;
 /*    porousZones cathodeZones(airMesh);  Deleted SBB*/

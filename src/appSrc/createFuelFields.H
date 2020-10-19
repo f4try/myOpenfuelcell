@@ -172,6 +172,19 @@
     );
     kFuel.correctBoundaryConditions();
 
+    Info<< "Reading fuel field phis\n" << endl;
+    volScalarField phisFuel
+    (
+        IOobject
+        (
+            "phisFuel",
+            runTime.timeName(),
+            fuelMesh,
+            IOobject::MUST_READ,
+            IOobject::AUTO_WRITE
+        ),
+        fuelMesh
+    );
 
     Info<< "Reading fuel porous zones" << endl;
 /*    porousZones anodeZones(fuelMesh);Deleted SBB*/
